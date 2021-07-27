@@ -1,0 +1,3 @@
+<button [ngClass]="getStyleClass()" type="button" [disabled]="disabled" (click)="onClick.emit($event)" (focus)="onFocus.emit($event)" (blur)="onBlur.emit($event)"  >
+    <ng-content></ng-content>
+</button>

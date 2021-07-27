@@ -1,0 +1,111 @@
+<div class="card card-main model-popup">
+
+  <div class="modal-header">
+    <h4 class="modal-title">Update {{sectionName}}</h4>
+
+
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="card-body">
+    <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && save(f)" #f="ngForm" novalidate *ngIf="model!=undefined">
+
+
+      <div class="row">
+        <div class="col-sm-12">
+            <p-messages [(value)]="message"></p-messages>
+          <div class="row">
+            <div class="col-sm-6">
+              <div [ngClass]="{ 'has-error': f.submitted && !year.valid }">
+                <div class="row">
+
+                  <div class="col-12 col-sm-4">
+                    <label for="year">Year<sup class="red" title="required">*</sup>
+                    </label>
+                  </div>
+                  <div class="col-12 col-sm-8">
+                    <typeahead-control name="year" [(ngModel)]="selectedYear" [optionList]="yearOptions" validateRequired [displayField]="'text'"
+                      [resultField]="'value'" #year="ngModel" (selectItem)="getPortfolioCompanyCommentarySections(undefined,selectedQuarter,selectedYear)"
+                      [isRequired]="true" [isAscendingOptions]="false"></typeahead-control>
+
+                    <div *ngIf="f.submitted && !year.valid" class="text-danger">Year is required</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div [ngClass]="{ 'has-error': f.submitted && !quarter.valid }">
+                <div class="row">
+                  <div class="col-12 col-sm-4">
+                    <label for="quarter">Quarter<sup class="red" title="required">*</sup>
+                    </label>
+                  </div>
+                  <div class="col-12 col-sm-8">
+                    <typeahead-control name="quarter" [(ngModel)]="selectedQuarter" [optionList]="quarterOptions" validateRequired [displayField]="'text'"
+                      [resultField]="'value'" #quarter="ngModel" (selectItem)="getPortfolioCompanyCommentarySections(undefined,selectedQuarter,selectedYear)"
+                      [isRequired]="true"></typeahead-control>
+                    <div *ngIf="f.submitted && !quarter.valid" class="text-danger">Quarter is required</div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class=" mt-3">
+        <!-- <textarea type="text" class="form-control" rows="5" placeholder="Enter text here ..."
+          name="Commentary" [(ngModel)]="sectionDetails"
+          #Commentary="ngModel" autocomplete="off"
+          maxlength="4000"></textarea> -->
+          <p-editor name="Commentary" #Commentary="ngModel" [(ngModel)]="sectionDetails" [style]="{'height':'320px'}"></p-editor>
+        <!-- <p-editor name="Commentary" #Commentary="ngModel" [(ngModel)]="sectionDetails" [style]="{'height':'320px'}">
+          <p-header>
+            <span class="ql-formats">
+              <button class="ql-bold" aria-label="Bold"></button>
+              <button class="ql-italic" aria-label="Italic"></button>
+              <button class="ql-underline" aria-label="Underline"></button>
+            </span>
+          </p-header>
+        </p-editor> -->
+      </div>
+
+      <div class="align-items-start">
+
+        <div class="col-sm-12">
+          <div class="form-group text-center">
+            <div class="loading-input-controls-manual" *ngIf="loading">
+              <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+            </div>
+            <button [disabled]="loading" class="btn btn-primary" title="Update">
+              Update
+            </button>
+
+            <!-- <button [disabled]="loading" class="btn btn-primary" (click)="activeModal.dismiss('Cross click')" title="OK">
+              OK
+            </button> -->
+            <!-- <input
+                    type="reset"
+                    value="Reload"
+                    title="Reload"
+                    (click)="formReset(companyInfoForm)"
+                    class="btn btn-warning"
+                  /> -->
+            <button [disabled]="loading" class="btn btn-info" (click)="activeModal.dismiss('Cross click')" title="Cancel">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" [style]="{width: '425px'}" #cd>
+  <p-footer>
+    <button type="button" pButton label="No" (click)="cd.reject()"></button>
+    <button type="button" pButton label="Yes" (click)="cd.accept()"></button>
+  </p-footer>
+</p-confirmDialog>

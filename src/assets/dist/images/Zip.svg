@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-Zip-FileType">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="Zip-FileType" clip-path="url(#clip-Zip-FileType)">
+    <rect width="24" height="24" fill="#fff"/>
+    <g id="Zip-FileType-2" data-name="Zip-FileType">
+      <rect id="Path" width="24" height="24" fill="none"/>
+      <path id="Path_30633" data-name="Path 30633" d="M15.078,2,20,7.1v.914h0V21a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V3A1,1,0,0,1,5,2ZM10.336,4.779H9.168V4H6V20H18V8.011H14V4H10.336Zm0,3.895v3.505a.389.389,0,0,1-.389.389C8.17,12.568,8,12.394,8,12.179H8V9.453H9.164V8.674Zm-.385,2.341H8.389v.775H9.943Zm-.783-3.12v.779H8V7.895Zm1.172-.779v.779H9.168V7.116ZM9.168,6.337v.778H8l0-.778Zm1.168-.779v.779H9.168V5.558ZM9.168,4.779v.779H8l0-.779Z" fill="#75787b" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

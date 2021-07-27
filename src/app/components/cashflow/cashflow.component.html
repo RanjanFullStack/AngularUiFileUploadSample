@@ -1,0 +1,319 @@
+﻿<div class="row">
+    <div class="col-lg-12">
+
+        <div class="add-user-component">
+            <div class="file-upload-section cashflow-upload m-0">
+                <div class="card card-main">
+
+                    <div class="card-header card-header-main ">
+                        <div class="row">
+                            <div class="col-auto mr-auto">
+                                {{showUploadSection==true?"Upload Cashflow":"Cashflow Details"}}
+                                <tooltip [iconClass]="'fa-question-circle help'">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h6>Keyword Used</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 content-bg">
+                                        <div class="row detail-border">
+                                            <div class="col-sm-3"><label>Realized Value:</label></div>
+                                            <div class="col-sm-9">
+                                                Value realized as of date
+                                            </div>
+                                        </div>
+                                        <div class="row detail-border">
+                                            <div class="col-sm-3"><label>Unrealized Value:</label></div>
+                                            <div class="col-sm-9">
+                                                Value unrealized as of date
+                                            </div>
+                                        </div>
+                                        <div class="row detail-border">
+                                            <div class="col-sm-3"><label>Total Value:</label></div>
+                                            <div class="col-sm-9">
+                                                Sum of realized and unrealized value
+                                            </div>
+                                        </div>
+                                        <div class="row detail-border">
+                                            <div class="col-sm-3"><label>IRR:</label></div>
+                                            <div class="col-sm-9">
+                                                Internal rate of return
+                                            </div>
+                                        </div>
+                                        <div class="row detail-border">
+                                            <div class="col-sm-3"><label>Total Value Paid In(TVPI):</label></div>
+                                            <div class="col-sm-9">
+                                                Total value divided by invested cost
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </tooltip>
+                            </div>
+                            <div class="col-auto">
+                                <a class="btn btn-back" [routerLink]="['/cashflow-list']" title="Back">
+                                    <fa name="chevron-left"></fa> Back
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body" *ngIf="showUploadSection==true">
+
+                        <div>
+
+                            <div>
+
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <label for="fund"><b>Fund</b></label>
+                                            </div>
+                                            <div class="col-12">
+                                                <typeahead-control name="fund" [loadingOptions]="fundsLoading"
+                                                    [(ngModel)]="selectedFund" [optionList]="fundList"
+                                                    [isRequired]="true" [displayField]="'fundName'" #fund="ngModel"
+                                                    (selectItem)="onFundChange()"></typeahead-control>
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 no-padding">
+                                    <p class="m-3"> <i>To upload you need to create cashflow data in excel template.
+                                            <span (click)="DownloadTemplate()"
+                                                style="text-decoration: underline;cursor: pointer;">Click here</span> to
+                                            download sample template.</i></p>
+
+                                </div>
+                                <div *ngIf="selectedFund?.fundName">
+
+                                    <p-growl [(value)]="msgs" [life]="msgTimeSpan" [immutable]="false"></p-growl>
+                                    <p-fileUpload name="myfile[]" accept=".xlsx,.xls" customUpload="true"
+                                        (uploadHandler)="onUpload($event)" [showCancelButton]="false"
+                                        [disabled]="!ProgressCancel" #fileUploader>
+                                        <ng-template pTemplate="content">
+
+                                            <span *ngIf="file"> {{file?.name}} - {{file?.size}} bytes</span>
+
+                                            <div class="d-flex" *ngIf="!ProgressCancel">
+                                                <div class="p-2 flex-grow-1 ">
+                                                    <p-progressBar [value]="value"></p-progressBar>
+                                                </div>
+                                                <div class="p-2"><button [disabled]="cancel" class="btn btn-primary"
+                                                        (click)="onCancel($event)"
+                                                        style="align-content:center">{{FileProgresStatus}}</button>
+                                                </div>
+                                            </div>
+
+
+                                            <br /><br />
+                                            <span class="{{messageClass}}" [innerHtml]="safeHtml"></span>
+
+                                        </ng-template>
+                                    </p-fileUpload>
+
+                                    <div class="card-header card-header-main p-2" *ngIf="enableSaveButton==null">
+
+
+
+
+                                        <button name={{cashflowFileId}} class="btn btn-primary mar-0"
+                                            (click)="openConfirmationModal()" style="align-content:center"
+                                            title="Save uploaded file">Save</button> <span class="red"> <i>To save
+                                                uploaded file data click on "Save".</i></span>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div *ngIf="showUploadSection==false">
+                <h5> {{fundName}}</h5>
+
+                <div class="card border-0">
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class='table numeric-number' *ngIf="fundData">
+                                <thead>
+                                    <tr>
+                                        <th>Capital Invested</th>
+                                        <th>Realized Value</th>
+                                        <th>Unrealized Value</th>
+                                        <th>Total Value</th>
+                                        <th>Gross TVPI</th>
+                                        <th>Gross IRR</th>
+                                        <th>Net TVPI</th>
+                                        <th>Net IRR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td><span
+                                                [innerHtml]='miscService.formatFloatNumber(fundData["Capital Invested"]==null?"":fundData["Capital Invested"])|minusSignToBrackets'></span>
+                                        </td>
+                                        <td><span
+                                                [innerHtml]='miscService.formatFloatNumber(fundData["Realized Value"]==null?"":fundData["Realized Value"])|minusSignToBrackets'></span>
+                                        </td>
+                                        <td><span
+                                                [innerHtml]='miscService.formatFloatNumber(fundData["Unrealized Value"]==null?"":fundData["Unrealized Value"])|minusSignToBrackets'></span>
+                                        </td>
+                                        <td><span
+                                                [innerHtml]='miscService.formatFloatNumber(fundData["Total Value"]==null?"":fundData["Total Value"])|minusSignToBrackets'></span>
+                                        </td>
+                                        <td><span
+                                                [innerHtml]='miscService.formatFloatNumber(fundData["Gross TVPI"]==null?"":fundData["Gross TVPI"])|minusSignToBrackets'>x</span>
+                                        </td>
+                                        <td><span
+                                                [innerHtml]='miscService.formatFloatNumber(fundData["Gross IRR"]==null?"":fundData["Gross IRR"])|minusSignToBrackets'></span>
+                                        </td>
+                                        <td><span
+                                                [innerHtml]='miscService.formatFloatNumber(fundData["Net TVPI"]==null?"":fundData["Net TVPI"])|minusSignToBrackets'>x</span>
+                                        </td>
+                                        <td><span
+                                                [innerHtml]='miscService.formatFloatNumber(fundData["Net IRR"]==null?"":fundData["Net IRR"])|minusSignToBrackets'></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-header p-1"
+                *ngIf="cashflowFileId!=undefined && realizeData.Results!=null && realizeData.Results.length>0">
+                <div class="row">
+                    <div class="col-auto mr-auto"><span class="legend-1"></span> Realized Properties <span
+                            class="legend-2"></span> Unrealized Properties</div>
+                    <div class="col-auto col-sm-auto col-lg-auto"
+                        [hideIfUnauthorized]='{featureId:feature.Cashflow,action:"export"}'> <a class="btn btn-export"
+                            title="Export Cashflow (Excel file)" (click)="CashflowDataExport($event)"> <i
+                                class="fa fa-file-excel-o"></i></a></div>
+
+                </div>
+
+
+            </div>
+
+            <!--File Upload Control-------End--------->
+            <div *ngIf="cashflowFileId!=undefined">
+
+                <div>
+                    <div>
+
+                        <div class="text-info" *ngIf="totalRecords==0">
+
+                            No record found
+                        </div>
+
+
+                        <div *ngIf="realizeData.Results!=null && realizeData.Results.length>0" class="cashflow-data">
+
+
+
+
+                            <p-table [columns]="realizeData.cols"
+                                *ngIf="realizeData.Results!=null && realizeData.Results.length>0"
+                                [frozenColumns]="frozenCols" [value]="realizeData.Results" [scrollable]="true"
+                                scrollHeight="350px" frozenWidth="380px" [responsive]="true" class="p-0 m-0">
+
+                                <ng-template pTemplate="colgroup" let-columns>
+                                    <colgroup>
+                                        <col *ngFor="let col of columns; index as i"
+                                            [class.width-150]="col.header=='Date' || col.header=='Transaction Type'"
+                                            [class.width-200]="col.header!='' && col.header!='Date' && col.header!='Transaction Type'"
+                                            [class.width-30]="col.header==''">
+                                    </colgroup>
+                                </ng-template>
+
+                                <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                        <th *ngFor="let col of columns; index as i" [class.blank-space]="col.header==''"
+                                            [class.realized-section]="col.header !='' && (col.header!='Date' && col.header!='Transaction Type') && (i>realizedColIndex>0?0:1 && i<=realizedColIndex)"
+                                            [class.unrealized-section]="col.header !='' && (col.header!='Date' && col.header!='Transaction Type') && (i>=(realizedColIndex>0?realizedColIndex+1:0) && i<=unrealizedColIndex)">
+                                            {{col.header}}
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr [ngClass]="{'higlighted-row': checkIfValidDate(rowData.Date)==false}">
+                                        <td *ngFor="let col of columns; index as i" [class.blank-space]="col.field==''">
+                                            <span class="ui-column-title">{{col.header}}</span>
+
+                                            <span
+                                                [innerHtml]="miscService.formatFloatNumber(rowData[col.field]==null?'': rowData[col.field])|minusSignToBrackets"></span>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+
+                                <ng-template pTemplate="emptymessage" let-columns>
+                                    <tr>
+                                        <td [attr.colspan]="columns.length">
+                                            No records found
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <div class="col-info"><span><i aria-hidden="true"
+                                        class="fa fa-square calculated-value"></i><i>Calculated Values</i></span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <p-dialog [resizable]="false" [closeOnEscape]="false" [dismissableMask]="false" #pDialog
+                    [(visible)]="displayUpdateConfirmationDialog" [modal]="true" [responsive]="true" [width]="350"
+                    [minWidth]="350" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
+                    <p-header>
+                        Update Quarterly Holding Details
+                    </p-header>
+                    <div>
+                        <span>
+                            The quarterly fund holding details will be updated for quarter {{currentQuarter}}
+                        </span>
+                        <span *ngIf="cashflowCalculationData && cashflowCalculationData.length>0">
+                            <span>
+                                while fund holding details for this quarter already exist in our database for below
+                                portfolio companies:
+                            </span>
+                            <ul>
+                                <li *ngFor="let item of cashflowCalculationData">
+                                    {{item.portfolioCompanyName}}
+                                </li>
+                            </ul>
+                            <span>
+                                <input type="checkbox" value="" name="isOverwriteHoldings"
+                                    [(ngModel)]="isOverwriteHoldings" #IsActive="ngModel"> Overwrite existing holding
+                                details for above portfolio companies
+                            </span>
+                        </span>
+                    </div>
+                    <p-footer>
+                        <button [disabled]="loading" class="btn btn-primary"
+                            (click)="saveDataFlag($event,cashflowFileId)" title="Update">Update</button>
+                        <button [disabled]="loading" class="btn btn-warning"
+                            (click)="displayUpdateConfirmationDialog=false" title="Cancel">Cancel</button>
+                    </p-footer>
+
+                </p-dialog>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</div>

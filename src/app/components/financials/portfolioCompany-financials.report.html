@@ -1,0 +1,503 @@
+<div class="company-finacial company-kpis">
+  <div class="card card-main">
+    <div class="card-header card-header-main">
+
+      <div class="row">
+        <div class="col-auto mr-auto">
+          <span class="filter-text">Financials</span>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--<div class="clearfix"></div>-->
+  <div class="report-edit-dropdown border-1 pb-2 mt-3  mar-bottom-15">
+    <form name="form" (ngSubmit)="form.valid && search(form)" #form="ngForm">
+
+      <div class="p-2">
+        <div class="row">
+          <p-growl [(value)]="message" [life]="msgTimeSpan" [immutable]="false"></p-growl>
+          <div class="col-sm-6 col-md-3 ">
+            <div class="form-group m-0">
+              <div class="row">
+
+                <div class="col-12">
+                  <label for="portfolioCompany">Portfolio Company
+                    <sup class="red" title="required">*</sup>
+                  </label>
+                </div>
+                <div class="col-12">
+
+                  <typeahead-control [disabled]="portfolioCompanyList==undefined || portfolioCompanyList.length==0" name="portfolioCompany"
+                    [(ngModel)]="model.portfolioCompany" [optionList]="portfolioCompanyList" [displayField]="'companyName'"
+                    #portfolioCompany="ngModel" (selectItem)="onCompanyChange()" [isRequired]="true"></typeahead-control>
+                    <div *ngIf="portfolioCompany.invalid && (portfolioCompany.dirty || form.submitted)" class="text-danger">
+                      <div
+                        *ngIf="form.submitted && !portfolioCompany.valid"
+                        class="text-danger"
+                      >
+                      Please select portfolio company 
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!---<div class="col-sm-6 col-md-3 " *ngIf="SegmentTypeList!=null && SegmentTypeList.length != 0">
+              <div class="form-group m-0">
+                <div class="row">
+  
+                  <div class="col-12">
+                    <label for="selectedSegmentType">Segment Type
+                      <sup class="red" title="required">*</sup>
+                    </label>
+                  </div>
+                  <div class="col-12">
+ 
+                    <typeahead-control name="SegmentType" [(ngModel)]="model.selectedSegmentType" [optionList]="SegmentTypeList" [displayField]="'segmentType'"
+                      #selectedSegmentType="ngModel" (selectItem)="onSegmentTypeChange()" [isRequired]="true"></typeahead-control>
+                       <div *ngIf="!selectedSegmentType.valid && (selectedSegmentType.dirty || form.submitted)" class="text-danger"> -->
+                      <!--<div
+                        *ngIf="form.submitted && !selectedSegmentType.valid"
+                        class="text-danger"
+                      >
+                      Please select segment type 
+                      </div>
+                     </div>  
+                  </div>
+                </div>
+              </div>
+            </div>-->
+
+          <div class="col-sm-6 col-md-3 ">
+            <div class="form-group m-0">
+              <div class="row">
+                <div class="col-12">
+                  <label for="TimePeriod">Period Range
+                    <sup class="red" title="required">*</sup>
+
+                  </label>
+                </div>
+                <div class="col-12">
+                  <span class="report-field">
+                    <typeahead-control name="periodType" [(ngModel)]="model.periodType" [optionList]="periodTypes" [displayField]="'type'" (selectItem)="resetValidator(form)"
+                      #periodType="ngModel" [isAscendingOptions]="false" [isRequired]="true"></typeahead-control>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-md-6 " *ngIf="model.periodType?.type=='Date Range'">
+            <div class="form-group m-0">
+              <div class="row">
+
+                <div class="col-sm-6 col-md-6">
+
+                  <label for="TimePeriod">Start Date
+                    <sup class="red" title="required">*</sup>
+                  </label>
+
+                  <!-- <div class="input-group">
+                  <p-calendar name="startPeriod" view="month" showButtonBar="true" [(ngModel)]="model.startPeriod" #startPeriod selectionMode="single"
+                    required="false" [yearNavigator]="true" [readonlyInput]="true" inputStyleClass="date-picker-input" dateFormat="mm/yy"
+                    [showIcon]="true" yearRange={{yearRange}} [maxDate]="today" (onSelect)="validateKPIPeriod(model)"></p-calendar>
+                    <!-- <div *ngIf="(form.submitted || startPeriod.dirty) && !startPeriod.valid && !model.startPeriod" class="text-danger">Start date is required</div> -->
+                  <!-- <div *ngIf="(formFinancial.submitted || startPeriod.dirty) && !startPeriod.valid && !dataFilter.startPeriod" class="text-danger">Start date is required</div> -->
+                  <!-- </div> -->
+
+                  <div class="input-group">
+                    <p-calendar name="startPeriod" view="month" showButtonBar="true" [(ngModel)]="model.startPeriod" #startPeriod selectionMode="single"
+                      required="true" [yearNavigator]="true" [readonlyInput]="true" inputStyleClass="date-picker-input" dateFormat="mm/yy"
+                      [showIcon]="true" yearRange={{yearRange}}  (onSelect)="validateKPIPeriod(model)"></p-calendar>
+                    <div *ngIf="(form.submitted || startPeriod.dirty) && !startPeriod.valid && !model.startPeriod" class="text-danger">Start date is required</div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+
+                  <label for="TimePeriod">End Date
+                    <sup class="red" title="required">*</sup>
+                  </label>
+                  <div class="input-group">
+                    <p-calendar name="endPeriod" view="month" showButtonBar="true" [(ngModel)]="model.endPeriod" #endPeriod required="true" selectionMode="single"
+                      [yearNavigator]="true" [readonlyInput]="true" inputStyleClass="date-picker-input" dateFormat="mm/yy"
+                      [showIcon]="true" yearRange={{yearRange}} (onSelect)="validateKPIPeriod(model)"></p-calendar>
+                    <div *ngIf="(form.submitted || endPeriod.dirty) && !endPeriod.valid && !model.endPeriod" class="text-danger">End date is required</div>
+                    <!-- <div *ngIf="(formFinancial.submitted || endPeriod.dirty) && !endPeriod.valid && !dataFilter.endPeriod" class="text-danger">End date is required</div> -->
+                  </div>
+                </div>
+                <div *ngIf="periodErrorMessage!=''" class="text-danger">{{periodErrorMessage}}</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <!-- <div class="note col-md-12 pt-0">Note:All values are in thousands</div> -->
+          <div class="col-auto text-left  mt-3">
+           
+            <div class="m-0">
+
+              <div class="">
+                <span  *ngIf="loading">
+                  <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                </span>
+
+                <button class="btn btn-primary ml-0" style="position: relative;" [disabled]="loading" title="Search">
+                  Search</button>
+                <input type="button" (click)="resetForm(form)" title="Reset" value="Reset" class="btn btn-warning mr-0" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+    </form>
+  </div>
+  <!-- <div class="loader-dollar" *ngIf="loading">
+    <div class="lds-dual-ring"></div>
+  </div> -->
+  <div>
+
+    <!-- <div class="error">* All values are in thousands</div> -->
+
+       <!--  Profit And Loss Data  start  -->
+    <!-- <div class="error">* All values are in thousands</div> -->
+    <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 chart-area w-100 ">
+      <div class="chart-title p-2">
+        <div class="row">
+          <div class="mr-auto col-auto search align-self-center">
+            <h4>
+              <i class="fa fa-table" aria-hidden="true"></i> Profit And Loss
+              <span *ngIf="companyCurrencySymbol">({{companyCurrencySymbol}}'000)</span>
+            </h4>
+
+          </div>
+
+          <div class="col-sm-auto col-auto m-0 mr-3 align-self-center">
+            <div class="row">
+              <div class="col-auto mt-3 m-auto ">
+                <div class="row">
+                  <div class="col-auto p-1 align-self-center">
+                    <a class="loading-input-controls" style="right:5rem;left: -21px;top: 9px;" *ngIf="exportProfitLoading">
+                      <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                    </a>
+                    <a class="btn btn-export" title="Export Profit&Loss Data (Excel file)" (click)="exportProfitAndLossData()" 
+                      *ngIf="objPCProfitAndLossItemList.Results!= null && objPCProfitAndLossItemList.Results.length>0" tabindex="0">
+                      <i class="fa fa-file-excel-o"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+
+
+        <div class="tbl-sec" *ngIf="objPCProfitAndLossItemList.cols!=null && objPCProfitAndLossItemList.Results != null && objPCProfitAndLossItemList.Results.length > 0">
+          <p-table [columns]="objPCProfitAndLossItemList.cols" [value]="objPCProfitAndLossItemList.Results" [scrollable]="true" [frozenColumns]="frozenProfitAndLossCols"
+            frozenWidth="340px" class="cashflow-tbl text-left finacial-tbl" *ngIf="objPCProfitAndLossItemList.Results != null && objPCProfitAndLossItemList.Results.length > 0">
+            <ng-template pTemplate="colgroup" let-columns>
+              <colgroup>
+                <col *ngFor="let col of columns; index as i" [class.width-200]=" col.header == 'KPI' " />
+              </colgroup>
+            </ng-template>
+
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns; index as i" [class.width-200]=" col.header == 'KPI' " [class.budget-green]="col.header.indexOf('Budget')>-1">
+                  {{ col.header }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+   
+              <tr>
+                <td *ngFor="let col of columns; index as i" [class.table-data-right]="col.field !='KPI'">
+                  <div >
+                    <span *ngIf="rowData[IsHeader]==true">
+                      <span class="ui-column-title">
+                        <b>{{ col.header }}</b>
+                      </span>
+                    </span>
+                    <span *ngIf="rowData[IsHeader]==false">
+                      <span class="ui-column-title">{{ col.header }}</span>
+                    </span>
+                    
+
+                    <span *ngIf="rowData[col.field]!=null;else empty_Text">
+
+                      <span *ngIf="col.header !='KPI' && rowData['KPIWithInfo'].indexOf('(%)') == -1 && rowData['KPIWithInfo'].indexOf('$') == -1" [innerHtml]="isNumberCheck(rowData[col.field]) ?
+(rowData[col.field] | number :'1.0-0' | minusSignToBrackets):rowData[col.field]
+"></span>
+<span *ngIf="col.header !='KPI' && rowData['KPIWithInfo'].indexOf('($)') >-1" [innerHtml]="isNumberCheck(rowData[col.field]) ?
+(rowData[col.field] | number :'1.0-0' | minusSignToBrackets: companyCurrencySymbol):rowData[col.field]
+"></span>
+                      <span *ngIf="col.header !='KPI' && rowData['KPIWithInfo'].indexOf('(%)') > -1 && rowData[col.field]!='NA'" [innerHtml]="rowData[col.field]|percent"></span>
+                      <span *ngIf="col.header !='KPI' && rowData['KPIWithInfo'].indexOf('(%)') > -1 && rowData[col.field]=='NA'">NA</span>
+                   
+                    </span>
+                    <!--<ng-template #empty_Text>
+                      <span>NA</span>
+                    </ng-template>-->
+                    <span *ngIf="rowData[col.field]==null">
+                      <span [innerHTML]="blankSpace"></span>
+                    </span>
+
+                    <span *ngIf="col.header =='KPI' && rowData['IsHeader'] ">
+                      <b>{{rowData[col.field]}}</b>
+                    </span>
+                    <span *ngIf="col.header =='KPI' && !rowData['IsHeader']">{{rowData[col.field]}}</span>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+
+
+          </p-table>
+
+
+        </div>
+
+        <div class="not-found" *ngIf="objPCProfitAndLossItemList.Results == null || objPCProfitAndLossItemList.Results.length==0">
+
+
+          <div [attr.colspan]="columns!=undefined && columns.length">
+            No record found
+          </div>
+        </div>
+        <!--  Profit And Loss data end-->
+        <div></div>    
+      </div>      
+    </div>
+    <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 chart-area w-100 ">
+      <div class="chart-title p-2">
+
+        <div class="row">
+          <div class="mr-auto col-md-10 search align-self-center">
+
+            <h4>
+              <i class="fa fa-table" aria-hidden="true"></i> Balance Sheet
+              <span *ngIf="companyCurrencySymbol">({{companyCurrencySymbol}}'000)</span>
+            </h4>
+           
+          </div>
+          <!-- <div class="col-sm-auto col-auto text-right"> <span class="loading-input-controls" *ngIf="loading">
+            <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+          </span></div> -->
+
+          <div class="col-sm-auto col-auto m-0 mr-3 align-self-center">
+            <div class="row">
+              <div class="col-auto mt-3 m-auto ">
+                <div class="row">
+                  <div class="col-auto p-1 align-self-center">
+                    <a class="loading-input-controls" style="right:5rem;left: -21px;top: 9px;" *ngIf="exportBalanceSheetLoading">
+                      <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                    </a>
+                    <a class="btn btn-export" title="Export BalanceSheet Data (Excel file)" (click)="exportBalanceSheetValues()" 
+                      *ngIf="objPCBalanceSheetItemList.cols!=null && objPCBalanceSheetItemList.Results!= null && objPCBalanceSheetItemList.Results.length > 0"
+                      tabindex="0">
+                      <i class="fa fa-file-excel-o"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--  Balance Sheet Data  start  -->
+      <div class="tbl-sec" *ngIf="objPCBalanceSheetItemList.cols!=null && objPCBalanceSheetItemList.Results!= null && objPCBalanceSheetItemList.Results.length > 0">
+        <p-table [columns]="objPCBalanceSheetItemList.cols" [value]="objPCBalanceSheetItemList.Results" [scrollable]="true" [frozenColumns]="frozenBalanceSheetCols"
+          frozenWidth="340px" class="cashflow-tbl text-left finacial-tbl" *ngIf="objPCBalanceSheetItemList.Results != null && objPCBalanceSheetItemList.Results.length > 0">
+          <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns; index as i" [class.width-200]=" col.header == 'KPI' " />
+            </colgroup>
+          </ng-template>
+
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns; index as i" [class.width-200]=" col.header == 'KPI' " [class.budget-green]="col.header.indexOf('Budget')>-1">
+                {{ col.header }}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            
+            <tr>
+              <td *ngFor="let col of columns; index as i" [class.table-data-right]="col.field !='KPI'">
+                <div>
+
+
+                  <span class="ui-column-title">{{ col.header }}</span>
+
+
+
+
+                  <span *ngIf="rowData[col.field]!=null;else empty_Text">
+
+                    <span *ngIf="col.header !='KPI' && rowData['KPI'].indexOf('%') == -1" [innerHtml]="isNumberCheck(rowData[col.field]) ?
+                  (rowData[col.field] | number:'1.0-0' | minusSignToBrackets: companyCurrencySymbol):rowData[col.field]
+                  "></span>
+                    <span *ngIf="col.header !='KPI' && rowData['KPI'].indexOf('%') > -1" [innerHtml]="
+                  rowData[col.field]
+                  "></span>
+                  </span>
+                  <!-- <ng-template #empty_Text>
+                    <span  *ngIf="!rowData['IsHeader']">NA</span>
+                  </ng-template> -->
+                  <span *ngIf="rowData[col.field]==null">
+                    <span [innerHTML]="blankSpace"></span>
+                  </span>
+                  <span *ngIf="col.header =='KPI' && rowData['IsHeader'] ">
+                    <b>{{rowData[col.field]}}</b>
+                  </span>
+                  <span *ngIf="col.header =='KPI' && !rowData['IsHeader']">{{rowData[col.field]}}</span>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+
+
+        </p-table>
+
+
+
+      </div>
+      <div class="not-found" *ngIf="objPCBalanceSheetItemList.Results == null || objPCBalanceSheetItemList.Results.length==0">
+
+
+        <div [attr.colspan]="columns!=undefined && columns.length">
+          No record found
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+
+    <!--  Balance sheet data end-->
+
+    <!--  CashFlow Data  start  -->
+    
+    <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 chart-area w-100 ">
+      <div class="chart-title p-2">
+        <div class="row">
+          <div class="mr-auto col-auto search align-self-center">
+            <h4>
+              <i class="fa fa-table" aria-hidden="true"></i> Cashflow
+              <span *ngIf="companyCurrencySymbol">({{companyCurrencySymbol}}'000)</span>
+            </h4>
+          </div>
+          <div class="col-sm-auto col-auto m-0 mr-3 align-self-center">
+            <div class="row">
+              <div class="col-auto mt-3 m-auto ">
+                <div class="row">
+                  <div class="col-auto p-1 align-self-center">
+                    <a class="loading-input-controls" style="right:5rem;left: -21px;top: 9px;" *ngIf="exportCashFlowLoading">
+                      <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                    </a>
+                    <a class="btn btn-export" title="Export CashFlow Data (Excel file)" (click)="exportCashFlowData()" 
+                      *ngIf="objPCCashFlowItemList.Results!= null && objPCCashFlowItemList.Results.length>0" tabindex="0">
+                      <i class="fa fa-file-excel-o"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+
+
+        <div class="tbl-sec" *ngIf="objPCCashFlowItemList.cols!=null && objPCCashFlowItemList.Results != null && objPCCashFlowItemList.Results.length > 0">
+          <p-table [columns]="objPCCashFlowItemList.cols" [value]="objPCCashFlowItemList.Results" [scrollable]="true" [frozenColumns]="frozenCashFlowCols"
+            frozenWidth="340px" class="cashflow-tbl text-left finacial-tbl" *ngIf="objPCCashFlowItemList.Results != null && objPCCashFlowItemList.Results.length > 0">
+            <ng-template pTemplate="colgroup" let-columns>
+              <colgroup>
+                <col *ngFor="let col of columns; index as i" [class.width-200]=" col.header == 'KPI' " />
+              </colgroup>
+            </ng-template>
+
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns; index as i" [class.width-200]=" col.header == 'KPI' " [class.budget-green]="col.header.indexOf('Budget')>-1">
+                  {{ col.header }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <!-- <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.brand].index === rowIndex">
+                        <td colspan="3">
+                            <span style="font-weight:bold">{{rowData.brand}}</span>
+                        </td>
+                    </tr> -->
+              <tr>
+                <td *ngFor="let col of columns; index as i" [class.table-data-right]="col.field !='KPI'">
+                  <div >
+                    <span *ngIf="rowData[IsHeader]==true">
+                      <span class="ui-column-title">
+                        <b>{{ col.header }}</b>
+                      </span>
+                    </span>
+                    <span *ngIf="rowData[IsHeader]==false">
+                      <span class="ui-column-title">{{ col.header }}</span>
+                    </span>
+                    <!-- <span *ngIf="col.header !='KPI' && rowData['KPI'].indexOf('%') == -1" [innerHtml]="
+rowData[col.field] | number | minusSignToBrackets
+"></span>
+                        <span *ngIf="col.header !='KPI' && rowData['KPI'].indexOf('%') > -1" [innerHtml]="
+rowData[col.field]
+"></span> -->
+
+
+
+                    <span *ngIf="rowData[col.field]!=null;else empty_Text">
+
+                      <span *ngIf="col.header !='KPI' && rowData['KPIWithInfo'].indexOf('(%)') == -1 && rowData['KPIWithInfo'].indexOf('$') == -1" [innerHtml]="isNumberCheck(rowData[col.field]) ?
+(rowData[col.field] | number :'1.0-0' | minusSignToBrackets):rowData[col.field]
+"></span>
+<span *ngIf="col.header !='KPI' && rowData['KPIWithInfo'].indexOf('($)') >-1" [innerHtml]="isNumberCheck(rowData[col.field]) ?
+(rowData[col.field] | number :'1.0-0' | minusSignToBrackets: companyCurrencySymbol):rowData[col.field]
+"></span>
+                      <span *ngIf="col.header !='KPI' && rowData['KPIWithInfo'].indexOf('(%)') > -1" [innerHtml]="rowData[col.field]|percent"></span>
+                    </span>
+                    <!-- <ng-template #empty_Text>
+                      <span>NA</span>
+                    </ng-template> -->
+                    <span *ngIf="rowData[col.field]==null">
+                      <span [innerHTML]="blankSpace"></span>
+                    </span>
+
+                    <span *ngIf="col.header =='KPI' && rowData['IsHeader'] ">
+                      <b>{{rowData[col.field]}}</b>
+                    </span>
+                    <span *ngIf="col.header =='KPI' && !rowData['IsHeader']">{{rowData[col.field]}}</span>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <div class="not-found" *ngIf="objPCCashFlowItemList.Results == null || objPCCashFlowItemList.Results.length==0">
+          <div [attr.colspan]="columns!=undefined && columns.length">
+            No record found
+          </div>
+        </div>
+        <!--  CashFlow data end-->

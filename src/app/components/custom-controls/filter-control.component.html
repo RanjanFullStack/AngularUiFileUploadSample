@@ -1,0 +1,57 @@
+﻿<div class="row" style="padding-left:20px;padding-right:20px;padding-top:20px;padding-bottom:20px">
+	<div class="col-6">
+		<div class="row" *ngIf="EditMode">
+			<div class="col-9">
+				<div class="row">
+					<div class="col-3" style="padding-right: 0%;padding-left:0px">
+						<label class="nep-label"
+							style="padding-top:10px;font-size: 14px;font-family: 'Helvetica Neue LT W05_55 Roman';">Saved
+							Filters</label>
+					</div>
+					<div class="col-9" style="padding-left: 0%;padding-right:0%">
+						<p-autoComplete [(ngModel)]="selectReport" field="userReportName"
+							(onSelect)="OnFiltersSelected()" [suggestions]="optionsList"
+							(completeMethod)="search($event)" placeholder="Select or Search Filters" [dropdown]="true">
+						</p-autoComplete>
+						<div *ngIf="EditDuplicateRecord" style="padding-top:2px;padding-left:4px" class="text-danger">
+							Name already exist</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-1">
+				<button type="button" [disabled]="!IsItemSelected" (click)="Update()"
+					style="padding-left: 0%;padding-right:0%" class="nep-button nep-button-link">Update</button>
+			</div>
+			<div class="col-1">
+				<button type="button" style="padding-left: 4px;padding-right:0%" class="nep-button nep-button-link"
+					[disabled]="DeleteDisabled" (click)="OnDeleteFilter()"><img alt="..."
+						src="assets/dist/images/delete.svg"></button>
+			</div>
+		</div>
+	</div>
+	<div class="col-6" style="text-align:right;">
+		<nep-button Type="Secondary" style="padding-right:20px" [disabled]="!IsEnabled" (click)="SaveFilters()">Save
+			Filter</nep-button>
+		<nep-button style="padding-right:20px" (click)="ResetFilters()">Reset</nep-button>
+		<nep-button Type="Primary" (click)="ApplyFilters()">Apply</nep-button>
+	</div>
+	<div *ngIf="confirmSave">
+		<confirm-modal primaryButtonName="Save" secondaryButtonName="Cancel" modalTitle="Save Filter"
+			(primaryButtonEvent)="onSave()" [IsPrimaryDisabled]="IsPrimaryDisabled" (secondaryButtonEvent)="onCancel()">
+			<div class="nep-save-dialog">
+				<label class="nep-label" style="font-family: 'Helvetica Neue LT W05_55 Roman'">Filter Name</label>
+				<nep-input inputstyle="outlined" placeholder="Enter filter name" (keyup)="OnFilterNamedChanged($event)"
+					value={{userReportName}}></nep-input>
+				<div *ngIf="DuplicateRecord" style="padding-top:2px;padding-left:4px" class="text-danger">Name already
+					exist</div>
+			</div>
+		</confirm-modal>
+	</div>
+	<div>
+		<confirm-modal *ngIf="confirmDelete" primaryButtonName="Ok" secondaryButtonName="Cancel"
+			(primaryButtonEvent)="Delete()" modalTitle="Delete" (secondaryButtonEvent)="CancelDelete()">
+			<div>Are you sure you want to delete the saved filter?</div>
+		</confirm-modal>
+	</div>
+	<nep-message *ngIf="ShowFilterUpdated">Filter updated successfully</nep-message>
+</div>

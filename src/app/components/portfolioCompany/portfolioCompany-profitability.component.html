@@ -1,0 +1,302 @@
+﻿<div class="add-fund-component">
+    <div class="card card-main model-popup">
+        <div class="card-header card-header-main" *ngIf="false">
+            Portfolio Company Profitability
+        </div>
+        <div class="modal-header">
+            <h4 class="modal-title">Portfolio Company Profitability</h4>
+            <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="card-body">
+            <div *ngIf="model==undefined">
+                <img src="assets/dist/images/loading.gif" class="loading-img" />
+            </div>
+            <form name="form" (ngSubmit)="f.form.valid && save(f)" #f="ngForm" novalidate *ngIf="model!=undefined">
+
+                <p-messages [(value)]="message"></p-messages>
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class="row">
+                            <div class="col-sm-6 col-md-4 ">
+
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !year.valid }">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="year">Year</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <typeahead-control name="year" [(ngModel)]="model.year" [optionList]="yearOptions" validateRequired [displayField]="'text'" [resultField]="'value'" #year="ngModel" [isRequired]="true" (selectItem)="validateSelectedQuarter()" [isAscendingOptions]="false"></typeahead-control>
+                                            <div *ngIf="f.submitted && !year.valid" class="text-danger">Year is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !quarter.valid }">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="quarter">Quarter</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <typeahead-control name="quarter" [(ngModel)]="model.quarter" [optionList]="quarterOptions" validateRequired [displayField]="'text'" [resultField]="'value'" #quarter="ngModel" [isRequired]="true" (selectItem)="validateSelectedQuarter()"></typeahead-control>
+
+                                            <div *ngIf="f.submitted && !quarter.valid" class="text-danger">Quarter is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !eBITDA.valid }">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="eBITDA">EBITDA</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" maxlength="15" numberOnly type="text" class="form-control" name="eBITDA" [(ngModel)]="model.ebitda" #eBITDA="ngModel" />
+                                            <!--<div *ngIf="f.submitted && !eBITDA.valid" class="text-danger">EBITDA is required</div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !netDebt.valid }">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="netDebt">Net Debt</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" maxlength="15" numberOnly type="text" class="form-control" name="netDebt" [(ngModel)]="model.netDebt" #netDebt="ngModel" />
+                                            <!--<div *ngIf="f.submitted && !netDebt.valid" class="text-danger">Net debt is required</div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !revenue.valid }">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="revenue">Revenue</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" numberOnly maxlength="15" type="text" class="form-control" name="revenue" [(ngModel)]="model.revenue" #revenue="ngModel" (change)="calculateNetProfit()"/>
+                                            <!--<div *ngIf="f.submitted && !revenue.valid" class="text-danger">Revenue is required</div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>Enterprise Value</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" numberOnly maxlength="15" type="text" class="form-control" name="enterpriseValue" [(ngModel)]="model.enterpriseValue" #enterpriseValue="ngModel" />
+                                            <!--<div *ngIf="f.submitted && !enterpriseValue.valid" class="text-danger">Enterprise Value is required</div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>Cost of Goods Sold</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" numberOnly maxlength="15" type="text" class="form-control" name="goodSoldCost" [(ngModel)]="model.goodSoldCost" #goodSoldCost="ngModel"  (change)="calculateNetProfit()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>Gross Profit</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <span class="detail-sec">
+                                                {{model.grossProfit|number : '1.2-2'}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>
+                                                Marketing & Advertising
+                                            </label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" numberOnly maxlength="15" type="text" class="form-control" name="marketingAndAdvertisingExpenses" [(ngModel)]="model.marketingAndAdvertisingExpenses" #marketingAndAdvertisingExpenses="ngModel" (change)="calculateNetProfit()"/>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>
+                                                General & Administrative
+                                            </label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" numberOnly maxlength="15" type="text" class="form-control" name="generalAndAdministrativeExpenses" [(ngModel)]="model.generalAndAdministrativeExpenses" #generalAndAdministrativeExpenses="ngModel" (change)="calculateNetProfit()"/>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>
+                                                Depriciation & Amortization
+                                            </label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" numberOnly maxlength="15" type="text" class="form-control" name="depriciationAndAmortizationExpenses" [(ngModel)]="model.depriciationAndAmortizationExpenses" #depriciationAndAmortizationExpenses="ngModel" (change)="calculateNetProfit()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>
+                                                Other Expenses
+                                            </label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" numberOnly maxlength="15" type="text" class="form-control" name="otherExpenses" [(ngModel)]="model.otherExpenses" #otherExpenses="ngModel" (change)="calculateNetProfit()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>EBIT</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <span class="detail-sec">
+                                                {{model.ebit|number : '1.2-2'}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>Interest Expense</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" numberOnly maxlength="15" type="text" class="form-control" name="interestExpense" [(ngModel)]="model.interestExpense" #interestExpense="ngModel" (change)="calculateNetProfit()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>
+                                                Profit Before Tax
+                                            </label>
+                                        </div>
+                                        <div class="col-12">
+                                            <span class="detail-sec">
+                                                {{model.profitBeforeTax|number : '1.2-2'}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>
+                                                Income Tax Expense
+                                            </label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input autocomplete="off" numberOnly maxlength="15" type="text" class="form-control" name="incomeTaxExpense" [(ngModel)]="model.incomeTaxExpense" #incomeTaxExpense="ngModel" (change)="calculateNetProfit()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label>
+                                                Net Profit
+                                            </label>
+                                        </div>
+                                        <div class="col-12">
+                                            <span class="detail-sec">
+                                                {{model.netProfit|number : '1.2-2'}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            <div class="col-sm-12">
+                                <div class="form-group text-center">
+                                    <div class="loading-input-controls-manual" *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+
+                                    <button [disabled]="loading" class="btn btn-primary" title="{{saveText}}">{{saveText}}</button>
+                                    <input type="reset" value="{{resetText}}" title="{{resetText}}" (click)="formReset(f)" class="btn btn-warning" />
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+</div>

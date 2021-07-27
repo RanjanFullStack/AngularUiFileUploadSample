@@ -1,0 +1,76 @@
+﻿<!--<form ngForm name="locationForm" #locationForm="ngForm">-->
+
+	<div class="row">
+		<div class="col-sm-6 col-md-6  col-lg-3">
+			<div class="form-group">
+				<div class="row">
+
+					<div class="col-12">
+						<label for="fundName"> Region</label>
+					</div>
+					<div class="col-12">
+
+						<typeahead-control name="location_region" [(ngModel)]="location.region" [optionList]="locationMaster.regionList" [isRequired]="regionRequired" [displayField]="'region'" #location_region="ngModel" (selectItem)="onRegionChange()" (clearItem)="onRegionChange()"></typeahead-control>
+						<i *ngIf="loadingRegion" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-input-controls"></i>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6  col-lg-3 ">
+			<div class="form-group">
+				<div class="row">
+
+					<div class="col-12">
+						<label for="fundName"> Country</label>
+					</div>
+					<div class="col-12">
+
+						<typeahead-control [loadingOptions]="loadingCountry" name="location_country" [(ngModel)]="location.country" [optionList]="locationMaster.countryList" [isRequired]="countryRequired" [displayField]="'country'" #location_country="ngModel" (selectItem)="onCountryChange()" (clearItem)="onCountryChange()"></typeahead-control>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6  col-lg-3 ">
+			<div class="form-group">
+				<div class="row">
+
+					<div class="col-12">
+						<label for="fundName"> State</label>
+					</div>
+					<div class="col-12">
+						<typeahead-control [loadingOptions]="loadingState" [disabled]="loadingState" name="location_state" [(ngModel)]="location.state" [displayField]="'state'" [optionList]="locationMaster.stateList" [isRequired]="stateRequired" #location_state="ngModel" (selectItem)="onStateChange()" (clearItem)="onStateChange()"></typeahead-control>
+
+						<!--<div *ngIf="stateRequired && location_state.invalid && location_state.dirty" class="text-danger">
+							<div *ngIf="!location_state.valid" class="text-danger">State is required</div>
+						</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6  col-lg-3 ">
+			<div class="form-group">
+				<div class="row">
+
+					<div class="col-12">
+						<label for="fundName">City</label>
+					</div>
+					<div class="col-12">
+
+						<typeahead-control [loadingOptions]="loadingCity" [disabled]="loadingCity" name="location_city" [(ngModel)]="location.city" [displayField]="'city'" [optionList]="locationMaster.cityList" [isRequired]="cityRequired" #location_city="ngModel" (selectItem)="onLocationChange()" (clearItem)="onLocationChange()"></typeahead-control>
+
+						<!--<div *ngIf="cityRequired && location_city.invalid && location_city.dirty" class="text-danger">
+							<div *ngIf="!location_city.valid" class="text-danger">City is required</div>
+						</div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+	</div>
+<!--</form>-->

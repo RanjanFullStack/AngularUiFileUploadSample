@@ -1,0 +1,206 @@
+﻿
+<div class="row">
+
+	<div class="col-lg-12">
+		<div class="detail-fund-component">
+
+			<div class="card card-main">
+                <div class="card-header card-header-main">
+                    <div class="row">
+                        <div class="col-auto mr-auto">   Group Details</div>
+                        <div class="col-auto">
+                            <a class="btn btn-back" [routerLink]="['/groups']" title="Back"><fa name="chevron-left"></fa> Back </a>
+                        </div>
+                    </div>
+                 
+                </div>
+				<div *ngIf="loading">
+					<img src="assets/dist/images/loading.gif" class="loading-img" />
+				</div>
+				<div class="card-body" *ngIf="!loading">
+					<div class="detail-page-text">
+						<div class="card">
+							<div class="card-header">
+
+								<div class="row">
+									<div class="col-auto mr-auto">Basic Details</div>
+									<div class="col-auto mb-2">
+										<a [routerLink]="['/update-group',id]" class="btn btn-primary font-white" [hideIfUnauthorized]='{featureId:feature.Group,action:"edit"}'><fa name="edit" title="Edit"></fa></a>
+									</div>
+								</div>
+							</div>
+							<div class="card-body">
+
+								<div class="row">
+									<div class="col-6">
+										<div class="row">
+											<div class="col-sm-6 col-md-4">Group Name</div>
+											<div class="col-sm-6 col-md-8"><span class="detail-sec">{{model.groupName|| "NA"}}</span></div>
+
+
+
+										</div>
+									</div>
+									<div class="col-6">
+										<div class="row">
+											<div class="col-sm-6 col-md-4">Description</div>
+											<div class="col-sm-6 col-md-8"><span class="detail-sec">{{model.description|| "NA"}}</span></div>
+
+
+
+										</div>
+									</div>
+									<div class="col-6">
+										<div class="row">
+											<div class="col-sm-6 col-md-4">Status</div>
+											<div class="col-sm-6 col-md-8"><span class="detail-sec">{{model.isActive? 'Active':'Inactive'}}</span></div>
+
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<div class="row">
+								<div class="col-auto mr-auto"> Users</div>
+								<div class="col-auto">
+
+
+								</div>
+							</div>
+						</div>
+
+						<div class="card-body">
+                            <div class="row align-items-start">
+                                <div class="col-lg-4">
+									<div class="table-responsive">
+										<table class='table table-bordered table-internal' *ngIf="model.userGroup.length>0">
+											<thead>
+												<tr>
+													<th>User</th>
+													<th>Email</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr *ngFor="let user of model.userGroup">
+													<td><span *ngIf="user.firstName">{{user.firstName  }}</span></td>
+													<td class="text-left"><span *ngIf="user.emailID">{{ user.emailID}}</span></td>
+												</tr>
+											</tbody>
+										</table>
+										<div *ngIf="model.userGroup==null || model.userGroup.length==0" class="text-info">
+
+											No users are mapped to this group
+										</div>
+									</div>
+                                </div>
+
+                            </div>
+
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<div class="row">
+								<div class="col-auto mr-auto">Features</div>
+								<div class="col-auto">
+
+								</div>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="align-items-start">
+								<p-treeTable [value]="model.selectedFeatures" [columns]="cols" *ngIf="model.selectedFeatures!=null && model.selectedFeatures.length>0">
+									<ng-template pTemplate="header" let-columns>
+										<tr>
+											<th *ngFor="let col of columns">
+												{{col.header}}
+											</th>
+										</tr>
+									</ng-template>
+									<ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+										<tr>
+											<td>
+												<p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+												{{rowData.features.feature}}
+											</td>
+											<td>
+												<span [hidden]="isActionHidden(rowData, 'Add')">
+
+													<fa [hidden]="!rowData.canAdd" class="check-color" name="check"></fa>
+													<fa [hidden]="rowData.canAdd" class="cross-color" name="close"></fa>
+												</span>
+												<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'Add')"></fa>
+
+											</td>
+											<td>
+												<span [hidden]="isActionHidden(rowData, 'Edit')">
+													<fa [hidden]="!rowData.canEdit" class="check-color" name="check"></fa>
+													<fa [hidden]="rowData.canEdit" class="cross-color" name="close"></fa>
+												</span>
+												<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'Edit')"></fa>
+											</td>
+											<td>
+												<span [hidden]="isActionHidden(rowData, 'View')">
+													<fa [hidden]="!rowData.canView" class="check-color" name="check"></fa>
+													<fa [hidden]="rowData.canView" class="cross-color" name="close"></fa>
+												</span>
+												<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'View')"></fa>
+											</td>
+											<td>
+												<span [hidden]="isActionHidden(rowData, 'Export')">
+													<fa [hidden]="!rowData.canExport" class="check-color" name="check"></fa>
+													<fa [hidden]="rowData.canExport" class="cross-color" name="close"></fa>
+												</span>
+												<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'Export')"></fa>
+											</td>
+											<td>
+												<span [hidden]="isActionHidden(rowData, 'Import')">
+													<fa [hidden]="!rowData.canImport" class="check-color" name="check"></fa>
+													<fa [hidden]="rowData.canImport" class="cross-color" name="close"></fa>
+												</span>
+												<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'Import')"></fa>
+											</td>
+										</tr>
+									</ng-template>
+									<ng-template pTemplate="emptymessage" let-columns>
+										<tr>
+											<td [attr.colspan]="columns.length" class="text-info">
+												No features are allowed to this group
+											</td>
+										</tr>
+									</ng-template>
+								</p-treeTable>
+								<div *ngIf="model.selectedFeatures==null || model.selectedFeatures.length==0" class="text-info">
+
+									No features are allowed to this group
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					 
+					<div class="row" *ngIf="false">
+						<div class="col-12">
+							<div class="form-group text-center">
+								<a class="btn btn-primary" [routerLink]="['/update-group']">Add Group</a>
+								
+
+							</div>
+						</div>
+					</div>
+
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

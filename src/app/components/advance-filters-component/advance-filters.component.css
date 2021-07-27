@@ -1,0 +1,33 @@
+.filterHeadingStyle{
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 12px;
+    font-family: 'Helvetica Neue LT W05_55 Roman';
+    float: left;
+    width: 160px;
+    cursor: pointer!important;
+}
+
+.inactiveCategory{
+    color: #55565a;
+}
+
+.activeCategory{
+    color: #021155;
+    font-weight: bold;
+}
+
+.contentStyle{
+    font-size: 12px; 
+    color: #55565a;
+}
+
+.disableClearAll{
+    cursor:not-allowed;
+    opacity: 30% !important;
+}
+
+.enableClearAll{
+    cursor:pointer;
+    opacity: 100% !important;
+}

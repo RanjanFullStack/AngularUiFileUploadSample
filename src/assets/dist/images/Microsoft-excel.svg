@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-Excel-FileType">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="Excel-FileType" clip-path="url(#clip-Excel-FileType)">
+    <rect width="24" height="24" fill="#fff"/>
+    <g id="Excel-FileType-2" data-name="Excel-FileType">
+      <rect id="Rectangle" width="24" height="24" fill="none"/>
+      <path id="Combined-Shape" d="M15.076,2,20,7.1V21a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V3A1,1,0,0,1,5,2Zm-.035,2H6V20H18V6.961Z" fill="#217346" fill-rule="evenodd"/>
+      <path id="Path-2" d="M14,2h1.078L20,7.1v.914H14Z" fill="#217346" fill-rule="evenodd"/>
+      <path id="Path_704" d="M13.1,16.5H14.5L12.653,13.77l1.536-2.27h-1.4l-.833,1.231L11.118,11.5H9.711l1.537,2.27L9.4,16.5h3.055l-.5-.807h-.6l.6-.885Z" fill="#217346"/>
+    </g>
+  </g>
+</svg>

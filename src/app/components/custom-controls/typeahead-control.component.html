@@ -1,0 +1,9 @@
+﻿<p-autoComplete appBlockCutCopyPaste #pAutoComplate [readonly]="loadingOptions" name="typeAhead" (onBlur)="onBlur()"
+    (onClear)="onClear()" (onSelect)="onLocationChange()" [(ngModel)]="location" [suggestions]="results"
+    [readonly]="disabled" (completeMethod)="search($event)" [forceSelection]="true" field="{{displayField}}"
+    [dropdown]="true" placeholder="{{placeholder}}" [required]="isRequired" [inputStyle]="{paddingLeft: '8px'}"
+    [disabled]="disabled">
+</p-autoComplete>
+<div class="loading-input-controls" *ngIf="loadingOptions">
+    <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+</div>

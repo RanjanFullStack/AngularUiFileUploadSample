@@ -1,0 +1,42 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.19.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:hoek:20180212':
+    - karma > log4js > loggly > request > hawk > hoek:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma > log4js > loggly > request > hawk > boom > hoek:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma > log4js > loggly > request > hawk > sntp > hoek:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma > log4js > loggly > request > hawk > cryptiles > boom > hoek:
+        patched: '2020-09-17T10:14:30.877Z'
+  SNYK-JS-LODASH-567746:
+    - awesome-typescript-loader > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma-webpack > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - webpack-merge > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - extract-text-webpack-plugin > async > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma-webpack > async > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma > combine-lists > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - webpack-dev-server > http-proxy-middleware > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - webpack-dev-server > portfinder > async > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma > log4js > hipchat-notifier > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma > log4js > mailgun-js > async > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+    - karma > log4js > slack-node > requestretry > lodash:
+        patched: '2020-09-17T10:14:30.877Z'
+  'npm:tunnel-agent:20170305':
+    - karma > log4js > loggly > request > tunnel-agent:
+        patched: '2020-09-17T10:14:30.877Z'

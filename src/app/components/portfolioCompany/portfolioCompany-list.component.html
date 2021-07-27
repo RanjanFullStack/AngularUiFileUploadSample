@@ -1,0 +1,81 @@
+﻿<div class="row">
+	<div class="col-lg-12">
+		<div class="add-user-component">
+			<div class="card card-main">
+				<div class="card-header card-header-main download-report">
+					<div class="row">
+						<div class="col-auto mr-auto">Portfolio Company List</div>
+						<div class="col-auto">
+							<a [routerLink]="['/add-portfolio-company']" class="btn btn-primary"
+								title="Add Portfolio Company"
+								[hideIfUnauthorized]='{featureId:feature.PortfolioCompany,action:"add"}'>
+								<fa name="plus-square"></fa> <span class="hide-on-mobile">Portfolio Company</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none;text-align: left !important">
+						<div class="row">
+							<div class="col-8 col-lg-5 mr-auto search"> <span class="fa fa-search"></span>
+								<input #gb type="text" pInputText placeholder="Search" class="form-control search-box"
+									[(ngModel)]="globalFilter">
+							</div>
+							<div class="col-auto col-sm-auto align-self-center m-download"  [hideIfUnauthorized]='{featureId:feature.PortfolioCompany,action:"export"}'>
+								<p-splitButton  icon="fa fa-download" [model]="exportItems" title="Export Files" tabindex="1">
+								</p-splitButton>
+							 </div>
+						</div>
+					</div>
+					<p-dataTable [reorderableColumns]="true" #tblPortfolio
+						emptyMessage="{{blockedTable? 'Please Wait...':'No record found'}}"
+						[totalRecords]="totalRecords" [value]="pcs" [lazy]="true"
+						(onLazyLoad)="loadPortfolioLazy($event)" [rows]="10" [paginator]="true" [responsive]="true"
+						[rowsPerPageOptions]="pagerLength" [globalFilter]="gb" sortMode="multiple">
+						<p-column field="companyName" header="Company Name" [sortable]="true">
+							<ng-template pTemplate="body" let-pc="rowData"> <a class="click-view company-name"
+									href="javascript:void(0);"
+									[routerLink]="['/portfolio-company-detail', pc.encryptedPortfolioCompanyId]"
+									title="View Details"
+									[hideIfUnauthorized]='{featureId:feature.PortfolioCompany,action:"view"}'>{{pc.companyName}}</a>
+							</ng-template>
+						</p-column>
+						<p-column field="Sector.Sector" header="Sector" [sortable]="true">
+							<ng-template pTemplate="body" let-pc="rowData"> {{pc.sectorDetail?.sector}} </ng-template>
+						</p-column>
+						<p-column field="SubSector.SubSector" header="Sub-Sector" [sortable]="true">
+							<ng-template pTemplate="body" let-pc="rowData"> {{pc.subSectorDetail?.subSector}}
+							</ng-template>
+						</p-column>
+						<p-column field="MappingPCGeographicLocation.Min(Country.Country)" header="Headquarter"
+							[sortable]="true">
+							<ng-template pTemplate="body" let-pc="rowData"> <span *ngIf="pc.geographicLocations"><span
+										*ngIf="pc.geographicLocations[0]?.region !=null">
+										{{ pc.geographicLocations[0].region?.region }},</span>{{ pc.geographicLocations[0]?.country?.country }}<span
+										*ngIf="pc.geographicLocations[0]?.state !=null">,
+										{{ pc.geographicLocations[0].state?.state }}</span><span
+										*ngIf="pc.geographicLocations[0]?.city!=null">,
+										{{ pc.geographicLocations[0].city?.city }}</span></span>
+							</ng-template>
+						</p-column>
+						<p-column field="website" header="Website" [sortable]="true">
+							<ng-template pTemplate="body" let-pc="rowData"> <a title="View Website"
+									href="//{{pc.website}}" target="_blank">{{pc.website}}</a> </ng-template>
+						</p-column>
+						<p-column styleClass="col-button" header="Action">
+							<ng-template pTemplate="body" let-pc="rowData">
+								<div class="add-control-btn text-center">
+									<a class="btn btn-edit" title="Edit"
+										[routerLink]="['/add-portfolio-company', pc.encryptedPortfolioCompanyId]"
+										[hideIfUnauthorized]='{featureId:feature.PortfolioCompany,action:"edit"}'>
+										<fa name="edit"></fa>
+									</a>
+								</div>
+							</ng-template>
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

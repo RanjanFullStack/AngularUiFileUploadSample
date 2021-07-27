@@ -1,0 +1,611 @@
+﻿
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="detail-deal-component">
+
+            <div class="card card-main">
+                <div class="card-header card-header-main">
+                    <div class="row">
+                        <div class="col-auto mr-auto">  Deal Details</div>
+                        <div class="col-auto">
+                            <a class="btn btn-back" [routerLink]="[sourceURL]" title="Back"><fa name="chevron-left"></fa> Back </a>
+                        </div>
+                    </div>
+
+                </div>
+                <div *ngIf="loading">
+                    <img src="assets/dist/images/loading.gif" class="loading-img" />
+                </div>
+                <div class="card-body" *ngIf="!loading">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-auto mr-auto">
+                                    Basic Details
+                                    <tooltip [iconClass]="'fa-question-circle help'">
+                                        <div class="row">
+                                            <div class="col-12"><h6>Keyword Used</h6></div>
+                                        </div>
+                                        <div class="col-sm-12 content-bg">
+                                            <div class="row detail-border">
+                                                <div class="col-sm-4"><label>Entry Ownership Percent:</label></div>
+                                                <div class="col-sm-8">Ownership percentage in a company at the time of initial investment</div>
+                                            </div>
+                                            <div class="row detail-border">
+                                                <div class="col-sm-4"><label>Current Exit Ownership Percent:</label></div>
+                                                <div class="col-sm-8">Current ownership percentage in a company</div>
+                                            </div>
+                                            <!--<div class="row detail-border">
+                                                <div class="col-sm-4"><label>Sourcing Professional:</label></div>
+                                                <div class="col-sm-8">Professional who was involved in sourcing a deal</div>
+                                            </div>
+                                            <div class="row detail-border">
+                                                <div class="col-sm-4"><label>Lead Professional:</label></div>
+                                                <div class="col-sm-8">Professional who lead the deal</div>
+                                            </div>-->
+                                            <div class="row detail-border border-0">
+                                                <div class="col-sm-4"><label>Deal Sourcing:</label></div>
+                                                <div class="col-sm-8">Methodology used to source a deal</div>
+                                            </div>
+                                            </div>
+                                    </tooltip>
+                                </div>
+                                <div class="col-auto">
+                                    <a [routerLink]="['/save-deal',id]" class="btn btn-primary font-white mb-2" title="Edit" [hideIfUnauthorized]='{featureId:feature.Deal,action:"edit"}'><fa name="edit"></fa></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-page-text">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Deal</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label>{{model.dealCustomID}}</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Fund Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec" *ngIf="model.fundDetails!=null;else empty_Text">
+                                                    <a [routerLink]="['/fund-details', model.fundDetails.encryptedFundId]"><label>{{model.fundDetails.fundName}}</label></a>
+                                                </span><ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Portfolio Company</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec" *ngIf="model.portfolioCompanyDetails!=null;else empty_Text">
+                                                    <a [routerLink]="['/portfolio-company-detail', model.portfolioCompanyDetails.encryptedPortfolioCompanyId]"><label>{{model.portfolioCompanyDetails.companyName}}</label></a>
+                                                </span><ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Currency</label>
+                                            </div>
+                                            <div class="col-md-6"><span *ngIf="model.currencyDetail!=null;else empty_Text" class="detail-sec">{{model.currencyDetail.currency}}</span><ng-template #empty_Text class="detail-sec">NA</ng-template></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Investment Date</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label>{{(model.investmentDate | date:'MM/dd/yyyy')||"NA"}}</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Entry Multiple</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label>{{(model.entryMultiple|number : '1.2-2')||"NA"}}</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Entry Ownership Percent</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label>{{(model.entryOwnershipPercent|number : '1.2-2')||"NA"}}</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Current/Exit Ownership Percent</label>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label>{{(model.currentExitOwnershipPercent|number : '1.2-2')||"NA"}}</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Enterprise Value</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label>{{(model.enterpriseValue|number : '1.2-2')||"NA"}}</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Sourcing Professional </label>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label *ngIf="model.sourcingProfessionalDetail!=null;else empty_Text">{{model.sourcingProfessionalDetail.employeeName}}</label>
+                                                    <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Lead Professional  </label>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label *ngIf="model.leadProfessionalDetail!=null;else empty_Text">{{model.leadProfessionalDetail.employeeName}}</label>
+                                                    <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Board Seat</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label *ngIf="model.dealBoardSeatDetail!=null;else empty_Text">{{model.dealBoardSeatDetail.boardSeat}}</label>
+                                                    <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Exit Method</label>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label *ngIf="model.dealExitMethodDetail!=null;else empty_Text">{{model.dealExitMethodDetail.exitMethod}}</label>
+                                                    <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Investment Stage</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label *ngIf="model.dealInvestmentStageDetail!=null;else empty_Text">{{model.dealInvestmentStageDetail.investmentStage}}</label>
+                                                    <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Security Type</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label *ngIf="model.dealSecurityTypeDetail!=null;else empty_Text">{{model.dealSecurityTypeDetail.securityType}}</label>
+                                                    <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Deal Sourcing</label>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label *ngIf="model.dealSourcingDetail!=null;else empty_Text">{{model.dealSourcingDetail.dealSourcing}}</label>
+                                                    <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Transaction Role</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label *ngIf="model.dealTransactionRoleDetail!=null;else empty_Text">{{model.dealTransactionRoleDetail.transactionRole}}</label>
+                                                    <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Valuation Methodology</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="detail-sec">
+                                                    <label *ngIf="model.dealValuationMethodologyDetail!=null;else empty_Text">{{model.dealValuationMethodologyDetail.valuationMethodology}}</label>
+                                                    <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-10">Portfolio Company Fund Holding Details
+                                    <tooltip [iconClass]="'fa-question-circle help'">
+                                        <div class="row">
+                                            <div class="col-12"><h6>Keyword Used</h6></div>
+                                        </div>
+                                        <div class="col-sm-12 content-bg">
+                                            <div class="row detail-border">
+                                                <div class="col-sm-4">
+                                                    <label>Total Value Paid In(TVPI):</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    Total value divided by invested cost
+                                                </div>
+                                            </div>
+                                            <div class="row detail-border">
+                                                <div class="col-sm-4">
+                                                    <label>IRR:</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    Internal rate of return
+                                                </div>
+                                            </div>
+                                            <div class="row detail-border">
+                                                <div class="col-sm-4">
+                                                    <label>Realized Value:</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    Value realized as of date
+                                                </div>
+                                            </div>
+                                            <div class="row detail-border">
+                                                <div class="col-sm-4">
+                                                   <label> Unrealized Value:</label>
+
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    Value unrealized as of date
+                                                </div>
+                                            </div>
+                                            <div class="row detail-border">
+                                                <div class="col-sm-4">
+                                                    <label>Investment Cost:</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    Total amount invested
+
+                                                </div>
+                                            </div>
+                                            <div class="row detail-border border-0">
+                                                <div class="col-sm-4">
+                                                    <label>Total Value:</label>
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    Sum of realized and unrealized value
+
+                                                </div>
+                                            </div>
+</div>
+                                    </tooltip>
+                                </div>
+
+                                <span class="gbp-info col-sm-2"><i class="fa fa-info-circle icon"></i>All values in USD</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="align-items-start">
+
+
+                                <div class="ui-widget-header spacing">
+
+                                    <div class="row">
+                                        <div class="mr-auto col-sm-5 search"> <span class="fa fa-search"></span> <input #gbFundHolding type="text" pInputText placeholder="Search" class="form-control search-box"></div>
+
+                                        <div class="col-sm-auto col-12 m-0">
+                                            <div class="row">
+
+                                                <div class="col-auto mt-3 m-auto p-0"> Values in<a (click)="opHoldingValueUnit.toggle($event)" class="comment-btn p-1"> <span class="choose-value">{{financialValueUnits[holdingValueUnit]}} <i class="fa fa-caret-down" aria-hidden="true"></i></span></a></div>
+
+                                                <!--<button class="btn btn-primary" (click)="showHoldingValueDecimals = !showHoldingValueDecimals"><fa name="plus-square" title="Toggle Decimals"></fa></button>-->
+                                                <div class="border-right1"></div>
+                                                <div class="col-auto mt-3 m-auto">
+                                                    <div class="row">
+                                                        <div class="switch-btn col-auto">
+                                                            <span class="first btn-text">{{showHoldingValueDecimals?"Show Decimals":"Show Decimals"}}</span>
+                                                            <p-inputSwitch [(ngModel)]="showHoldingValueDecimals" class="switch"></p-inputSwitch>
+
+                                                        </div>
+                                                        <div class="border-right1"></div>
+                                                        <div class="col-auto p-1">
+                                                            <button [disabled]="loading" class="btn btn-primary" (click)="open(fundHoldingModel)"><fa name="plus-square" title="Add"></fa></button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class=""></div>
+                                <p-dataTable [reorderableColumns]="true" styleClass="table-large-data" #tblFundHolding emptyMessage="{{blockedPortfolioCompanyFundHoldingTable? 'Please Wait...':'No record found'}}" [totalRecords]="totalPortfolioCompanyFundHoldingRecords" [value]="portfolioCompanyFundHolding" [lazy]="true" (onLazyLoad)="loadPortfolioFundHoldingLazy($event)" [rows]="10" [paginator]="true" [responsive]="true" [rowsPerPageOptions]="pagerLength" [globalFilter]="gbFundHolding" [multiSortMeta]="fundHoldingMultiSortMeta" sortMode="multiple">
+
+                                    <p-column field="year-quarter" header="Quarter" [sortable]="true" styleClass="table-data-left">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.quarter +' '+portfolioCompanyFundHolding.year }}
+                                        </ng-template>
+                                    </p-column>
+
+                                    <p-column field="investementDate" header="Investment Date" [sortable]="true">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.investementDate | date:'MM/dd/yyyy' }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="valuationDate" header="Valuation Date" [sortable]="true">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.valuationDate | date:'MM/dd/yyyy' }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="investmentCost" header="Investment Cost" [sortable]="true" styleClass="table-data-right">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.investmentCost | number : (showHoldingValueDecimals?'1.2-2':'1.0-0') }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="realizedValue" header="Realized Value" [sortable]="true" styleClass="table-data-right">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.realizedValue | number : (showHoldingValueDecimals?'1.2-2':'1.0-0') }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="unrealizedValue" header="Unrealized Value" [sortable]="true" styleClass="table-data-right">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.unrealizedValue | number : (showHoldingValueDecimals?'1.2-2':'1.0-0') }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="totalValue" header="Total Value" [sortable]="true" styleClass="table-data-right higlighted-cell">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.totalValue | number : (showHoldingValueDecimals?'1.2-2':'1.0-0') }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="grossMultiple" header="Gross TVPI" [sortable]="true" styleClass="table-data-right higlighted-cell">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.grossMultiple | number : '1.2-2' }}x
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="grossIRR" header="Gross IRR" [sortable]="true" styleClass="table-data-right">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.grossIRR | number : '1.2-2' }}%
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="m_FundHoldingStatus.Status" header="Status" [sortable]="true">
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            {{ portfolioCompanyFundHolding.fundHoldingStatus.status }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column styleClass="col-button" header="Action">
+
+                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                            <div class="add-control-btn">
+                                                <a (click)="open(portfolioCompanyFundHolding)" class="btn btn-edit"><fa name="edit" title="Edit"></fa></a>
+                                            </div>
+                                        </ng-template>
+                                    </p-column>
+                                </p-dataTable>
+                                <div class="col-info p-2">
+                                    <span><i class="fa fa-square calculated-value" aria-hidden="true"></i><i>Calculated Values</i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-10">Portfolio Company Profitability Details</div>
+                                <span class=" gbp-info col-sm-2"><i class="fa fa-info-circle icon"></i>All values in USD</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="align-items-start">
+
+
+                                <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+                                    <div class="row">
+                                        <div class="mr-auto col-sm-5 search">
+                                            <span class="fa fa-search"></span>
+                                            <input #gbProfitability type="text" pInputText placeholder="Search" class="form-control search-box">
+                                        </div>
+
+                                        <div class="col-sm-auto col-12 m-0">
+                                            <div class="row">
+
+                                                <div class="col-auto mt-3 m-auto p-0">
+                                                    Values in<a (click)="opProfitabilityValueUnit.toggle($event)" class="comment-btn p-1"> <span class="choose-value">{{financialValueUnits[profitabilityValueUnit]}} <i class="fa fa-caret-down" aria-hidden="true"></i></span></a>
+                                                </div>
+                                                <div class="border-right1"></div>
+                                                <!--<button class="btn btn-primary" (click)="showHoldingValueDecimals = !showHoldingValueDecimals"><fa name="plus-square" title="Toggle Decimals"></fa></button>-->
+                                                <div class="col-auto mt-3 m-auto">
+                                                    <div class="row">
+                                                        <div class="switch-btn col-auto">
+                                                            <span class="first btn-text">{{showProfitabilityValueDecimals?"Show Decimals":"Show Decimals"}}</span>
+                                                            <p-inputSwitch [(ngModel)]="showProfitabilityValueDecimals" class="switch"></p-inputSwitch>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+
+
+
+                                                </div>
+                                            </div>
+                                <p-dataTable [reorderableColumns]="true" emptyMessage="{{blockedPortfolioCompanyProfitabilityTable? 'Please Wait...':'No record found'}}" #tblProfitability [totalRecords]="totalPortfolioCompanyProfitabilityRecords" [value]="portfolioCompanyProfitability" [lazy]="true" (onLazyLoad)="loadPortfolioProfitabilityLazy($event)" [rows]="10" [paginator]="true" [responsive]="true" [rowsPerPageOptions]="pagerLength" [globalFilter]="gbProfitability" [multiSortMeta]="profitabilityMultiSortMeta" sortMode="multiple">
+
+                                    <p-column field="year-quarter" header="Quarter" [sortable]="true" styleClass="table-data-left">
+                                        <ng-template pTemplate="body" let-portfolioCompanyProfitability="rowData">
+                                            {{ portfolioCompanyProfitability.quarter +' '+portfolioCompanyProfitability.year }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="revenue" header="Revenue" [sortable]="true" styleClass="table-data-right">
+                                        <ng-template pTemplate="body" let-portfolioCompanyProfitability="rowData">
+                                            {{ portfolioCompanyProfitability.revenue | number :(showProfitabilityValueDecimals?'1.2-2':'1.0-0') }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="netDebt" header="Net Debt" [sortable]="true" styleClass="table-data-right">
+                                        <ng-template pTemplate="body" let-portfolioCompanyProfitability="rowData">
+                                            {{ portfolioCompanyProfitability.netDebt | number : (showProfitabilityValueDecimals?'1.2-2':'1.0-0') }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="ebitda" header="EBITDA" [sortable]="true" styleClass="table-data-right">
+                                        <ng-template pTemplate="body" let-portfolioCompanyProfitability="rowData">
+                                            {{ portfolioCompanyProfitability.ebitda | number :(showProfitabilityValueDecimals?'1.2-2':'1.0-0') }}
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="enterpriseValue" header="Enterprise Value" [sortable]="true" styleClass="table-data-right">
+                                        <ng-template pTemplate="body" let-portfolioCompanyProfitability="rowData">
+                                            {{ portfolioCompanyProfitability.enterpriseValue | number : (showProfitabilityValueDecimals?'1.2-2':'1.0-0') }}
+                                        </ng-template>
+                                    </p-column>
+                                </p-dataTable>
+                                        </div>
+                                    </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+
+                                <p-growl [(value)]="msgs" [life]="msgTimeSpan"></p-growl>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="false">
+                        <div class="col-12">
+                            <div class="form-group text-center">
+                                <a class="btn btn-primary" [routerLink]="['/save-deal']" [hideIfUnauthorized]='{featureId:feature.Deal,action:"add"}'>Add Deal</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <p-overlayPanel [dismissable]="true" [appendTo]="'body'" [showCloseIcon]="true" #opHoldingValueUnit>
+        <div class="popup-bg p-2">
+            <h6 class="p-1 m-0 popup-title">Select Unit</h6>
+            <div class="ui-g row p-2 width-150">
+
+                <div class="col-sm-12 p-1">
+                    <p-radioButton name="holdingValueUnitGroup" value="{{financialValueUnits.Thousands}}" label="Thousands" [(ngModel)]="holdingValueUnit" inputId="holdingValueUnit1" (onClick)="convertFundHoldingValueUnits()"></p-radioButton>
+                </div>
+                <div class="col-sm-12 p-1">
+                    <p-radioButton name="holdingValueUnitGroup" value="{{financialValueUnits.Millions}}" label="Millions" [(ngModel)]="holdingValueUnit" inputId="holdingValueUnit2" (onClick)="convertFundHoldingValueUnits()"></p-radioButton>
+                </div>
+                <div class="col-sm-12 p-1">
+                    <p-radioButton name="holdingValueUnitGroup" value="{{financialValueUnits.Billions}}" label="Billions" [(ngModel)]="holdingValueUnit" inputId="holdingValueUnit3" (onClick)="convertFundHoldingValueUnits()"></p-radioButton>
+                </div>
+            </div>
+        </div>
+    </p-overlayPanel>
+    <p-overlayPanel [dismissable]="true" [appendTo]="'body'" [showCloseIcon]="true" #opProfitabilityValueUnit>
+        <div class="popup-bg p-2">
+            <h6 class="p-1 m-0 popup-title">Select Unit</h6>
+            <div class="ui-g row p-2 width-150">
+
+                <div class="col-sm-12 p-1">
+                    <p-radioButton name="profitabilityValueUnitGroup" value="{{financialValueUnits.Thousands}}" label="Thousands" [(ngModel)]="profitabilityValueUnit" inputId="profitabilityValueUnit1" (onClick)="convertProfitabilityValueUnits()"></p-radioButton>
+                </div>
+                <div class="col-sm-12 p-1">
+                    <p-radioButton name="profitabilityValueUnitGroup" value="{{financialValueUnits.Millions}}" label="Millions" [(ngModel)]="profitabilityValueUnit" inputId="profitabilityValueUnit2" (onClick)="convertProfitabilityValueUnits()"></p-radioButton>
+                </div>
+                <div class="col-sm-12 p-1">
+                    <p-radioButton name="profitabilityValueUnitGroup" value="{{financialValueUnits.Billions}}" label="Billions" [(ngModel)]="profitabilityValueUnit" inputId="profitabilityValueUnit3" (onClick)="convertProfitabilityValueUnits()"></p-radioButton>
+                </div>
+            </div>
+        </div>
+
+    </p-overlayPanel>
+</div>

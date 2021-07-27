@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-Text-FileType">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="Text-FileType" clip-path="url(#clip-Text-FileType)">
+    <rect width="24" height="24" fill="#fff"/>
+    <g id="Text-FileType-2" data-name="Text-FileType">
+      <rect id="Path" width="24" height="24" fill="none"/>
+      <g id="Group_7482" data-name="Group 7482" transform="translate(4 2)">
+        <path id="Combined-Shape" d="M11.078,0,16,5.1v.914h0V19a1,1,0,0,1-1,1H1a1,1,0,0,1-1-1V1A1,1,0,0,1,1,0ZM10,2H2V18H14V6.011H10Z" fill="#00acc1" fill-rule="evenodd"/>
+        <rect id="Rectangle" width="8" height="1.4" transform="translate(4 11)" fill="#00acc1"/>
+        <rect id="Rectangle-Copy-2" width="8" height="1.4" transform="translate(4 13.5)" fill="#00acc1"/>
+      </g>
+    </g>
+  </g>
+</svg>

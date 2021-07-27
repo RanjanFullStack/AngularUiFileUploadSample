@@ -1,0 +1,19 @@
+﻿<div class="horizontal-parent">
+    <div class="horizontal-child1"><a class="btn" (click)="moveLeft()" (mouseleave)="stopLeftScrolling()"
+            (mouseenter)="startLeftScrolling()" *ngIf="showLeftScroll">
+            <fa name="chevron-left"></fa>
+        </a></div>
+    <div class="horizontal-child2"><a class="btn" (click)="moveRight()" (mouseleave)="stopRightScrolling()"
+            (mouseenter)="startRightScrolling()" *ngIf="showRightScroll">
+            <fa name="chevron-right"></fa>
+        </a></div>
+    <div #panel class="horizontal-menu">
+        <p-selectButton [options]="itemList" [(ngModel)]="model" name="sortBy" (onChange)="selectionChanged()">
+            <ng-template let-item>
+                <button [title]="item.value" class="nep-button nep-button-link" style="text-decoration: none;" [ngClass]="{'selected-button' : item.value === model[0]}" >
+                    {{item.label}}
+                </button>
+            </ng-template>
+        </p-selectButton>
+    </div>
+</div>

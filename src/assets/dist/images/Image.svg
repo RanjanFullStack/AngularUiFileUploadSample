@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-Image-FileType">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="Image-FileType" clip-path="url(#clip-Image-FileType)">
+    <rect width="24" height="24" fill="#fff"/>
+    <g id="Image-FileType-2" data-name="Image-FileType">
+      <rect id="Path" width="24" height="24" fill="none"/>
+      <path id="Path_30642" data-name="Path 30642" d="M15.078,2,20,7.1v.914h0V21a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V3A1,1,0,0,1,5,2ZM14,4H6V20H18V8.011H14Zm-3.252,9.75a.5.5,0,0,1,.372.165l1.1,1.222.4-.456a.5.5,0,0,1,.755,0l1.52,1.737a.5.5,0,0,1-.379.833H11.473l-.056,0H8.495a.5.5,0,0,1-.367-.834l2.249-2.5A.5.5,0,0,1,10.748,13.75ZM12.62,12a.749.749,0,1,1-.749.749A.749.749,0,0,1,12.62,12Z" fill="#00c79e" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

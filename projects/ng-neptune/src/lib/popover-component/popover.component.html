@@ -1,0 +1,8 @@
+<div #popover (click)="$event.stopPropagation()" *ngIf="show" class="nep-popover nep-popover-bottom" [ngStyle]="{'margin-left': marginLeft, 'margin-top':marginTop}">
+  <div *ngIf="showPopoverArrow" class="nep-popover-arrow"></div>
+  <div class="nep-popover-content">
+    <div>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

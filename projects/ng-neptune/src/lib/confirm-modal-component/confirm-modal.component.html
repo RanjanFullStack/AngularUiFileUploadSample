@@ -1,0 +1,22 @@
+<div class="nep-modal nep-modal-show" style="display: block; background: rgba(0, 0, 0, 0.25);">
+  <div class="nep-modal-mask"></div>
+  <div class="nep-card nep-card-shadow nep-modal-panel nep-modal-default"
+    style="position: relative; display: inline-flex; width: 456px;top: 35%;">
+    <div class="nep-card-header nep-modal-title">
+      {{modalTitle}}
+    </div>
+    <div class="nep-card-body">
+      <ng-content></ng-content>
+    </div>
+    <div class="nep-card-footer nep-card-right nep-modal-footer">
+      <div>
+        <nep-button Type="Secondary" (click)="onSecondaryEvent()">
+          {{secondaryButtonName}}
+        </nep-button>
+        <nep-button Type="Primary" [disabled]="IsPrimaryDisabled" style="padding-left:20px" (click)="onPrimaryEvent()">
+          {{primaryButtonName}}
+        </nep-button>
+      </div>
+    </div>
+  </div>
+</div>

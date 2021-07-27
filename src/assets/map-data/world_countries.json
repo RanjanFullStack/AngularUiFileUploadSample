@@ -1,0 +1,207 @@
+{
+  "FundID": 1,
+  "FundName": "sample string 2",
+  "StrategyDescription": "sample string 3",
+  "SectorID": 1,
+  "RegionID": 1,
+  "CountryID": 1,
+  "StateID": 1,
+  "CityID": 1,
+  "VintageYear": "sample string 4",
+  "AccountTypeID": 1,
+  "CurrencyID": 1,
+  "TargetCommitment": 1.0,
+  "MaximumCommitment": 1.0,
+  "FundSize": 1.0,
+  "GPCommitment": 1.0,
+  "PreferredReturnPercent": 1.0,
+  "CarriedInterestPercent": 1.0,
+  "GPCatchupPercent": 1.0,
+  "ManagementFee": 1.0,
+  "ManagementFeeOffset": 1.0,
+  "FundTerm": "sample string 5",
+  "MaximumExtensionToFundTerm": "sample string 6",
+  "FundClosingDate": "2019-02-20T15:06:55.2373052 05:30",
+  "OrgExpenses": 1.0,
+  "Clawback": "sample string 7",
+  "TargetCommitment_Comment": "sample string 8",
+  "MaximumCommitment_Comment": "sample string 9",
+  "FundSize_Comment": "sample string 10",
+  "GPCommitment_Comment": "sample string 11",
+  "PreferredReturnPercent_Comment": "sample string 12",
+  "CarriedInterestPercent_Comment": "sample string 13",
+  "GPCatchupPercent_Comment": "sample string 14",
+  "ManagementFee_Comment": "sample string 15",
+  "ManagementFeeOffset_Comment": "sample string 16",
+  "FundTerm_Comment": "sample string 17",
+  "MaximumExtensionToFundTerm_Comment": "sample string 18",
+  "FundClosingDate_Comment": "sample string 19",
+  "OrgExpenses_Comment": "sample string 20",
+  "Clawback_Comment": "sample string 21",
+  "VintageYear_Comment": "sample string 22",
+  "CreatedOn": "2019-02-20T15:06:55.2383044 05:30",
+  "CreatedBy": 3,
+  "ModifiedOn": "2019-02-20T15:06:55.2383044 05:30",
+  "ModifiedBy": 1,
+  "IsDeleted": true,
+  "IsActive": true,
+  "GeographyDetail": {
+
+    "Country": {
+      "CountryId": 1,
+      "Country": "sample string 2",
+      "IsActive": true,
+      "CreatedOn": "2019-02-20",
+      "CreatedBy": 5,
+      "ModifiedOn": "2019-02-20",
+      "ModifiedBy": 1
+    },
+
+    "IsHeadquarter": true,
+    "CreatedOn": "2019-02-20",
+    "CreatedBy": 4
+  },
+  "SectorDetail": {
+    "SectorID": 1
+  },
+  "StrategyDetail": {
+    "StrategyID": 1
+  },
+  "AccountTypeDetail": {
+    "AccountTypeID": 1
+  },
+  "CurrencyDetail": {
+    "CurrencyID": 1
+  },
+  "FirmDetail": {
+    "FirmID": 1
+  }
+}
+
+
+ {
+ 
+  "FundName": "sample string 2",
+  "StrategyID": 1,
+  "StrategyDescription": "sample string 3",
+  "SectorID": 1,
+  "RegionID": 1,
+  "CountryID": 1,
+  "StateID": 1,
+  "CityID": 1,
+  "VintageYear": "sample string 4",
+  "AccountTypeID": 1,
+  "CurrencyID": 1,
+  "TargetCommitment": 1.0,
+  "MaximumCommitment": 1.0,
+  "FundSize": 1.0,
+  "GPCommitment": 1.0,
+  "PreferredReturnPercent": 1.0,
+  "CarriedInterestPercent": 1.0,
+  "GPCatchupPercent": 1.0,
+  "ManagementFee": 1.0,
+  "ManagementFeeOffset": 1.0,
+  "FundTerm": "sample string 5",
+  "MaximumExtensionToFundTerm": "sample string 6",
+  "FundClosingDate": "2019-02-20T15:06:55.2373052 05:30",
+  "OrgExpenses": 1.0,
+  "Clawback": "sample string 7",
+  "TargetCommitment_Comment": "sample string 8",
+  "MaximumCommitment_Comment": "sample string 9",
+  "FundSize_Comment": "sample string 10",
+  "GPCommitment_Comment": "sample string 11",
+  "PreferredReturnPercent_Comment": "sample string 12",
+  "CarriedInterestPercent_Comment": "sample string 13",
+  "GPCatchupPercent_Comment": "sample string 14",
+  "ManagementFee_Comment": "sample string 15",
+  "ManagementFeeOffset_Comment": "sample string 16",
+  "FundTerm_Comment": "sample string 17",
+  "MaximumExtensionToFundTerm_Comment": "sample string 18",
+  "FundClosingDate_Comment": "sample string 19",
+  "OrgExpenses_Comment": "sample string 20",
+  "Clawback_Comment": "sample string 21",
+  "VintageYear_Comment": "sample string 22",
+  "CreatedOn": "2019-02-20T15:06:55.2383044 05:30",
+  "CreatedBy": 24,
+  "ModifiedOn": "2019-02-20T15:06:55.2383044 05:30",
+  "ModifiedBy": 1,
+  "IsDeleted": true,
+  "IsActive": true,
+  "GeographyDetail": {
+    
+    "Country": {
+      "CountryId": 1,
+      "Country": "sample string 2",
+      "IsActive": true,
+      "CreatedOn": "2019-02-20T15:06:55.2403053 05:30",
+      "CreatedBy": 5,
+      "ModifiedOn": "2019-02-20T15:06:55.2403053 05:30",
+      "ModifiedBy": 1
+    },
+     
+    "IsHeadquarter": true,
+    "CreatedOn": "2019-02-20T15:06:55.2423045 05:30",
+    "CreatedBy": 4
+  },
+  "SectorDetail": {
+    "SectorID": 1 
+  },
+  "StrategyDetail": {
+    "StrategyID": 1 
+  },
+  "AccountTypeDetail": {
+    "AccountTypeID": 1 
+  },
+  "CurrencyDetail": {
+    "CurrencyID": 1 
+  },
+  "FirmDetail": {
+    "FirmID": 1
+  }
+}
+
+{
+ "FundName": "Test Fund 2",
+ "StrategyID": 1,
+ "SectorID": 1,
+ "RegionID": 1,
+ "CountryID": 1,
+ "StateID": 1,
+ "CityID": 1,
+ "VintageYear": "2018",
+ "AccountTypeID": 1,
+ "CurrencyID": 1,
+ "TargetCommitment": 1.0,
+ "MaximumCommitment": 1.0,
+ "FundSize": 1.0,
+ "GPCommitment": 1.0,
+ "PreferredReturnPercent": 1.0,
+ "CarriedInterestPercent": 1.0,
+ "GPCatchupPercent": 1.0,
+ "ManagementFee": 1.0,
+ "ManagementFeeOffset": 1.0,
+ "FundTerm": "1300",
+ "MaximumExtensionToFundTerm": "1400",
+ "FundClosingDate": "2019-02-20",
+ "OrgExpenses": 1.0,
+ "Clawback": "No",
+ "TargetCommitment_Comment": "sample string 8",
+ "MaximumCommitment_Comment": "sample string 9",
+ "FundSize_Comment": "sample string 10",
+ "GPCommitment_Comment": "sample string 11",
+ "PreferredReturnPercent_Comment": "sample string 12",
+ "CarriedInterestPercent_Comment": "sample string 13",
+ "GPCatchupPercent_Comment": "sample string 14",
+ "ManagementFee_Comment": "sample string 15",
+ "ManagementFeeOffset_Comment": "sample string 16",
+ "FundTerm_Comment": "sample string 17",
+ "MaximumExtensionToFundTerm_Comment": "sample string 18",
+ "FundClosingDate_Comment": "sample string 19",
+ "OrgExpenses_Comment": "sample string 20",
+ "Clawback_Comment": "sample string 21",
+ "VintageYear_Comment": "sample string 22",
+ "CreatedOn": "2019-02-20",
+ "CreatedBy": 24,
+ "IsDeleted": true,
+ "IsActive": true
+   }

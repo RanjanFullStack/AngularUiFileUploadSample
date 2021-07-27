@@ -1,0 +1,5 @@
+﻿
+	<p-overlayPanel #opTooltip [showCloseIcon]="true" [dismissable]="true" [appendTo]="'body'">
+		<ng-content></ng-content>
+	</p-overlayPanel>
+	<i class="fa {{iconClass}}" (click)="opTooltip.toggle($event)"></i>

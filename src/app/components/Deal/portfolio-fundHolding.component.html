@@ -1,0 +1,220 @@
+﻿<div class="add-fund-component">
+	<div class="card card-main">
+		<div class="card-header card-header-main" *ngIf="false">
+			Portfolio Company Fund Holding
+		</div>
+		<div class="modal-header">
+			<h4 class="modal-title">Portfolio Company Fund Holding</h4>
+			<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="card-body">
+			<div *ngIf="model==undefined">
+				<img src="assets/dist/images/loading.gif" class="loading-img" />
+			</div>
+			<form name="form" (ngSubmit)="f.form.valid && save(f)" #f="ngForm" novalidate *ngIf="model!=undefined">
+				<p-messages [(value)]="msgs"></p-messages>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !year.valid }">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="year">Year</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<typeahead-control name="year" [(ngModel)]="model.year" [optionList]="yearOptions" validateRequired [displayField]="'text'" [resultField]="'value'" #year="ngModel" (selectItem)="calculateValuationDate()" [isRequired]="true" [isAscendingOptions]="false"></typeahead-control>
+
+											<div *ngIf="f.submitted && !year.valid" class="text-danger">Year is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !quarter.valid }">
+									<div class="row">
+										<div class="col-12 col-sm-4">
+											<label for="quarter">Quarter</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<typeahead-control name="quarter" [(ngModel)]="model.quarter" [optionList]="quarterOptions" validateRequired [displayField]="'text'"
+											 [resultField]="'value'" #quarter="ngModel" (selectItem)="calculateValuationDate()" [isRequired]="true"></typeahead-control>
+											<div *ngIf="f.submitted && !quarter.valid" class="text-danger">Quarter is required</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="valuationDate">Investment Date</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<span class="detail-sec">
+												{{dealModel.investmentDate | date:'MM/dd/yyyy'}}
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="valuationDate">Valuation Date</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<span class="detail-sec">
+												{{model.valuationDate | date:'dd/MMM/yyyy'}}
+											</span>
+											<!--<p-calendar styleClass="form-control" [disabled]="true" [(ngModel)]="model.valuationDate" name="valuationDate" #valuationDate [monthNavigator]="true" [yearNavigator]="true" dateFormat="dd/mm/yy" readonlyInput="true" [showIcon]="true" yearRange="2000:2030"></p-calendar>-->
+											<!--<div *ngIf="f.submitted && !(valuationDate.valid || f.controls.valuationDate.valid)" class="text-danger">Valuation Date is required</div>-->
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !investmentCost.valid }">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="investmentCost">Investment Cost</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="investmentCost" [(ngModel)]="model.investmentCost" maxlength="15" (change)="onInvestmentCostChange()" #investmentCost="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !investmentCost.valid" class="text-danger">Investment cost is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !realizedValue.valid }">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="realizedValue">Realized Value</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="realizedValue" [(ngModel)]="model.realizedValue" (change)="onRealizedValueChange()" maxlength="15" #realizedValue="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !realizedValue.valid" class="text-danger">Realized value is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !unrealizedValue.valid }">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="unrealizedValue">Unrealized Value</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="unrealizedValue" [(ngModel)]="model.unrealizedValue" (change)="onUnRealizedValueChange()" maxlength="15" #unrealizedValue="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !unrealizedValue.valid" class="text-danger">Unrealized value is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="totalValue">Total Value</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<span class="detail-sec">
+												{{model.totalValue|number : '1.2-2'}}
+											</span>
+											<!--<input autocomplete="off" numberOnly type="text" class="form-control" name="totalValue" [(ngModel)]="model.totalValue" maxlength="15" (change)="calculateGrossMultiple()" #totalValue="ngModel" validateRequired />
+					<div *ngIf="f.submitted && !totalValue.valid" class="text-danger">Total Value is required</div>-->
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="grossMultiple">Gross TVPI</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<span class="detail-sec">
+												{{model.grossMultiple|number : '1.2-2'}}
+											</span>
+											<!--<input autocomplete="off" numberOnly type="text" class="form-control" name="grossMultiple" [(ngModel)]="model.grossMultiple" #grossMultiple="ngModel" validateRequired />
+					<div *ngIf="f.submitted && !grossMultiple.valid" class="text-danger">>Gross Multiple is required</div>-->
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !grossIRR.valid }">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="grossIRR">Gross IRR</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="grossIRR" maxlength="6" [(ngModel)]="model.grossIRR" #grossIRR="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !grossIRR.valid" class="text-danger">Gross IRR is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !fundHoldingStatus.valid }">
+									<div class="row">
+
+										<div class="col-12 col-sm-4">
+											<label for="fundHoldingStatus"> Status</label>
+										</div>
+										<div class="col-12 col-sm-8">
+											<typeahead-control name="fundHoldingStatus" [(ngModel)]="model.fundHoldingStatus" [optionList]="masterModel" [isRequired]="true" [displayField]="'status'" #fundHoldingStatus="ngModel"></typeahead-control>
+
+											<div *ngIf="f.submitted && !fundHoldingStatus.valid" class="text-danger">Status is required</div>
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+							<div class="col-sm-12">
+								<div class="form-group text-center">
+									<div class="loading-input-controls-manual" *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+
+									<button [disabled]="loading" class="btn btn-primary" title="{{saveText}}">{{saveText}}</button>
+									<input type="reset" value="{{resetText}}" title="{{resetText}}" (click)="formReset(f)" class="btn btn-warning" />
+
+
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+
+					</div>
+				</div>
+
+
+			</form>
+		</div>
+	</div>
+
+</div>

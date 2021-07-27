@@ -1,0 +1,932 @@
+﻿<div class="row">
+
+    <div class="col-lg-12">
+        <div class="detail-fund-component">
+
+            <div class="card card-main mar-bottom-15">
+                <div class="card-header card-header-main">
+                    <div class="row">
+                        <div class="col-auto mr-auto">
+                            Fund Details
+                            <tooltip [iconClass]="'fa-question-circle help'" >
+                                <div class="row">
+                                    <div class="col-12"><h6>Keyword Used</h6></div>
+                                </div>
+                                <div class="col-sm-12 content-bg">
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3"><label>Vintage Year:</label></div>
+                                        <div class="col-sm-9">A year in which the first influx of capital is delivered to a PE fund by investors</div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                            <label>Target Commitment:</label>
+                                        </div>
+                                        <div class="col-sm-9">The total capital commitment expected to be received by a PE fund</div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                            <label>Maximum Commitment:</label>
+                                        </div>
+                                        <div class="col-sm-9">The capital commitment beyond which further investors will not be admitted</div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                            <label>Fund Size:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Total capital raised by a fund
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                           <label> GP Commitment:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Capital committed by General Partner as a percentage of total capital commitment
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                           <label> Preferred Return Percent:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Threshold return that limited partners of a private equity fund must receive, prior to the general partners receiving its carried interest
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                           <label> GP Catchup Percent:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Catchup is the percentage / rate at which GP starts receiving its carry after the preferred return distribution to LP
+
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                            <label>Management Fee:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Fee charged by fund manager for managing the fund
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                            <label>Management Fee Offset:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            The extent to which monitoring, transaction and other portfolio company related expenses paid to the General Partner are offset against management fees
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                            <label>Fund Term:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Duration of a private equity fund before complete dilution
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                            <label>Maximum Extension To Fund Term:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Number of years by which fund term of a fund can be increased with the consent of LPs
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                            <label>Fund Closing Date:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Fund closing refers to a date by which investors must have legally committed to investing in the fund
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border">
+                                        <div class="col-sm-3">
+                                           <label> Org Expenses:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Expenses related to establishing and organizing a fund and its infrastructure
+                                        </div>
+                                    </div>
+                                    <div class="row detail-border border-0">
+                                        <div class="col-sm-3">
+                                           <label> Clawback:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            Refers to the limited partners' right to reclaim part of the general partners' carried interest, where general partners received excess compensation
+                                        </div>
+                                    </div>
+                                </div>
+                            </tooltip>
+                        </div>
+                        <div class="col-auto">
+                            <a class="btn btn-back" [routerLink]="[sourceURL]" title="Back"><fa name="chevron-left"></fa> Back</a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <p-growl [(value)]="msgs" [life]="msgTimeSpan" [immutable]="false"></p-growl>
+   
+    <div class="col-lg-12">
+        <div class="fund-detail-component">
+            <div class="card card-main">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="shadow-sm border-1 border-radius-2 fund-detail section1-height">
+                            <!--<div class="col-sm-12 text-center">
+        <i class="fa fa-usd dollar"></i>
+    </div>-->
+                            <div class="col-sm-12 ">
+
+                                <div class="fund-name text-center">{{model.fundName|| "NA"}}</div>
+                            </div>
+                            <div class="Fund-section">
+                                <div class="row detail-border">
+                                    <div class="col-sm-4"><label>Firm Name</label></div>
+                                    <div class="col-sm-8 detail-sec">
+                                        <span *ngIf="model.firmDetail!=null;else empty_Text">
+                                            <a [routerLink]="['/firm-details', model.firmDetail.encryptedFirmID]" class="click-view" href="javascript:void(0);">{{model.firmDetail?.firmName}}</a>
+                                        </span>
+                                        <ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                    </div>
+                                </div>
+                                <div class="row detail-border">
+                                    <div class="col-sm-4"><label>Account Type</label></div>
+                                    <div class="col-sm-8 detail-sec">
+                                        <span *ngIf="model.accountTypeDetail!=null;else empty_Text" class="detail-sec">{{model.accountTypeDetail?.accountType}}</span><ng-template #empty_Text class="detail-sec">NA</ng-template>
+                                    </div>
+                                </div>
+                                <div class="row detail-border">
+                                    <div class="col-sm-4"><label>Sector</label></div>
+                                    <div class="col-sm-8 detail-sec"><span *ngIf="model.sectorDetail!=null;else empty_Text">{{model.sectorDetail?.sector}}</span><ng-template #empty_Text class="detail-sec">NA</ng-template></div>
+
+                                </div>
+                                <div class="row detail-border">
+                                    <div class="col-sm-4"><label>Strategy</label></div>
+                                    <div class="col-sm-8 detail-sec"><span *ngIf="model.strategyDetail!=null;else empty_Text">{{model.strategyDetail?.strategy}}</span><ng-template #empty_Text class="detail-sec">NA</ng-template></div>
+
+                                </div>
+                               
+                                <div class="row detail-border">
+                                    <div class="col-sm-4"><label>Country</label></div>
+
+                                    <div class="col-sm-8 detail-sec"><span *ngIf="model.geographyDetail?.country!=null;else empty_Text">{{model.geographyDetail?.country?.country}}</span><ng-template #empty_Text>NA</ng-template></div>
+
+                                </div>
+                              
+                               
+
+                                <div class="row detail-border">
+                                    <div class="col-sm-4"><label>Vintage Year</label></div>
+                                    <div class="col-sm-6 detail-sec">
+                                        <span>{{model.vintageYear|| "NA"}}</span>
+										<tooltip [iconClass]="'fa fa-comments info'">
+											<div class="Description-bg ">
+                                                <h6 class="p-1 m-0 des-title">Vintage Year</h6>
+												<div class="ui-g row p-2 width-150">
+
+													<div class="col-sm-12"><span class="detail-sec">{{model.vintageYear_Comment|| "NA"}}</span></div>
+												</div>
+											</div>
+											
+										</tooltip>
+                                    </div>
+
+                                </div>
+                                <div class="row detail-border">
+                                    <div class="col-sm-4"><label>Fund Size</label></div>
+                                    <div class="col-sm-6 detail-sec">
+                                        <span>{{(model.fundSize|number : '1.2-2')|| "NA"}}</span>
+										<tooltip [iconClass]="'fa fa-comments info'">
+											
+											<div class="Description-bg ">
+                                                <h6 class="p-1 m-0 des-title">Fund Size</h6>
+												<div class="ui-g row p-2 width-150">
+
+													<div class="col-sm-12"><span class="detail-sec">{{model.fundSize_Comment|| "NA"}}</span></div>
+												</div>
+											</div>
+										</tooltip>
+                                    </div>
+
+                                </div>
+                                <div class="row detail-border">
+                                    <div class="col-sm-4"><label>Currency</label></div>
+                                    <div class="col-sm-6 detail-sec"><span *ngIf="model.currencyDetail!=null;else empty_Text" class="detail-sec">{{model.currencyDetail?.currency}}</span><ng-template #empty_Text class="detail-sec">NA</ng-template></div>
+
+                                </div>
+                            </div>
+                            <div class="row fund-footer">
+                                <div class="col-sm-12 text-right">
+                                    <a [routerLink]="['/create-fund',model.encryptedFundId]" class="" [hideIfUnauthorized]='{featureId:feature.Fund,action:"edit"}'>
+                                        <fa name="edit" title="Edit"></fa>
+                                        Edit
+                                    </a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 ">
+                        <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 chart-area section1-height">
+                            <div class="chart-title p-2">
+                                <i class="fa fa-line-chart" aria-hidden="true"></i> Fund Performance <span *ngIf="fundPerformanceData && fundPerformanceData_AsOfDate!=undefined"> (as of {{fundPerformanceData_AsOfDate|date : "dd MMM, y"}})</span>
+                            </div>
+                            <!-- {{fundPerformanceData|json}} -->
+                            <div class="chart-content">
+								<app-multiline-point-chart *ngIf="fundPerformanceData!=undefined" [data]="fundPerformanceData" [xColumn]="'ValuationDate'" [yObjects]="{'Gross TVPI':{column:'Gross TVPI'},'Gross IRR':{column:'Gross IRR'}}" [axisLabels]="{ xAxis: 'Quarters', yAxis: 'Gross TVPI', yAxisRight: 'Gross IRR (%)' }"></app-multiline-point-chart>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="fund-detail-component">
+            <div class="card card-main">
+
+                <div class="row">
+                    <div class="col-sm-4 ">
+                        <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 chart-area section2-height">
+                            <div class="chart-title p-2">
+                                <i class="fa fa-bars" aria-hidden="true"></i> Strategy Description 
+                            </div>
+                            <div class="chart-content">
+                                <div class="detail-sec p-3">{{model.strategyDescription|| "NA"}}</div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-4 ">
+                        <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 section2-height chart-area">
+                            <div class="chart-title p-2">
+                                <i class="fa fa-pie-chart" aria-hidden="true"></i> Sector Wise Total Value <span *ngIf="sectorwiseHoldingValues && sectorwiseHoldingValues_AsOfDate!=undefined"> (as of {{sectorwiseHoldingValues_AsOfDate|date : "dd MMM, y"}})</span>
+                            </div>
+							<div class="chart-content col-sm-8 m-sm-auto" *ngIf="sectorwiseHoldingValues">
+								<app-donut-chart [unit]="'M'" [catField]="'Sector'" [valField]="'Total Value'" [data]="sectorwiseHoldingValues" [title]="'Total Value'"></app-donut-chart>
+							</div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-4 ">
+                        <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 section2-height chart-area">
+							<div class="chart-title p-2">
+								<i class="fa fa-pie-chart" aria-hidden="true"></i> Sector Wise Investment Cost <span *ngIf="sectorwiseHoldingValues && sectorwiseHoldingValues_AsOfDate!=undefined"> (as of {{sectorwiseHoldingValues_AsOfDate|date : "dd MMM, y"}})</span>
+							</div>
+							<div class="chart-content col-sm-8 m-sm-auto" *ngIf="sectorwiseHoldingValues">
+								<app-donut-chart [unit]="'M'" [catField]="'Sector'" [valField]="'Investment Cost'" [data]="sectorwiseHoldingValues" [title]="'Investment Cost'"></app-donut-chart>
+							</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="row">
+    <div class="col-auto">
+    <a href="#">More</a>
+        </div>
+</div>-->
+<div class="More">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="fund-detail-component">
+            <div class="card card-main">
+                <div class="row">
+
+                    <div class="col-sm-4 ">
+                        <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 chart-area section3-height">
+                            <div class="chart-title p-2">
+                                <i class="fa fa-bars" aria-hidden="true"></i> Fund Terms
+                            </div>
+                            <div class="chart-content">
+                                <div class="detail-sec">
+                                    <div class="card-body">
+                                        <div class="align-items-start fund-term-section p-0">
+
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Target Commitment</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.targetCommitment|number : '1.2-2')|| "NA"}}</span>
+                                                        <tooltip [iconClass]="'fa fa-comments info'">
+                                                            <div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Target Commitment</h6>
+                                                                <div class="ui-g row p-2 width-150">
+
+                                                                    <div class="col-sm-12"><span class="detail-sec">{{model.targetCommitment_Comment|| "NA"}}</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Maximum Commitment</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.maximumCommitment|number : '1.2-2')|| "NA"}}</span>
+														<tooltip [iconClass]="'fa fa-comments info'">
+															<div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Maximum Commitment</h6>
+																<div class="ui-g row p-2 width-150">
+
+																	<div class="col-sm-12"><span class="detail-sec">{{model.maximumCommitment_Comment|| "NA"}}</span></div>
+																</div>
+															</div>
+															
+														</tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>                                           
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>GP Commitment</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.gpCommitment|number : '1.2-2')|| "NA"}}</span><span *ngIf="model.gpCommitment"> %</span>
+														<tooltip [iconClass]="'fa fa-comments info'">
+															<div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">GP Commitment</h6>
+																<div class="ui-g row p-2 width-150">
+
+																	<div class="col-sm-12"><span class="detail-sec">{{model.gpCommitment_Comment|| "NA"}}</span></div>
+																</div>
+															</div>
+															
+														</tooltip>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Preferred Return </label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.preferredReturnPercent|number : '1.2-2')|| "NA"}}</span><span *ngIf="model.preferredReturnPercent"> %</span>
+                                                        <tooltip [iconClass]="'fa fa-comments info'">
+                                                            <div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Preferred Return Percent</h6>
+                                                                <div class="ui-g row p-2 width-150">
+
+                                                                    <div class="col-sm-12"><span class="detail-sec">{{model.preferredReturnPercent_Comment|| "NA"}}</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>GP Catchup </label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.gpCatchupPercent|number : '1.2-2')|| "NA"}}</span><span *ngIf="model.gpCatchupPercent"> %</span>
+                                                        <tooltip [iconClass]="'fa fa-comments info'">
+                                                            <div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">GP Catchup Percent</h6>
+                                                                <div class="ui-g row p-2 width-150">
+
+                                                                    <div class="col-sm-12"><span class="detail-sec">{{model.gpCatchupPercent_Comment|| "NA"}}</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Management Fee</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.managementFee|number : '1.2-2')|| "NA"}}</span><span *ngIf="model.managementFee"> %</span>
+                                                        <tooltip [iconClass]="'fa fa-comments info'">
+                                                            <div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Management Fee</h6>
+                                                                <div class="ui-g row p-2 width-150">
+
+                                                                    <div class="col-sm-12"><span class="detail-sec">{{model.managementFee_Comment|| "NA"}}</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Management Fee Offset</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.managementFeeOffset|number : '1.2-2')|| "NA"}}</span>
+                                                        <tooltip [iconClass]="'fa fa-comments info'">
+															<div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Management Fee Offset</h6>
+																<div class="ui-g row p-2 width-150">
+
+																	<div class="col-sm-12"><span class="detail-sec">{{model.managementFeeOffset_Comment|| "NA"}}</span></div>
+																</div>
+															</div>
+                                                        </tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Fund Term</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.fundTerm|number : '1.2-2')|| "NA"}}</span><span *ngIf="model.fundTerm"> year(s)</span>
+                                                        <tooltip [iconClass]="'fa fa-comments info'">
+
+                                                            <div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Fund Term</h6>
+                                                                <div class="ui-g row p-2 width-150">
+
+                                                                    <div class="col-sm-12"><span class="detail-sec">{{model.fundTerm_Comment|| "NA"}}</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Maximum Extension To Fund Term</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.maximumExtensionToFundTerm|number : '1.2-2')|| "NA"}}</span><span *ngIf="model.maximumExtensionToFundTerm"> year(s)</span>
+                                                        <tooltip [iconClass]="'fa fa-comments info'">
+
+                                                            <div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Maximum Extension To Fund Term</h6>
+                                                                <div class="ui-g row p-2 width-150">
+
+                                                                    <div class="col-sm-12"><span class="detail-sec">{{model.maximumExtensionToFundTerm_Comment|| "NA"}}</span></div>
+                                                                </div>
+                                                            </div>
+                                                        </tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Fund Closing Date</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.fundClosingDate | date:'MM/dd/yyyy')|| "NA"}}</span>
+														<tooltip [iconClass]="'fa fa-comments info'">
+															
+															<div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Fund Closing Date</h6>
+																<div class="ui-g row p-2 width-150">
+
+																	<div class="col-sm-12"><span class="detail-sec">{{model.fundClosingDate_Comment|| "NA"}}</span></div>
+																</div>
+															</div>
+														</tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Org Expenses</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{(model.orgExpenses|number : '1.2-2')|| "NA"}}</span>
+														<tooltip [iconClass]="'fa fa-comments info'">
+															
+															<div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Org Expenses</h6>
+																<div class="ui-g row p-2 width-150">
+
+																	<div class="col-sm-12"><span class="detail-sec">{{model.orgExpenses_Comment|| "NA"}}</span></div>
+																</div>
+															</div>
+														</tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border ">
+                                                    <div class="col-sm-7 p-0"><label>Clawback</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span>{{model.clawback|| "NA"}}</span>
+														<tooltip [iconClass]="'fa fa-comments info'">
+															
+															<div class="Description-bg ">
+                                                                <h6 class="p-1 m-0 des-title">Clawback</h6>
+																<div class="ui-g row p-2 width-150">
+
+																	<div class="col-sm-12"><span class="detail-sec">{{model.clawback_Comment|| "NA"}}</span></div>
+																</div>
+															</div>
+														</tooltip>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>Region</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span *ngIf="model.geographyDetail?.region!=null;else empty_Text">{{model.geographyDetail?.region.region}}</span><ng-template #empty_Text>NA</ng-template>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border">
+                                                    <div class="col-sm-7 p-0"><label>City</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span *ngIf="model.geographyDetail?.city;else empty_Text">{{model.geographyDetail?.city.city}}</span><ng-template #empty_Text>NA</ng-template>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-12 p-0">
+                                                <div class="row detail-border border-0">
+                                                    <div class="col-sm-7 p-0"><label>State</label></div>
+                                                    <div class="col-sm-5 detail-sec">
+                                                        <span *ngIf="model.geographyDetail?.state;else empty_Text">{{model.geographyDetail?.state?.state}}</span><ng-template #empty_Text>NA</ng-template>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-8 ">
+                        <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 chart-area section3-height">
+                            <div class="chart-title p-2">
+                                <i class="fa fa-bars" aria-hidden="true"></i> Deals
+                            </div>
+                            <div class="chart-content">
+                                <div class="detail-sec p-3">
+                                    <div class="card-body">
+                                        <div class="align-items-start custome-table">
+
+                                            <!--<p-blockUI [target]="tblDeal" [blocked]="blockedDealsTable">
+                                                <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="position:absolute;top:35%;left:50%"></i>
+                                            </p-blockUI>-->
+
+
+                                            <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+                                                <div class="row">
+                                                    <div class="mr-auto col-sm-5 search"> <span class="fa fa-search"></span><input #gbDeal type="text" pInputText placeholder="Search" class="form-control search-box"></div>
+                                                </div>
+
+                                            </div>
+                                            <p-dataTable [reorderableColumns]="true" #tblDeal emptyMessage="{{blockedDealsTable? 'Please Wait...':'No record found'}}" [totalRecords]="totalDealRecords" [value]="deals" [lazy]="true" (onLazyLoad)="loadDealsLazy($event)" [rows]="10" [paginator]="true" [responsive]="true" [rowsPerPageOptions]="pagerLength" [globalFilter]="gbDeal" [multiSortMeta]="[{field:'createdOn',order:-1}]" sortMode="multiple" [scrollable]="true" scrollHeight="318px" [virtualScroll]="false">
+
+                                                <p-column field="portfolioCompanyDetail.companyName" header="Company Name" [sortable]="true">
+                                                    <ng-template pTemplate="body" let-deal="rowData">
+                                                        
+                                                        <a class="click-view" href="javascript:void(0);" [routerLink]="['/portfolio-company-detail', deal.portfolioCompanyDetails.encryptedPortfolioCompanyId]" title="View Details">{{ deal.portfolioCompanyDetails.companyName }}</a>
+                                                    </ng-template></p-column>
+                                                <p-column header="Deal" [sortable]="true">
+                                                    <ng-template pTemplate="body" let-deal="rowData">
+                                                        <a class="click-view" href="javascript:void(0);" [routerLink]="['/deal-details', deal.encryptedDealID]" title="View Details">{{deal.dealCustomID}}</a>
+                                                    </ng-template>
+                                                </p-column>
+
+                                                <p-column field="createdOn" header="Deal Date" [sortable]="true">
+                                                    <ng-template pTemplate="body" let-deal="rowData">
+                                                        {{ deal.createdOn|date:'MM/dd/yyyy' }}
+                                                    </ng-template>
+                                                </p-column>
+
+                                                <p-column header="Action">
+                                                    <ng-template pTemplate="body" let-deal="rowData">
+                                                        <div class="add-control-btn text-center">
+                                                            <a class="btn btn-edit" [routerLink]="['/save-deal', deal.encryptedDealID]"><fa name="edit" title="Edit"></fa></a>
+                                                        </div>
+                                                    </ng-template>
+                                                </p-column>
+
+                                            </p-dataTable>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="fund-detail-component">
+            <div class="card card-main">
+
+                <div class="row">
+                    <div class="col-12 ">
+                        <div class="shadow-sm border-1 border-radius-2 mar-bottom-15 chart-area">
+                            <div class="chart-title p-2">
+                                <i class="fa fa-bars" aria-hidden="true"></i> Track Record
+                            </div>
+                            <div>
+                                <div class="col-auto">
+                                    <span class="float-right gbp-info"><i class="fa fa-comments icon"></i>All values in USD</span>
+                                    <div class="clearfix"></div>
+
+                                </div>
+                                <div class="card">
+                                   
+                                    <div class="card-body">
+                                        <div class="align-items-start">
+
+                                            <!--<p-blockUI [target]="tblfundTrackRecord" [blocked]="blockedTrackRecordTable">
+                                                <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="position:absolute;top:35%;left:50%"></i>
+                                            </p-blockUI>-->
+
+
+                                            <div class="ui-widget-header spacing" style="padding:4px 10px;border-bottom: 0 none">
+                                                <div class="row">
+                                                    <div class="mr-auto col-sm-5 search">
+                                                        <span class="fa fa-search"></span><input #gbTrackRecord type="text" pInputText placeholder="Search" class="form-control search-box">
+                                                    </div>
+
+                                                    <div class="col-sm-auto col-12 m-0">
+                                                        <div class="row">
+
+                                                            <div class="col-auto mt-3 m-auto p-0">
+                                                                Values in<a (click)="opTrackRecordValueUnit.toggle($event)" class="comment-btn p-1"> <span class="choose-value">{{financialValueUnits[trackRecordValueUnit]}} <i class="fa fa-caret-down" aria-hidden="true"></i></span></a>
+                                                            </div>
+                                                            <div class="border-right1"></div>
+                                                            <div class="col-auto mt-3 m-auto">
+                                                                <div class="row">
+                                                                    <div class="switch-btn col-auto">
+                                                                        <span class="first btn-text">{{showTrackRecordValueDecimals?"Show Decimals":"Show Decimals"}}</span>
+                                                                        <p-inputSwitch [(ngModel)]="showTrackRecordValueDecimals" class="switch"></p-inputSwitch>
+
+                                                                    </div>
+                                                                    <div class="border-right1"></div>
+                                                                    <div class="col-auto p-1">
+                                                                        <button [disabled]="loading" class="btn btn-primary" (click)="open(fundTrackRecordModel)"><fa name="plus-square" title="Add"></fa></button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p-dataTable [reorderableColumns]="true" class="Track-Records" emptyMessage="{{blockedTrackRecordTable? 'Please Wait...':'No record found'}}" #tblfundTrackRecord [totalRecords]="totalTrackRecords" [value]="fundTrackRecords" [lazy]="true" (onLazyLoad)="loadTrackRecordsLazy($event)" [rows]="10" [paginator]="true" [responsive]="true" [rowsPerPageOptions]="pagerLength" [globalFilter]="gbTrackRecord" [multiSortMeta]="fundTrakRecordMultiSortMeta" sortMode="multiple">
+
+
+                                                <p-column field="year-quarter" header="Quarter" [sortable]="true" styleClass="table-data-left">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        <a class="click-view" href="javascript:void(0);" (click)="openFunHoldingDetailForQuarter(fundTrackRecord)" title="View Details">{{ fundTrackRecord.quarter +' '+fundTrackRecord.year }}</a>
+
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="totalNumberOfInvestments" header="Total Investments" [sortable]="true" styleClass="table-data-right"></p-column>
+
+
+                                                <p-column field="realizedInvestments" header="Realized Investments" [sortable]="true" styleClass="table-data-right">
+                                                </p-column>
+                                                <p-column field="unRealizedInvestments" header="Unrealized Investments" [sortable]="true" styleClass="table-data-right">
+                                                </p-column>
+                                                <p-column field="totalInvestedCost" header="Total Invested Cost" [sortable]="true" styleClass="table-data-right">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        {{ fundTrackRecord.totalInvestedCost|number : (showTrackRecordValueDecimals?'1.2-2':'1.0-0') }}
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="totalRealizedValue" header="Total Realized Value" [sortable]="true" styleClass="table-data-right">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        {{ fundTrackRecord.totalRealizedValue|number : (showTrackRecordValueDecimals?'1.2-2':'1.0-0') }}
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="totalUnRealizedValue" header="Total Unrealized Value" [sortable]="true" styleClass="table-data-right">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        {{ fundTrackRecord.totalUnRealizedValue|number : (showTrackRecordValueDecimals?'1.2-2':'1.0-0') }}
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="totalValue" header="Total Value" [sortable]="true" styleClass="table-data-right higlighted-cell">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        {{ fundTrackRecord.totalValue|number : (showTrackRecordValueDecimals?'1.2-2':'1.0-0') }}
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="grossMultiple" header="Gross TVPI" [sortable]="true" styleClass="table-data-right higlighted-cell">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        {{ fundTrackRecord.grossMultiple|number : '1.2-2' }}x
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="netMultiple" header="Net TVPI" [sortable]="true" styleClass="table-data-right">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        {{ fundTrackRecord.netMultiple!=null? (fundTrackRecord.netMultiple|number : '1.2-2')+'x':'' }}
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="grossIRR" header="Gross IRR" [sortable]="true" styleClass="table-data-right">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        {{ fundTrackRecord.grossIRR!=null? (fundTrackRecord.grossIRR|number : '1.2-2')+'%':'' }}
+
+                                                    </ng-template>
+                                                </p-column>
+                                                <p-column field="netIRR" header="Net IRR" [sortable]="true" styleClass="table-data-right">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        {{ fundTrackRecord.netIRR!=null? (fundTrackRecord.netIRR|number : '1.2-2')+'%':'' }}
+
+                                                    </ng-template>
+                                                </p-column>
+
+                                                <p-column header="Action" styleClass="table-data-right">
+                                                    <ng-template pTemplate="body" let-fundTrackRecord="rowData">
+                                                        <div class="add-control-btn text-center">
+                                                            <a (click)="open(fundTrackRecord)" class="btn btn-edit"><fa name="edit" title="Edit"></fa></a>
+                                                        </div>
+                                                    </ng-template>
+                                                </p-column>
+
+                                            </p-dataTable>
+                                            <div class="col-info p-2">
+                                                <span><i class="fa fa-square calculated-value" aria-hidden="true"></i><i>Calculated Values</i></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <p-dialog [resizable]="false" [closeOnEscape]="false" [dismissableMask]="false" #pDialog [(visible)]="displayCompanyFundHoldingsDialog" [modal]="true" [responsive]="true" [minWidth]="350" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
+                                    <p-header>
+                                        Portfolio Company Fund Holding Details
+                                    </p-header>
+                                    <div class="card">
+                                        <div class="row">
+                                            <div class="col-auto mr-auto"> </div>
+                                            <div class="col-auto">
+                                                <span class="float-right gbp-info"><i class="fa fa-comments icon"></i>All values in USD</span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="align-items-start">
+
+
+                                                <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+
+                                                    <div class="row">
+                                                        <div class="mr-auto col-8 col-sm-5 search"> <span class="fa fa-search"></span>  <input #gbFundHolding type="text" pInputText placeholder="Search" class="form-control search-box"></div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class=""></div>
+                                                <p-dataTable styleClass="table-large-data" #tblFundHolding emptyMessage="{{blockedPortfolioCompanyFundHoldingTable? 'Please Wait...':'No record found'}}" [totalRecords]="totalPortfolioCompanyFundHoldingRecords" [value]="portfolioCompanyFundHolding" [lazy]="true" (onLazyLoad)="loadFundHoldingsLazy($event)" [rows]="10" [paginator]="true" [responsive]="true" [rowsPerPageOptions]="pagerLength" [globalFilter]="gbFundHolding" [multiSortMeta]="fundHoldingMultiSortMeta" sortMode="multiple">
+
+                                                    <p-column field="portfolioCompany.companyName" header="Portfolio Company" [sortable]="true">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.portfolioCompany?.companyName }}
+                                                        </ng-template>
+                                                    </p-column>
+
+                                                    <p-column field="investementDate" header="Investment Date" [sortable]="true">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.investementDate | date:'MM/dd/yyyy' }}
+                                                        </ng-template>
+                                                    </p-column>
+                                                    <p-column field="valuationDate" header="Valuation Date" [sortable]="true">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.valuationDate | date:'MM/dd/yyyy' }}
+                                                        </ng-template>
+                                                    </p-column>
+                                                    <p-column field="investmentCost" header="Investment Cost" [sortable]="true" styleClass="table-data-right">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.investmentCost | number : '1.2-2' }}
+                                                        </ng-template>
+                                                    </p-column>
+                                                    <p-column field="realizedValue" header="Realized Value" [sortable]="true" styleClass="table-data-right">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.realizedValue | number : '1.2-2' }}
+                                                        </ng-template>
+                                                    </p-column>
+                                                    <p-column field="unrealizedValue" header="Unrealized Value" [sortable]="true" styleClass="table-data-right">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.unrealizedValue | number : '1.2-2' }}
+                                                        </ng-template>
+                                                    </p-column>
+                                                    <p-column field="totalValue" header="Total Value" [sortable]="true" styleClass="table-data-right">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.totalValue | number : '1.2-2' }}
+                                                        </ng-template>
+                                                    </p-column>
+                                                    <p-column field="grossMultiple" header="Gross Multiple" [sortable]="true" styleClass="table-data-right">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.grossMultiple | number : '1.2-2' }}x
+                                                        </ng-template>
+                                                    </p-column>
+                                                    <p-column field="grossIRR" header="Gross IRR" [sortable]="true" styleClass="table-data-right">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.grossIRR | number : '1.2-2' }}%
+                                                        </ng-template>
+                                                    </p-column>
+                                                    <p-column field="m_FundHoldingStatus.Status" header="Status" [sortable]="true">
+                                                        <ng-template pTemplate="body" let-portfolioCompanyFundHolding="rowData">
+                                                            {{ portfolioCompanyFundHolding.fundHoldingStatus.status }}
+                                                        </ng-template>
+                                                    </p-column>
+                                                </p-dataTable>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p-footer>
+
+                                    </p-footer>
+
+                                </p-dialog>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+<p-overlayPanel [dismissable]="true" [appendTo]="'body'" [showCloseIcon]="true" #opTrackRecordValueUnit>
+    <div class="popup-bg p-2">
+        <h6 class="p-1 m-0 popup-title">Select Unit</h6>
+        <div class="ui-g row p-2 width-150">
+
+            <div class="col-sm-12 p-1">
+                <p-radioButton name="trackRecordValueUnitGroup" value="{{financialValueUnits.Thousands}}" label="Thousands" [(ngModel)]="trackRecordValueUnit" inputId="trackRecordValueUnit1" (onClick)="convertTrackRecordValueUnits()"></p-radioButton>
+            </div>
+            <div class="col-sm-12 p-1">
+                <p-radioButton name="trackRecordValueUnitGroup" value="{{financialValueUnits.Millions}}" label="Millions" [(ngModel)]="trackRecordValueUnit" inputId="trackRecordValueUnit2" (onClick)="convertTrackRecordValueUnits()"></p-radioButton>
+            </div>
+            <div class="col-sm-12 p-1">
+                <p-radioButton name="trackRecordValueUnitGroup" value="{{financialValueUnits.Billions}}" label="Billions" [(ngModel)]="trackRecordValueUnit" inputId="trackRecordValueUnit3" (onClick)="convertTrackRecordValueUnits()"></p-radioButton>
+            </div>
+        </div>
+    </div>
+</p-overlayPanel>
+
+<!--<div class="row">
+
+    <div class="col-lg-12">
+        <div class="detail-fund-component">
+
+            <div class="card card-main">
+
+
+                <div class="card-body" *ngIf="!loading">
+
+
+
+
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>-->

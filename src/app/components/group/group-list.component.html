@@ -1,0 +1,101 @@
+﻿
+<div class="row">
+    
+    <div class="col-lg-12">
+        <div class="add-group-component">
+            <div class="card card-main">
+                <div class="card-header card-header-main">
+                    <div class="row">
+                        <div class="col-auto mr-auto">   Group List</div>
+                        <div class="col-auto"><a [routerLink]="['/update-group']" class="btn btn-primary" title="Add Group" title="Add Group"><fa name="plus-square" ></fa> <span class="hide-on-mobile">Group</span></a></div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <!--<p-blockUI [target]="tblGroup" [blocked]="blockedTable">
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="position:absolute;top:35%;left:50%"></i>
+                    </p-blockUI>-->
+                    <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+						<div class="row">
+							<div class="col-8 col-lg-5 mr-auto search"> <span class="fa fa-search"></span> <input #gb type="text" pInputText placeholder="Search" class="form-control search-box" [(ngModel)]="globalFilter"></div>
+
+							<div class="col-auto col-sm-auto col-lg-auto" [hideIfUnauthorized]='{featureId:feature.Group,action:"export"}'> <a class="btn btn-export" title="Export Groups (Excel file)" (click)="exportGroupList()"> <i class="fa fa-file-excel-o"></i></a></div>
+							
+						</div>
+                       
+                    </div>
+                    <p-dataTable [reorderableColumns]="true" #tblGroup emptyMessage="{{blockedTable? 'Please Wait...':'No record found'}}" (onLazyLoad)="loadGroupsLazy($event)" [lazy]="true" [value]="groups" [rows]="10" [paginator]="true" [responsive]="true" [rowsPerPageOptions]="pagerLength" [globalFilter]="gb" sortMode="multiple">
+
+                        <p-column field="groupName" header="Group Name" [sortable]="true">
+                            <ng-template pTemplate="body" let-group="rowData">
+                                <a class="click-view"  href="javascript:void(0);" [routerLink]="['/group-details', group.encryptedGroupID]" title="View Details" [hideIfUnauthorized]='{featureId:feature.Group,action:"view"}'>{{group.groupName}}</a>
+                            </ng-template>
+                        </p-column>
+
+                        <p-column field="description" header="Description" [sortable]="true"></p-column>
+                        <p-column field="isActive" header="Status" [sortable]="true">
+
+                            <ng-template pTemplate="body" let-group="rowData">
+                                <ng-container *ngIf="group.isActive === true">
+                                    Active
+                                </ng-container>
+                                <ng-container *ngIf="group.isActive === false">
+                                    Inactive
+                                </ng-container>
+                            </ng-template>
+                        </p-column>
+                        <p-column styleClass="col-button" header="Action">
+
+                            <ng-template pTemplate="body" let-group="rowData">
+                                <!--<button type="button" pButton (click)="selectCar(car)" icon="fa-search">Edit</button>-->
+                                <div class="add-control-btn text-center">
+                                    <a class="btn btn-edit" title="Edit" [routerLink]="['/update-group', group.encryptedGroupID]" [hideIfUnauthorized]='{featureId:feature.Group,action:"edit"}'><fa name="edit"></fa></a>
+                                </div>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                    <!--<p-growl [(value)]="msgs" [life]="10000"></p-growl>-->
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<ng-template #groupDetails let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Group Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p> <b>{{selectedGroup}}</b></p>
+
+
+        <table class='table table-bordered' *ngIf="userList.length>0">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Email</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of userList">
+                    <td><span *ngIf="user.firstName">{{user.firstName  }}</span></td>
+                    <td><span *ngIf="user.emailID">{{ user.emailID}}</span></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-close" (click)="c('Close click')">Close</button>
+        <img *ngIf="loading" src="assets/dist/images/loading-small.gif" />
+
+    </div>
+</ng-template>

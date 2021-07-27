@@ -1,0 +1,96 @@
+﻿<!-- <header>
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-auto mr-auto">
+                <a class='navbar-brand' [routerLink]="['/home']"> <img class="img-fluid"
+                        src="assets/dist/images/BEAT Foliosure white.svg" width="180px" />
+                </a>
+            </div>
+            <div class="col-auto d-flex align-items-center">
+                <div class="dropdown d-none d-lg-block">
+                    <button class="btn btn-secondary dropdown-toggle user-info-logout" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span
+                            class="prifle-img"><img class="rounded" width="25px"
+                                src="assets/dist/images/user.png" /></span> {{userName}} </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="nav-link" [routerLink]="['/change-password',userId]"
+                            [queryParams]="{action:'changePassword'}"> <span class='glyphicon glyphicon-th-list'></span>
+                            Change Password </a>
+                        <a class="nav-link" [routerLink]="['/login']"> <span class='glyphicon glyphicon-th-list'></span>
+                            Log out </a>
+                    </div>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> </div>
+                </div>
+                <div class="d-block d-lg-none">
+                    <a class="nav-link power-off" [routerLink]="['/login']">
+                        <fa name="power-off"></fa>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav-menu></nav-menu>
+    <my-placeholder name="navigation"></my-placeholder>
+</header>
+<section>
+    <my-placeholder name="main"></my-placeholder>
+</section>
+<div class="container">
+    <div class="padd-top"></div>
+    <app-breadcrumb name="breadcrumb"></app-breadcrumb>
+    <router-outlet name="master"></router-outlet>
+</div>
+<footer [hidden]="true">
+    <div class="container ">
+        <div class="row">
+            <div class="col-sm-2  text-center pad-top15"> <img src="assets/dist/images/client-logo.png" />
+            </div>
+            <div class="col-sm-8 text-center pad-top15 ">
+                <p> &copy; 2020 Acuity Knowledge Partners. All Rights Reserved.</p>
+            </div>
+            <div class="col-sm-2  text-center pad-top15"> <img src="assets/dist/images/MAKS-logo.png" /> </div>
+        </div>
+    </div>
+</footer>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" loadingText="Please wait..."
+    type="ball-scale-multiple"> </ngx-spinner>
+
+                     
+ -->
+<div style="display: flex;">
+    <nav-menu style="flex-basis: 60px;"></nav-menu>
+    <div>
+        <div class="nep-header" type="default" style="display:flex;z-index:1;">
+            <div style="flex-basis:78%;padding-left:20px;">
+                <app-breadcrumb name="breadcrumb"></app-breadcrumb>
+            </div>
+            <div>
+                <div class="dropdown d-none d-lg-block">
+                    <button class="btn btn-secondary dropdown-toggle user-info-logout" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span
+                            class="prifle-img"><img class="rounded" width="25px"
+                                src="assets/dist/images/user.png" /></span> {{userName}} </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="nav-link" [routerLink]="['/change-password',userId]"
+                            [queryParams]="{action:'changePassword'}"> <span class='glyphicon glyphicon-th-list'></span>
+                            Change Password </a>
+                        <a class="nav-link" [routerLink]="['/login']"> <span class='glyphicon glyphicon-th-list'></span>
+                            Log out </a>
+                    </div>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> </div>
+                </div>
+                <div class="d-block d-lg-none">
+                    <a class="nav-link power-off" [routerLink]="['/login']">
+                        <fa name="power-off"></fa>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div style="overflow: auto;max-height:100vh;">
+            <div style="margin-top: 80px;"></div>
+            <div class="nep-panel">
+                <router-outlet name="master"></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

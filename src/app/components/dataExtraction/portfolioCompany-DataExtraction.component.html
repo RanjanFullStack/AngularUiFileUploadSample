@@ -1,0 +1,375 @@
+<div class="company-finacial company-kpis data-extraction">
+    <div class="card card-main">
+        <div class="card-header card-header-main">
+            <div class="row">
+                <div class="col-auto mr-auto">
+                    <span class="filter-text">Data Extraction</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="clearfix"></div>-->
+    <div class="report-edit-dropdown border-1 pb-2 mt-3  mar-bottom-15">
+        <p-growl [(value)]="message" [life]="msgTimeSpan" [immutable]="false"></p-growl>
+        <form name="form" (ngSubmit)="form.valid && search(form)" #form="ngForm">
+            <div class="row">
+               <!-- <div class="col-sm-6 col-md-4">
+                    <div class="form-group m-0">
+                        <div class="row">
+
+                            <div class="col-12">
+                                <label for="fundData">Fund
+                                    <!-- <sup class="red" title="required">*</sup> -->
+                              <!--  </label>
+                            </div>
+                            <div class="col-12">
+                                <p-multiSelect name="fundData" [disabled]="fundList == undefined" #fundData="ngModel" [options]="fundList" defaultLabel="Select"
+                                    maxSelectedLabels="1" [(ngModel)]="selectedFunds" optionLabel="fundName" (onChange)="onFundChange($event)"
+                                    [panelStyle]="{ minWidth: '28.35em', maxWidth: '28.35em' }" tabindex="0">
+                                </p-multiSelect>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group m-0">
+                        <div class="row">
+
+                            <div class="col-12">
+                                <label for="portfolioCompanyData">Portfolio Company
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-12">
+                                <p-multiSelect name="portfolioCompanyData" [disabled]="portfolioCompanyList == undefined" #portfolioCompanyData="ngModel"
+                                    [options]="portfolioCompanyList" defaultLabel="Select" maxSelectedLabels="1" [(ngModel)]="model.selectedCompanies"
+                                    (onPanelHide)="onCompanySelection($event)" optionLabel="companyName" [panelStyle]="{ minWidth: '28.35em', maxWidth: '28.35em' }"
+                                    tabindex="0" [required]="true" class="Data-Multiselect">
+                                </p-multiSelect>
+                                <div *ngIf="portfolioCompanyData.invalid && (portfolioCompanyData.dirty || form.submitted)" class="text-danger">
+                                    <div *ngIf="form.submitted && !portfolioCompanyData.valid" class="text-danger">
+                                        Please select Portfolio Company
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group m-0">
+                        <div class="row">
+
+                            <div class="col-12">
+                                <label for="KPITypeData">KPI Type
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-12">
+                                <!-- <p-multiSelect name="KPITypeData" [disabled]="KPITypeList == undefined" #KPITypeData="ngModel" [options]="KPITypeList" defaultLabel="Select"
+                                        (onPanelHide)="onKPITypeSelection($event)" maxSelectedLabels="1" [(ngModel)]="selectedKPITypes"
+                                        optionLabel="KPIType" [panelStyle]="{ minWidth: '12em' }" tabindex="0">
+                                    </p-multiSelect> -->
+                                <typeahead-control name="KPITypeData" [(ngModel)]="selectedKPIType" [optionList]="KPITypeList" [displayField]="'KPIType'"
+                             (selectItem)="onKPITypeSelection($event)" #KPITypeData="ngModel" [isAscendingOptions]="false"
+                                    [isRequired]="true"></typeahead-control>
+                                <div *ngIf="KPITypeData.invalid && (KPITypeData.dirty || form.submitted)" class="text-danger">
+                                    <div *ngIf="form.submitted && !KPITypeData.valid" class="text-danger">
+                                        Please select KPI Type
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="form-group m-0">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="KPIData">KPI
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-12">
+                                <!-- <span class="report-field"> -->
+                                <p-multiSelect name="KPIData" [disabled]="KPIList == undefined || KPIList.length == 0 || selectedKPIType == undefined" #KPIData="ngModel"
+                                    [options]="KPIList" defaultLabel="Select" (onPanelHide)="onKPIItemSelect($event)" maxSelectedLabels="1"
+                                    [(ngModel)]="model.selectedKPIs" optionLabel="displayName" tabindex="4" [required]="true">
+                                </p-multiSelect>
+                                <div *ngIf="KPIData.invalid && (KPIData.dirty || form.submitted)" class="text-danger">
+                                    <div *ngIf="form.submitted && !KPIData.valid" class="text-danger">
+                                        Please select KPI
+                                    </div>
+                                </div>
+                                <!-- <angular2-multiselect [data]="KPIList" name="multi" [(ngModel)]="model.selectedKPIs" [settings]="settings" (onSelect)="onKPIItemSelect($event)"
+                                            (onDeSelect)="OnKPIDeSelect($event)" (onSelectAll)="onKPISelectAll($event)" (onDeSelectAll)="onKPIDeSelectAll($event)"
+                                            required>
+                                        </angular2-multiselect> -->
+                                <!-- </span> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3" *ngIf="selectedKPIType != undefined && selectedKPIType.KPIType !='Standing Data'">
+                    <div class="form-group m-0">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="periodType">Period Type
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-12">
+                                <!-- <span class="report-field"> -->
+                              <typeahead-control name="periodType" [(ngModel)]="selectedPeriodType" [optionList]="periodTypes" [displayField]="'type'"
+                                                 (selectItem)="onPeriodTypeSelect()" #periodType="ngModel" [isAscendingOptions]="false"
+                                                 [disabled]="periodTypes == undefined || selectedKPIType == undefined" [isRequired]="true" (clearItem)="onPeriodTypeClear()"></typeahead-control>
+                                    <div *ngIf="periodType.invalid && (periodType.dirty || form.submitted)" class="text-danger">
+                                        <div *ngIf="form.submitted && !periodType.valid" class="text-danger">
+                                            Please select Period Type
+                                        </div>
+                                    </div>                                    
+                                <!-- </span> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3" *ngIf="selectedKPIType != undefined && selectedKPIType.KPIType !='Standing Data'">
+                    <div class="form-group m-0">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="period">Period
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-12">
+                                <span class="report-field">
+                                    <typeahead-control name="period" [(ngModel)]="selectedPeriod" [optionList]="periods" [displayField]="'type'" (selectItem)="onPeriodSelect()"
+                                     #period="ngModel" [disabled]="periods.length == 0" [isAscendingOptions]="false" [isRequired]="true"  (clearItem)="onPeriodClear()"></typeahead-control>
+                                    <div *ngIf="period.invalid && (period.dirty || form.submitted)" class="text-danger">
+                                        <div *ngIf="form.submitted && !period.valid" class="text-danger">
+                                            Please select Period
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+           
+            <div class="col-sm-6 col-md-3 " *ngIf="(selectedPeriod.type =='FYE (Financial Year End)' && selectedPeriodType != undefined && selectedPeriodType.type =='Monthly')">
+                <div class="form-group m-0">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="TimePeriod">Start Date
+                                <sup class="red" title="required">*</sup>
+                            </label>
+                            <div class="input-group">
+                                <p-calendar name="startPeriod" view="month" showButtonBar="true" [(ngModel)]="model.fromDate" #startPeriod selectionMode="single"
+                                    required="true" [yearNavigator]="true" [readonlyInput]="true" inputStyleClass="date-picker-input"
+                                    dateFormat="mm/yy" [showIcon]="true" yearRange={{yearRange}} (onSelect)="validateKPIPeriod(model)"></p-calendar>
+                                <div *ngIf="(form.submitted || model.fromDate.dirty) && !model.fromDate.valid && !model.fromDate" class="text-danger">Start date is required</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+
+                            <label for="TimePeriod">End Date
+                                <sup class="red" title="required">*</sup>
+                            </label>
+                            <div class="input-group">
+                                <p-calendar name="endPeriod" view="month" showButtonBar="true" [(ngModel)]="model.toDate" #endPeriod required="true" selectionMode="single"
+                                    [yearNavigator]="true" [readonlyInput]="true" inputStyleClass="date-picker-input" dateFormat="mm/yy"
+                                    [showIcon]="true" yearRange={{yearRange}} (onSelect)="validateKPIPeriod(model)"></p-calendar>
+                                <div *ngIf="(form.submitted || model.toDate.dirty) && !model.toDate.valid && !model.toDate" class="text-danger">End date is required</div>
+                                <!-- <div *ngIf="(formFinancial.submitted || endPeriod.dirty) && !endPeriod.valid && !dataFilter.endPeriod" class="text-danger">End date is required</div> -->
+                            </div>
+                        </div>
+                        <div *ngIf="periodErrorMessage!=''" class="text-danger">{{periodErrorMessage}}</div>
+                    </div>
+                </div>
+            </div>
+            
+
+                <div class="col-sm-6 col-md-3" *ngIf="selectedPeriod.type =='Custom' && selectedPeriodType != undefined">
+                    <div class="form-group m-0">
+                        <div class="row" *ngIf="selectedPeriod.type =='Custom'">
+                            <div class="col-sm-6" *ngIf="(selectedPeriodType.type =='Quarterly')">
+                                <label for="fromQuarter">From Quarter
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+
+                                <div class="input-group">
+                                    <p-dropdown name="fromQuarter" [options]="quarterOptions" [(ngModel)]="dataFilter.fromQuarter" placeholder="Select Quarter"
+                                        optionLabel="text" #fromQuarter="ngModel" validateRequired required (onChange)="validateFromQuarter()"></p-dropdown>
+                                    <div *ngIf="form.submitted && !fromQuarter.valid" class="text-danger">From Quarter is required</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" *ngIf="(selectedPeriodType.type =='Yearly' || selectedPeriodType.type =='Quarterly')">
+                                <label for="fromYear">From Year
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                                <div class="input-group">
+                                    <p-dropdown name="fromYear" [options]="yearOptions" [(ngModel)]="dataFilter.fromYear" placeholder="Select Year" optionLabel="text"
+                                        #fromYear="ngModel" validateRequired (onChange)="validateSelectedFromYear()"></p-dropdown>
+
+                                    <div *ngIf="form.submitted && !fromYear.valid" class="text-danger">
+                                        From Year is required
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="col-sm-6" *ngIf="(selectedPeriodType.type =='Yearly')">
+                                <label for="toYear">To Year
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                                <div class="input-group">
+                                    <p-dropdown name="toYear" [options]="yearOptions" [(ngModel)]="dataFilter.toYear" placeholder="Select Year" optionLabel="text"
+                                        #toYear="ngModel" validateRequired (onChange)="validateSelectedToYear()"></p-dropdown>
+
+                                    <div *ngIf="form.submitted && !toYear.valid" class="text-danger">
+                                        To Year is required
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-3" *ngIf="selectedPeriod.type =='Custom' && selectedPeriodType != undefined">
+                    <div class="form-group m-0">
+                        <div class="row">
+                            <!-- <div class="col-sm-6"> -->
+                            <div class="col-sm-6" *ngIf="(selectedPeriodType.type =='Quarterly')">
+                                <label for="toQuarter">To Quarter
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+
+                                <div class="input-group">
+                                    <p-dropdown name="toQuarter" [options]="quarterOptions" [(ngModel)]="dataFilter.toQuarter" placeholder="Select Quarter" optionLabel="text"
+                                        #toQuarter="ngModel" validateRequired required (onChange)="validateToQuarter()"></p-dropdown>
+                                    <div *ngIf="form.submitted && !toQuarter.valid" class="text-danger">To Quarter is required</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" *ngIf="(selectedPeriodType.type =='Quarterly')">
+                                <label for="toYear">To Year
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                                <div class="input-group">
+                                    <p-dropdown name="toYear" [options]="yearOptions" [(ngModel)]="dataFilter.toYear" placeholder="Select Year" optionLabel="text"
+                                        #toYear="ngModel" validateRequired (onChange)="validateSelectedToYear()"></p-dropdown>
+
+                                    <div *ngIf="form.submitted && !toYear.valid" class="text-danger">
+                                        To Year is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3" *ngIf="selectedPeriodType != undefined && selectedPeriodType.type =='Monthly'">
+                    <div class="form-group m-0">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="Months">Months
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-12">
+                                <p-multiSelect name="Months" #Months="ngModel" [options]="monthOptions" defaultLabel="Select months" (onPanelHide)="onMonthsSelect($event)"
+                                    maxSelectedLabels="1" [(ngModel)]="selectedMonths" optionLabel="text" tabindex="4" [panelStyle]="{ minWidth: '28.35em', maxWidth: '28.35em' }"
+                                    [required] = "true">
+                                </p-multiSelect>
+                                <div *ngIf="Months.invalid && (Months.dirty || form.submitted)" class="text-danger">
+                                    <div *ngIf="form.submitted && !Months.valid" class="text-danger">
+                                        Please select Months
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4" *ngIf="selectedPeriodType != undefined && (selectedPeriodType.type =='YTD (Year to Date)' || selectedPeriodType.type =='LTM (Last Twelve Months)') && selectedKPIType.KPIType !='Impact KPIs'">
+
+                    <div class="form-group m-0">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="Month">Month
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+                            </div>
+                            <div class="col-12">
+                                <!-- <typeahead-control name="KPITypeData" [(ngModel)]="selectedKPIType" [optionList]="KPITypeList" [displayField]="'KPIType'"
+                                (selectItem)="onKPITypeSelection($event)" #KPITypeData="ngModel" [isAscendingOptions]="false"
+                                [isRequired]="true"></typeahead-control> -->
+                                <!-- <typeahead-control name="Month" [optionList]="monthOptions" [(ngModel)]="selectedMonth" [displayField]="'text'"
+                                #Month="ngModel" [isRequired]="true">
+                                </typeahead-control> -->
+                                <p-dropdown name="Month" [options]="monthOptions" [(ngModel)]="selectedMonth" optionLabel="text" #Month="ngModel" validateRequired
+                                    required placeholder="Select Month">
+                                </p-dropdown>
+                                <div *ngIf="Month.invalid && (Month.dirty || form.submitted)" class="text-danger">
+                                    <div *ngIf="form.submitted && !Month.valid" class="text-danger">
+                                        Please select Month
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4" *ngIf="selectedKPIType != undefined && selectedPeriodType != undefined">
+                    <div class="form-group m-0">
+                        <div class="row">
+                            <div class="col-sm-6" *ngIf="(selectedKPIType.KPIType == 'Trading Record' || selectedKPIType.KPIType == 'Impact KPIs' ) && (selectedPeriodType.type == 'YTD (Year to Date)' || selectedPeriodType.type == 'LTM (Last Twelve Months)')">
+                                <label for="Quarter">Quarter
+                                    <sup class="red" title="required">*</sup>
+                                </label>
+
+                                <div class="input-group">
+                                    <p-dropdown name="Quarter" [options]="quarterOptions" [(ngModel)]="dataFilter.Quarter" placeholder="Select Quarter" optionLabel="text"
+                                        #Quarter="ngModel" validateRequired required (onChange)="validateFromQuarter()"></p-dropdown>
+                                    <div *ngIf="form.submitted && !Quarter.valid" class="text-danger">Quarter is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group text-left">
+                        <div class="loading-input-controls-manual" *ngIf="exportFinancialReportLoading">
+                            <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>
+                        </div>
+                        <button class="btn btn-primary ml-0" style="position: relative;" [disabled]="loading" title="Generate excel report with selected filters">
+                            Generate Report</button>
+                        <input type="button" (click)="resetForm(form)" title="Reset" value="Reset" class="btn btn-warning" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+  <!-- <div class="row" *ngIf="report.Results==null || report.Results.length==0">
+            <div class="col-sm-12">
+                <div class="text-info">
+                    No record found
+                </div>
+                <br>
+            </div>
+        </div> -->
+    <div class="report-edit-dropdown border-1"  *ngIf="companyKPIsList != null && companyKPIsList.length >0">
+        <div class="row m-0 p-0 kpi-detail" >
+                   
+            <div *ngFor="let company of companyKPIsList" class="border-bottom mt-2 p-2 col-sm-6 col-md-4">   
+                <div class="">            
+               <div class="mb-2"><span class="company-name"> {{company.companyName}}</span></div> 
+               
+                <div *ngFor = "let kpiList of company.kpiDateRangeList" class="pt-1 pb-1">
+                    
+                <span>
+                    <b>{{kpiList.kpiName}}</b> - From {{kpiList.dateRange.min}} {{kpiList.dateRange.minYear}} to {{kpiList.dateRange.max}} {{kpiList.dateRange.maxYear}}</span>
+                </div>              
+            </div>
+            </div>
+       
+        </div> 
+    </div>
+
+</div>

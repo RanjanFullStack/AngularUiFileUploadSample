@@ -1,0 +1,86 @@
+﻿<div class="row">
+	<div class="col-lg-12">
+		<div class="report-component">
+			<div class="card card-main">
+				<div class="card-header card-header-main">
+					<div class="row">
+						<div class="col-auto mr-auto">
+							<div class="dropdown report-menu">
+								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+									data-toggle="dropdown" aria-haspopup="true"
+									aria-expanded="false">{{reportCategoryTitle}}</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<div *ngFor="let report of holdingsByList"> <a class="dropdown-item"
+											(click)="changeReportType(report.value)">{{report.label}}</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-auto" style="padding-right: 0%;padding-top: 4px;">
+							<a class="btn  filter-btn p-0" title="Filter" (click)="showHideFilter()">
+								<fa [hidden]="masterModel.filterSection" name="chevron-circle-down" _nghost-c2=""
+									ng-reflect-name="plus-square" title="Show Filter"></fa>
+								<fa [hidden]="!masterModel.filterSection" name="chevron-circle-up" _nghost-c2=""
+									ng-reflect-name="plus-square" title="Hide Filter"></fa><span
+									class="filter-text">Filter</span>
+							</a>
+						</div>
+						<div class="col-auto" style="padding-left:0%;padding-top: 1px;">
+							<a style="padding-left:8px" class="nep-button nep-button-link" *ngIf="isDataAvailableInReports && (reportCategory!=4)"
+								title="Export(Excel file)" (click)="exportTopHoldingReport()"
+								[hideIfUnauthorized]='{featureId:feature.Report,action:"export"}'>
+								<i class="fa fa-file-excel-o"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<ul class="nav nav-tabs" role="tablist" [hidden]="true">
+						<li class="nav-item"> <a class="{{currentTabId=='Holdings'? 'nav-link active show':'nav-link'
+							}}" data-toggle="tab" data-target="#Holdings" (click)="showTopHoldings()">Top Holdings</a>
+						</li>
+						<!--<li class="nav-item">
+		<a class="nav-link" data-toggle="tab" href="#costRelativeInvestments" (click)="showCostRelativeInvestments()">Cost Relative Investments</a>
+	</li>-->
+						<li class="nav-item"> <a
+								class="{{currentTabId=='ValuationCharts'? 'nav-link active show':'nav-link'}}"
+								data-toggle="tab" data-target="#ValuationCharts"
+								(click)="setHoldingCostReportModel()">Valuation Charts</a>
+						</li>
+						<li class="nav-item"> <a
+								class="{{currentTabId=='Attribution'? 'nav-link active show':'nav-link'}}"
+								data-toggle="tab" data-target="#Attribution"
+								(click)="setAttributionReportModel()">Attribution Reports</a>
+						</li>
+						<li class="nav-item"> <a
+								class="{{currentTabId=='CompanyFinancials'? 'nav-link active show':'nav-link'}}"
+								data-toggle="tab" data-target="#CompanyFinancials"
+								(click)="setCompanyFinancialsReportModel()">Attribution Reports</a>
+						</li>
+					</ul>
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div id="Holdings" class="{{currentTabId=='Holdings'? 'tab-pane active show':'tab-pane fade'}}">
+							<top-holdings #topHoldings [masterModel]="masterModel"></top-holdings>
+						</div>
+						<!--<div id="costRelativeInvestments" class="container tab-pane fade">
+			<top-holdings #costRelativeInvestments [masterModel]="masterModel"></top-holdings>
+		</div>-->
+						<div id="ValuationCharts"
+							class="{{currentTabId=='ValuationCharts'? 'tab-pane active show':'tab-pane fade'}}">
+							<holding-values #holdingValues [masterModel]="masterModel"></holding-values>
+						</div>
+						<div id="Attribution"
+							class="{{currentTabId=='Attribution'? 'tab-pane active show':'tab-pane fade'}}">
+							<attribution-reports #attributionReport [masterModel]="masterModel"></attribution-reports>
+						</div>
+						<div id="CompanyFinancials"
+							class="{{currentTabId=='CompanyFinancials'? 'tab-pane active show':'tab-pane fade'}}">
+							<company-financials #companyFinancials [masterModel]="masterModel"></company-financials>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,143 @@
+<div #advancedFilters id="filtersContainer" style="width: 478px; height: 420px;">
+  <div id="containerHeader" style="height: 49px; width: 478px; padding: 15px 36px 16px 17px;">
+    <span style="font-size: 16px; float: left;">
+      Apply filters
+    </span>
+    <span style="font-size: 14px; float: right; color: #021155;" (click)="clearAll()"
+    [ngClass]="disableApplyFilters ? 'disableClearAll' : 'enableClearAll'"
+    >
+      Clear all
+    </span>
+  </div>
+  <div id="containerBody"
+    style="border-bottom: 1px solid #f0f0f1;border-top: 1px solid #f0f0f1; height: 314px; width: 478px">
+    <div style="display: flex;">
+      <div style="width: 160px; background-color:#FAFAFB; height: 314px;">
+        <div
+          [ngClass]="activeFilterCategory === filterCategory ? 'filterHeadingStyle activeCategory' : 'filterHeadingStyle inactiveCategory'"
+          *ngFor="let filterCategory of filterCategories" (click)="selectFilterCategory(filterCategory)">
+          {{filterCategory}}
+        </div>
+      </div>
+      <div style="width: 338px; height: 314px;">
+
+        <div *ngIf="activeFilterCategory === 'File Format' || activeFilterCategory === 'Type' || activeFilterCategory === 'Sub-Type'">
+          <div
+            *ngFor="let activerFilter of activeFilterList ; let indexOfelement=index;">
+            <div style="padding-top: 20px; padding-left: 20px;">
+              <checkbox
+              height="20px"
+              width="20"
+              [isChecked]="activerFilter.isChecked"
+              (change) = "handleCheckBox($event,indexOfelement)"
+              [value] = "activerFilter.name"
+              ></checkbox>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="activeFilterCategory === 'Document Date'">
+          <div style="width: 252px;  margin-top: 20px; margin-left: 32px;">
+            <span style="margin-left: 0.5rem;" class="contentStyle">From Date</span>
+            <p-calendar name="fromDateCal" showButtonBar="true" (onClearClick)="onFromDateClear()"
+            [(ngModel)]="fromDate" #fromDateCal
+            [monthNavigator]="true" [yearNavigator]="true" [readonlyInput]="true"
+            inputStyleClass="date-picker-input" dateFormat="dd-M-yy" [showIcon]="true"
+            yearRange="2000:2030" (ngModelChange)="onChangeFromDate(fromDate)"
+            [inputStyle]="{'padding': '0.5vw'}"
+            placeholder="Select from date"
+            ></p-calendar>
+            <span *ngIf="hasInvalidDateInput" style="color: #c62828; padding-left: 0.5rem;">{{fromDateValidationMsg}}</span>
+          </div>
+          <div style="width: 252px; margin-top: 40px; margin-left: 32px;">
+            <span style="margin-left: 0.5rem;" class="contentStyle">To Date</span>
+            <p-calendar name="toDateCal" showButtonBar="true" (onClearClick)="onToDateClear()"
+            [(ngModel)]="toDate" #toDateCal
+            [monthNavigator]="true" [yearNavigator]="true" [readonlyInput]="true"
+            inputStyleClass="date-picker-input" dateFormat="dd-M-yy" [showIcon]="true"
+            yearRange="2000:2030" (ngModelChange)="onChangeToDate(toDate)"
+            [inputStyle]="{'padding': '0.5vw'}"
+            placeholder="Select to date"
+            ></p-calendar>
+            <span *ngIf="hasInvalidDateInput" style="color: #c62828; padding-left: 0.5rem;">{{toDateValidationMsg}}</span>
+          </div>
+        </div>
+
+        <div style="width: 280px; margin-left: 20px; margin-top: 20px;">
+        <div *ngIf="activeFilterCategory === 'Firm Name'">
+          <p-multiSelect
+          name="SelectedFirms"
+          [disabled]="firms==undefined"
+          #SelectedFirms="ngModel"
+          maxSelectedLabels="1"
+          [options]="firms" 
+          defaultLabel="Search with Firm Name"
+          [(ngModel)]="selectedFirms" 
+          (onChange)="onFirmChanged($event)"
+          optionLabel="firmName"
+          >
+          <!-- <ng-template let-firm pTemplate="SelectedFirms">
+            {{firm.firmName}}
+         </ng-template> -->
+        </p-multiSelect>
+
+        </div>
+
+        <div *ngIf="activeFilterCategory === 'Fund Name'">
+          <p-multiSelect
+          [disabled]="funds==undefined"
+          #SelectedFirms="ngModel"
+          maxSelectedLabels="1"
+          [options]="funds" 
+          defaultLabel="Search with Fund Name"
+          [(ngModel)]="selectedFunds" 
+          (onChange)="onFundChanged($event)"
+          optionLabel="fundName"
+          >
+        </p-multiSelect>
+        </div>
+
+        <div *ngIf="activeFilterCategory === 'Portfolio Company'">
+          <p-multiSelect
+          [disabled]="portfolioComapanies==undefined"
+          #SelectedFirms="ngModel"
+          maxSelectedLabels="1"
+          [options]="portfolioComapanies" 
+          defaultLabel="Search with Portfolio Company Name"
+          [(ngModel)]="selectedPortfolioComapanies" 
+          (onChange)="onCompanyChanged($event)"
+          optionLabel="companyName"
+          >
+        </p-multiSelect>
+        </div>
+
+        <div *ngIf="activeFilterCategory === 'Deal ID'">
+          <p-multiSelect
+          [disabled]="deals==undefined"
+          #SelectedFirms="ngModel"
+          maxSelectedLabels="1"
+          [options]="deals" 
+          defaultLabel="Search with Deal ID"
+          [(ngModel)]="selectedDeals" 
+          (onChange)="onDealChanged($event)"
+          optionLabel="dealCustomID"
+          >
+        </p-multiSelect>
+        </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div id="containerFooter" style="height: 57px; width: 478px;">
+    <div style="float: right; padding: 12px 20px 12px 20px;">
+      <nep-button Type="Secondary" (click)="onCancelFilters()">
+        Cancel
+      </nep-button>
+      <nep-button Type="Primary" [disabled]="disableApplyFilters" style="padding-left:12px" (click)="onApplyFilters()">
+        Apply
+      </nep-button>
+    </div>
+  </div>
+</div>

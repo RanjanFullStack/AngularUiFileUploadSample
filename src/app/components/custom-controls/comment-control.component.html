@@ -1,0 +1,7 @@
+﻿<div class="comment-section">
+    <p-overlayPanel appendTo="body" #op [dismissable]="true" [showCloseIcon]="true">
+        <textarea class="form-control comment-textarea" placeholder="{{placeholder}}" autocomplete="off" style="resize: none;" rows="4" cols="50" name="comment" [(ngModel)]="value" #comment="ngModel" maxlength="500"></textarea>
+        <div class="add-control-btn"><a class="btn btn-clear font-white" (click)="value=''">Clear</a></div>
+    </p-overlayPanel>
+    <a (click)="op.toggle($event)" class="comment-btn"><fa name="comments"></fa></a>
+</div>

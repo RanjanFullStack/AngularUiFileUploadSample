@@ -1,0 +1,10 @@
+version: 0.0
+os: windows
+files:
+  - source: \
+    destination: E:\inetpub\wwwroot\foliosure\FoliosureUITemp
+hooks:
+  BeforeInstall:
+    - location: .\BeforeInstall.ps1
+  AfterInstall:
+    - location: .\AfterInstall.ps1

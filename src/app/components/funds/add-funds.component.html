@@ -1,0 +1,723 @@
+﻿<div class="row">
+
+    <div class="col-lg-12">
+        <div class="add-fund-component">
+
+            <div class="card card-main">
+                <div class="card-header card-header-main">
+                    <div class="row">
+                        <div class="col-auto mr-auto"> {{title}} Fund</div>
+                        <div class="col-auto">
+                            <a class="btn btn-back" [routerLink]="[sourceURL]" title="Back">
+                                <fa name="chevron-left"></fa> Back
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div *ngIf="masterModel==undefined">
+                        <img src="assets/dist/images/loading.gif" class="loading-img" />
+                    </div>
+                    <form name="form" (ngSubmit)="f.form.valid && save(f)" #f="ngForm" novalidate
+                        *ngIf="masterModel!=undefined">
+
+
+                        <p-growl [(value)]="msgs" [life]="msgTimeSpan" [immutable]="false"></p-growl>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h5> Fund Details</h5>
+                                <div class="row">
+
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !fundName.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="fundName">Fund Name</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" type="text" class="form-control"
+                                                        name="fundName" maxlength="50" [(ngModel)]="model.fundName"
+                                                        #fundName="ngModel" validateRequired validateBusinessName />
+                                                    <div *ngIf="fundName.invalid && (fundName.dirty|| f.submitted)"
+                                                        class="text-danger">
+                                                        <p
+                                                            *ngIf="!fundName.errors.validateRequired && fundName.errors.validateBusinessName">
+                                                            Please enter valid fund name</p>
+                                                        <p *ngIf="fundName.errors.validateRequired">Fund name is
+                                                            required</p>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !firm.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="firm">Firm</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <typeahead-control name="firm" [loadingOptions]="firmLoading"
+                                                        [(ngModel)]="model.firmDetail"
+                                                        [optionList]="masterModel.firmList" validateRequired
+                                                        [displayField]="'firmName'" #firm="ngModel" [isRequired]="true">
+                                                    </typeahead-control>
+
+
+                                                    <div *ngIf="(f.submitted || firm.dirty) && !firm.valid"
+                                                        class="text-danger">Firm is required</div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !accountType.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="accountType">Account Type</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <typeahead-control name="accountType"
+                                                        [loadingOptions]="accountTypeLoading"
+                                                        [(ngModel)]="model.accountTypeDetail"
+                                                        [optionList]="masterModel.accountTypeList" validateRequired
+                                                        [displayField]="'accountType'" #accountType="ngModel"
+                                                        [isRequired]="true"></typeahead-control>
+
+                                                    <div *ngIf="(f.submitted || accountType.dirty) && !accountType.valid"
+                                                        class="text-danger">Account Type is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !sector.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="sector">Sector</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <typeahead-control name="sector" [loadingOptions]="sectorLoading"
+                                                        [(ngModel)]="model.sectorDetail"
+                                                        [optionList]="masterModel.sectorList" validateRequired
+                                                        [displayField]="'sector'" #sector="ngModel" [isRequired]="true">
+                                                    </typeahead-control>
+
+                                                    <div *ngIf="(f.submitted || sector.dirty) && !sector.valid"
+                                                        class="text-danger">Sector is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !strategy.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="strategy">Strategy</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <typeahead-control name="strategy"
+                                                        [loadingOptions]="strategyLoading"
+                                                        [(ngModel)]="model.strategyDetail"
+                                                        [optionList]="masterModel.strategyList" validateRequired
+                                                        [displayField]="'strategy'" #strategy="ngModel"
+                                                        [isRequired]="true"></typeahead-control>
+
+                                                    <div *ngIf="(f.submitted || strategy.dirty) && !strategy.valid"
+                                                        class="text-danger">Strategy is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="strategyDescription">Strategy Description</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <textarea autocomplete="off" class="form-control" rows="4" cols="50"
+                                                        maxlength="500" name="strategyDescription"
+                                                        [(ngModel)]="model.strategyDescription"
+                                                        #strategyDescription="ngModel"></textarea>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h5> Geographic Location</h5>
+
+                                <div [ngClass]="{ 'has-error': f.submitted && !geography.valid }">
+
+                                     <location-control name="geography" [(ngModel)]="model.geographyDetail"
+                                        [locationMaster]="masterModel" [countryRequired]="true"
+                                        [loadingCountry]="countryLoading" #geography="ngModel"></location-control>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-12">
+
+                                <h5>
+                                    Fund Terms
+                                    <tooltip [iconClass]="'fa-question-circle help'">
+                                        <div class="row">
+                                            <div class="col-sm-4">Vintage Year:</div>
+                                            <div class="col-sm-8">A year in which the first influx of capital is
+                                                delivered to a PE fund by investors</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Target Commitment:
+                                            </div>
+                                            <div class="col-sm-8">The total capital commitment expected to be received
+                                                by a PE fund</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Maximum Commitment:
+                                            </div>
+                                            <div class="col-sm-8">The capital commitment beyond which further investors
+                                                will not be admitted</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Fund Size:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Total capital raised by a fund
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                GP Commitment:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Capital committed by General Partner as a percentage of total capital
+                                                commitment
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Preferred Return Percent:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Threshold return that limited partners of a private equity fund must
+                                                receive, prior to the general partners receiving its carried interest
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                GP Catchup Percent:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Catchup is the percentage / rate at which GP starts receiving its carry
+                                                after the preferred return distribution to LP
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Management Fee:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Fee charged by fund manager for managing the fund
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Management Fee Offset:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                The extent to which monitoring, transaction and other portfolio company
+                                                related expenses paid to the General Partner are offset against
+                                                management fees
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Fund Term:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Duration of a private equity fund before complete dilution
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Maximum Extension To Fund Term:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Number of years by which fund term of a fund can be increased with the
+                                                consent of LPs
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Fund Closing Date:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Fund closing refers to a date by which investors must have legally
+                                                committed to investing in the fund
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Org Expenses:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Expenses related to establishing and organizing a fund and its
+                                                infrastructure
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                Clawback:
+                                            </div>
+                                            <div class="col-sm-8">
+                                                Refers to the limited partners' right to reclaim part of the general
+                                                partners' carried interest, where general partners received excess
+                                                compensation
+                                            </div>
+                                        </div>
+                                    </tooltip>
+                                </h5>
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !currency.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="currency">Currency</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <typeahead-control [loadingOptions]="currencyLoading"
+                                                        name="currency" [(ngModel)]="model.currencyDetail"
+                                                        [optionList]="masterModel.currencyList" validateRequired
+                                                        [displayField]="'currency'" #currency="ngModel"
+                                                        [isRequired]="true"></typeahead-control>
+
+
+                                                    <div *ngIf="(f.submitted || currency.dirty) && !currency.valid"
+                                                        class="text-danger">Currency is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !vintageYear.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="vintageYear">Vintage Year</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <typeahead-control name="vintageYear"
+                                                        [(ngModel)]="model.vintageYear" [optionList]="yearOptions"
+                                                        validateRequired [displayField]="'text'" [resultField]="'value'"
+                                                        #vintageYear="ngModel" [isRequired]="true"></typeahead-control>
+                                                    <comment-control title="Comment Here" #vintageYear_comment
+                                                        name="vintageYear_comment"
+                                                        [(ngModel)]="model.vintageYear_Comment"></comment-control>
+                                                    <div *ngIf="(f.submitted || vintageYear.dirty) && !vintageYear.valid"
+                                                        class="text-danger">Vintage year is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !targetCommitment.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="targetCommitment">Target Commitment</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly type="text" maxlength="15"
+                                                        class="form-control" name="targetCommitment"
+                                                        [(ngModel)]="model.targetCommitment" #targetCommitment="ngModel"
+                                                        validateRequired />
+                                                    <comment-control title="Comment Here" #targetCommitment_comment
+                                                        name="targetCommitment_comment"
+                                                        [(ngModel)]="model.targetCommitment_Comment"></comment-control>
+                                                    <div *ngIf="(f.submitted || targetCommitment.dirty) && !targetCommitment.valid"
+                                                        class="text-danger">Target commitment is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !maximumCommitment.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="maximumCommitment">Maximum Commitment</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="15" type="text"
+                                                        class="form-control" name="maximumCommitment"
+                                                        [(ngModel)]="model.maximumCommitment"
+                                                        #maximumCommitment="ngModel" validateRequired />
+                                                    <comment-control title="Comment Here" #maximumCommitment_comment
+                                                        name="maximumCommitment_comment"
+                                                        [(ngModel)]="model.maximumCommitment_Comment"></comment-control>
+                                                    <div *ngIf="(f.submitted || maximumCommitment.dirty) && !maximumCommitment.valid"
+                                                        class="text-danger">Maximum commitment is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !fundSize.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="fundSize">Fund Size</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="15" type="text"
+                                                        class="form-control" name="fundSize"
+                                                        [(ngModel)]="model.fundSize" #fundSize="ngModel"
+                                                        validateRequired />
+                                                    <comment-control title="Comment Here" #fundSize_comment
+                                                        name="fundSize_comment" [(ngModel)]="model.fundSize_Comment">
+                                                    </comment-control>
+                                                    <div *ngIf="(f.submitted || fundSize.dirty) && !fundSize.valid"
+                                                        class="text-danger">Fund size is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !gPCommitment.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="gPCommitment">GP Commitment Percent</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="6" type="text"
+                                                        class="form-control" name="gPCommitment"
+                                                        [(ngModel)]="model.gpCommitment" #gPCommitment="ngModel"
+                                                        validateRequired />
+                                                    <comment-control title="Comment Here" #gPCommitment_comment
+                                                        name="gPCommitment_comment"
+                                                        [(ngModel)]="model.gPCommitment_Comment"></comment-control>
+                                                    <div *ngIf="(f.submitted || gPCommitment.dirty) && !gPCommitment.valid"
+                                                        class="text-danger">GP commitment percent is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !preferredReturnPercent.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="preferredReturnPercent">Preferred Return Percent</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="6" type="text"
+                                                        class="form-control" name="preferredReturnPercent"
+                                                        [(ngModel)]="model.preferredReturnPercent"
+                                                        #preferredReturnPercent="ngModel" validateRequired />
+                                                    <comment-control title="Comment Here"
+                                                        #preferredReturnPercent_comment
+                                                        name="preferredReturnPercent_comment"
+                                                        [(ngModel)]="model.preferredReturnPercent_Comment">
+                                                    </comment-control>
+                                                    <div *ngIf="(f.submitted || preferredReturnPercent.dirty) && !preferredReturnPercent.valid"
+                                                        class="text-danger">Preferred return percent is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !carriedInterestPercent.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="carriedInterestPercent">Carried Interest Percent</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="6" type="text"
+                                                        class="form-control" name="carriedInterestPercent"
+                                                        [(ngModel)]="model.carriedInterestPercent"
+                                                        #carriedInterestPercent="ngModel" validateRequired />
+                                                    <comment-control title="Comment Here"
+                                                        #carriedInterestPercent_comment
+                                                        name="carriedInterestPercent_comment"
+                                                        [(ngModel)]="model.carriedInterestPercent_Comment">
+                                                    </comment-control>
+                                                    <div *ngIf="(f.submitted || carriedInterestPercent.dirty) && !carriedInterestPercent.valid"
+                                                        class="text-danger">Carried interest percent is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !gPCatchupPercent.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="gPCatchupPercent">GP Catchup Percent</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="6" type="text"
+                                                        class="form-control" name="gPCatchupPercent"
+                                                        [(ngModel)]="model.gpCatchupPercent" #gPCatchupPercent="ngModel"
+                                                        validateRequired />
+                                                    <comment-control title="Comment Here" #gpCatchupPercent_comment
+                                                        name="gpCatchupPercent_comment"
+                                                        [(ngModel)]="model.gpCatchupPercent_Comment"></comment-control>
+                                                    <div *ngIf="(f.submitted || gPCatchupPercent.dirty) && !gPCatchupPercent.valid"
+                                                        class="text-danger">GP catchup percent is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !managementFee.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="managementFee">Management Fee</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="10" type="text"
+                                                        class="form-control" name="managementFee"
+                                                        [(ngModel)]="model.managementFee" #managementFee="ngModel"
+                                                        validateRequired />
+                                                    <comment-control title="Comment Here" #managementFee_comment
+                                                        name="managementFee_comment"
+                                                        [(ngModel)]="model.managementFee_Comment"></comment-control>
+                                                    <div *ngIf="(f.submitted || managementFee.dirty) && !managementFee.valid"
+                                                        class="text-danger">Management fee is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !managementFeeOffset.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="managementFeeOffset">Management Fee Offset</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="10" type="text"
+                                                        class="form-control" name="managementFeeOffset"
+                                                        [(ngModel)]="model.managementFeeOffset"
+                                                        #managementFeeOffset="ngModel" validateRequired />
+                                                    <comment-control title="Comment Here" #managementFeeOffset_comment
+                                                        name="managementFeeOffset_comment"
+                                                        [(ngModel)]="model.managementFeeOffset_Comment">
+                                                    </comment-control>
+                                                    <div *ngIf="(f.submitted || managementFeeOffset.dirty) && !managementFeeOffset.valid"
+                                                        class="text-danger">Management fee offset is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !fundTerm.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="fundTerm">Fund Term</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="15" type="text"
+                                                        class="form-control" name="fundTerm"
+                                                        [(ngModel)]="model.fundTerm" #fundTerm="ngModel"
+                                                        validateRequired />
+                                                    <comment-control title="Comment Here" #fundTerm_comment
+                                                        name="fundTerm_comment" [(ngModel)]="model.fundTerm_Comment">
+                                                    </comment-control>
+                                                    <div *ngIf="(f.submitted || fundTerm.dirty) && !fundTerm.valid"
+                                                        class="text-danger">Fund term is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !maximumExtensionToFundTerm.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="maximumExtensionToFundTerm">Maximum Extension To Fund
+                                                        Term</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" numberOnly maxlength="15" type="text"
+                                                        class="form-control" name="maximumExtensionToFundTerm"
+                                                        [(ngModel)]="model.maximumExtensionToFundTerm"
+                                                        #maximumExtensionToFundTerm="ngModel" validateRequired />
+                                                    <comment-control title="Comment Here"
+                                                        #maximumExtensionToFundTerm_comment
+                                                        name="maximumExtensionToFundTerm_comment"
+                                                        [(ngModel)]="model.maximumExtensionToFundTerm_Comment">
+                                                    </comment-control>
+                                                    <div *ngIf="(f.submitted || maximumExtensionToFundTerm.dirty) && !maximumExtensionToFundTerm.valid"
+                                                        class="text-danger">Maximum extension to fund term is required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !fundClosingDate.valid }">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="fundClosingDate">Fund Closing Date</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="input-group">
+                                                        <p-calendar [(ngModel)]="model.fundClosingDate"
+                                                            name="fundClosingDate" #fundClosingDate
+                                                            [monthNavigator]="true" [yearNavigator]="true"
+                                                            dateFormat="dd/mm/yy" readonlyInput="true" [showIcon]="true"
+                                                            yearRange="2000:2030" [required]="true"></p-calendar>
+                                                        <!--<input autocomplete="off" class="form-control" placeholder="dd-mm-yyyy" (click)="fundClosingngbDate.toggle()" [placement]="['top-left']" [readonly]="true" name="fundClosingDate" [(ngModel)]="datemodel" ngbDatepicker #fundClosingDate="ngModel" #fundClosingngbDate="ngbDatepicker" validateRequired>
+                    <div class="input-group-append">
+
+                        <span class="input-group-text" (click)="fundClosingngbDate.toggle()" id="basic-addon2"><fa name="calendar"></fa></span>
+                    </div>-->
+                                                    </div>
+                                                    <comment-control title="Comment Here" #fundClosingDate_comment
+                                                        name="fundClosingDate_comment"
+                                                        [(ngModel)]="model.fundClosingDate_Comment"></comment-control>
+                                                    <div *ngIf="(f.submitted || fundClosingDate.dirty) && !f.control.controls.fundClosingDate.valid"
+                                                        class="text-danger">Fund closing date is required</div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !orgExpenses.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="orgExpenses">Org Expenses</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <input autocomplete="off" maxlength="15" numberOnly type="text"
+                                                        class="form-control" name="orgExpenses"
+                                                        [(ngModel)]="model.orgExpenses" #orgExpenses="ngModel"
+                                                        validateRequired />
+                                                    <comment-control title="Comment Here" #orgExpenses_comment
+                                                        name="orgExpenses_comment"
+                                                        [(ngModel)]="model.orgExpenses_Comment"></comment-control>
+                                                    <div *ngIf="(f.submitted || orgExpenses.dirty) && !orgExpenses.valid"
+                                                        class="text-danger">Org expenses is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--<ngb-datepicker #dp [(ngModel)]="datemodel" name="date" (navigate)="date = $event.next"></ngb-datepicker>
+				{{//datemodel}}-->
+
+
+                                    <div class="col-sm-6 col-md-4">
+
+
+
+
+
+
+
+                                        <div class="form-group"
+                                            [ngClass]="{ 'has-error': f.submitted && !clawback.valid }">
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label for="clawback">Clawback</label>
+                                                </div>
+                                                <div class="col-12">
+                                                    <typeahead-control name="clawback" [(ngModel)]="model.clawback"
+                                                        [optionList]="clawbackOptions" validateRequired
+                                                        [displayField]="'text'" [resultField]="'value'"
+                                                        #clawback="ngModel" [isRequired]="true"></typeahead-control>
+
+                                                    <comment-control title="Comment Here" #clawback_comment
+                                                        name="clawback_comment" [(ngModel)]="model.clawback_Comment">
+                                                    </comment-control>
+                                                    <div *ngIf="(f.submitted || clawback.dirty)&& !clawback.valid"
+                                                        class="text-danger">Clawback is required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group text-center">
+                                            <div class="loading-input-controls-manual" *ngIf="loading"><i
+                                                    class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+
+                                            <button [disabled]="loading" class="btn btn-primary"
+                                                title="{{title}}">{{title}}</button>
+                                            <input type="reset" value="{{resetText}}" title="{{resetText}}"
+                                                (click)="formReset(f)" class="btn btn-warning" />
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

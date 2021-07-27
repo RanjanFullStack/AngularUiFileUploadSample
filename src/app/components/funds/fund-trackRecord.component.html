@@ -1,0 +1,229 @@
+﻿﻿<div class="add-fund-component">
+	<div class="card card-main model-popup">
+		<div class="card-header card-header-main" *ngIf="false">
+			Fund Track Record
+		</div>
+		<div class="modal-header ">
+			<h4 class="modal-title">Fund Track Record</h4>
+			<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="card-body">
+			<div *ngIf="model==undefined">
+				<img src="assets/dist/images/loading.gif" class="loading-img" />
+			</div>
+			<form name="form" (ngSubmit)="f.form.valid && save(f)" #f="ngForm" novalidate *ngIf="model!=undefined">
+				<p-messages [(value)]="msgs"></p-messages>
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !year.valid }">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label for="year">Year</label>
+										</div>
+                                        <div class="col-6 col-sm-6">
+                                            <typeahead-control name="year" [(ngModel)]="model.year" [optionList]="yearOptions" validateRequired [displayField]="'text'" [resultField]="'value'" #year="ngModel" [isRequired]="true" (selectItem)="validateSelectedQuarter()" [isAscendingOptions]="false"></typeahead-control>
+                                            <div *ngIf="f.submitted && !year.valid" class="text-danger">Year is required</div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !quarter.valid }">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label for="quarter">Quarter</label>
+										</div>
+										<div class="col-6 col-sm-6">
+											<typeahead-control name="quarter" [(ngModel)]="model.quarter" [optionList]="quarterOptions" validateRequired [displayField]="'text'" [resultField]="'value'" #quarter="ngModel" [isRequired]="true" (selectItem)="validateSelectedQuarter()"></typeahead-control>
+
+											<div *ngIf="f.submitted && !quarter.valid" class="text-danger">Quarter is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label> Total Number of Investments</label>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="model.isCalculatedDetails">
+											<span class="detail-sec">{{model.totalNumberOfInvestments}}</span>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="!model.isCalculatedDetails">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="totalNumberOfInvestments" [(ngModel)]="model.totalNumberOfInvestments" maxlength="5" #totalNumberOfInvestments="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !totalNumberOfInvestments.valid" class="text-danger">Total number of investments is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label> Realized Investments</label>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="model.isCalculatedDetails">
+											<span class="detail-sec">{{model.realizedInvestments}}</span>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="!model.isCalculatedDetails">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="realizedInvestments" [(ngModel)]="model.realizedInvestments" maxlength="5" #realizedInvestments="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !realizedInvestments.valid" class="text-danger">Realized investments is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label> Unrealized Investments</label>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="model.isCalculatedDetails">
+											<span class="detail-sec">{{model.unRealizedInvestments}}</span>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="!model.isCalculatedDetails">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="unRealizedInvestments" [(ngModel)]="model.unRealizedInvestments" maxlength="5" #unRealizedInvestments="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !unRealizedInvestments.valid" class="text-danger">Unrealized investments is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label> Total Invested Cost</label>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="model.isCalculatedDetails">
+											<span class="detail-sec">{{model.totalInvestedCost|number : '1.2-2'}}</span>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="!model.isCalculatedDetails">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="totalInvestedCost" [(ngModel)]="model.totalInvestedCost" maxlength="15" (change)="onInvestmentCostChange()" #totalInvestedCost="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !totalInvestedCost.valid" class="text-danger">Total invested cost is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label>Total Realized Value</label>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="model.isCalculatedDetails">
+											<span class="detail-sec">{{model.totalRealizedValue|number : '1.2-2'}}</span>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="!model.isCalculatedDetails">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="totalRealizedValue" maxlength="15" (change)="onRealizedValueChange()" [(ngModel)]="model.totalRealizedValue" #totalRealizedValue="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !totalRealizedValue.valid" class="text-danger">Total realized value is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label>Total Unrealized Value</label>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="model.isCalculatedDetails">
+											<span class="detail-sec">{{model.totalUnRealizedValue|number : '1.2-2'}}</span>
+										</div>
+										<div class="col-6 col-sm-6" *ngIf="!model.isCalculatedDetails">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="totalUnRealizedValue" maxlength="15" (change)="onUnRealizedValueChange()" [(ngModel)]="model.totalUnRealizedValue" #totalUnRealizedValue="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !totalUnRealizedValue.valid" class="text-danger">Total unrealized value is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label> Total Value</label>
+										</div>
+										<div class="col-6 col-sm-6">
+											<span class="detail-sec">{{model.totalValue|number : '1.2-2'}}</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label>Gross TVPI</label>
+										</div>
+										<div class="col-6 col-sm-6">
+											<span class="detail-sec">
+												{{model.grossMultiple|number : '1.2-2'}}
+											</span>
+										</div>
+						 
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !netMultiple.valid }">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label for="netMultiple">Net TVPI</label>
+										</div>
+										<div class="col-6 col-sm-6">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="netMultiple" maxlength="6" [(ngModel)]="model.netMultiple" #netMultiple="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !netMultiple.valid" class="text-danger">Net multiple is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !grossIRR.valid }">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label for="grossIRR">Gross IRR</label>
+										</div>
+										<div class="col-6 col-sm-6">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="grossIRR" maxlength="6" [(ngModel)]="model.grossIRR" #grossIRR="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !grossIRR.valid" class="text-danger">Gross IRR is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !netIRR.valid }">
+									<div class="row">
+										<div class="col-6 col-sm-6">
+											<label for="netIRR">Net IRR</label>
+										</div>
+										<div class="col-6 col-sm-6">
+											<input autocomplete="off" numberOnly type="text" class="form-control" name="netIRR" maxlength="6" [(ngModel)]="model.netIRR" #netIRR="ngModel" validateRequired />
+											<div *ngIf="f.submitted && !netIRR.valid" class="text-danger">Net IRR is required</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+                                <div class="form-group text-center">
+                                   
+                                    <div class="loading-input-controls-manual" *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+
+									<button [disabled]="loading" class="btn btn-primary" title="{{saveText}}">{{saveText}}</button>
+                                    <input type="reset" value="{{resetText}}" title="{{resetText}}" (click)="formReset(f)" class="btn btn-warning" />
+ 
+                                </div>
+							</div>
+							 
+						</div>
+
+					</div>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>

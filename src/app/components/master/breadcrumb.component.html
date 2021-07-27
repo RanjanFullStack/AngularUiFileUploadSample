@@ -1,0 +1,12 @@
+<nav #navBreadcrumb aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a [routerLink]="['/home']">Home</a></li>
+        <li class="breadcrumb-item" *ngFor="let link of links">
+            <a *ngIf="link?.url!=''" [routerLink]="link?.url">{{ link?.label }}</a>
+            <span *ngIf="link?.url==''">{{ link?.label }}</span>
+        </li>
+        <li class="breadcrumb-item">
+            {{ currentItem?.label }}
+        </li>
+    </ol>
+</nav>

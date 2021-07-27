@@ -1,0 +1,287 @@
+﻿<div style="width: 93vw;height:100vh">
+<horizontal-navbar [itemList]="holdingsByList" [(ngModel)]="model.selectedReportTypes" (selectItem)="changeReportType($event)"></horizontal-navbar>
+<div class="report-edit-dropdown" [hidden]="!masterModel.filterSection">
+   <a class="btn pull-right filter-btn" title="Filter" (click)="showHideFilter()">
+   <i class="fa fa-times" style="color:#d60707; font-size:18px"></i>
+   </a>
+   <form name="form" (ngSubmit)="form.valid && search(form)" #form="ngForm">
+   <div >
+      <div class="row">
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="Strategy">Strategy</label>
+                  </div>
+                  <div class="col-12">
+                     <span class="report-field">
+                        <p-multiSelect name="Strategy" [disabled]="strategyList==undefined" #Strategy="ngModel" [resetFilterOnHide]=true [options]="strategyList" defaultLabel="Select" maxSelectedLabels="1" [(ngModel)]="model.strategyIds" optionLabel="strategy" (onChange)="onStrategyChanged($event)">
+                        <ng-template let-strategy pTemplate="item">
+                           {{strategy.label}}
+                        </ng-template>
+                        </p-multiSelect>
+                     </span>
+                     <div class="loading-input-controls" *ngIf="strategyList==undefined"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="Region">Region</label>
+                  </div>
+                  <div class="col-12">
+                     <span class="report-field">
+                        <p-multiSelect name="Region" [disabled]="regionList==undefined" #Region="ngModel" [options]="regionList" [resetFilterOnHide]=true defaultLabel="Select" maxSelectedLabels="1" [(ngModel)]="model.regionIds" optionLabel="region" (onChange)="onRegionChange($event)">
+                        <ng-template let-region pTemplate="item">
+                           {{region.label}}
+                        </ng-template>
+                        </p-multiSelect>
+                     </span>
+                     <div class="loading-input-controls" *ngIf="regionList==undefined"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="Country">Country</label>
+                  </div>
+                  <div class="col-12">
+                     <span class="report-field">
+                        <p-multiSelect name="Country"  [disabled]="countryLoading" #Country="ngModel" [resetFilterOnHide]=true [options]="countryList" defaultLabel="Select" maxSelectedLabels="1" [(ngModel)]="model.countryIds" optionLabel="country" (onChange)="onCountryChange($event)" >
+                        <ng-template let-country pTemplate="item">
+                           {{country.label}}
+                        </ng-template>
+                        </p-multiSelect>
+                     </span>
+                     <div class="loading-input-controls" *ngIf="countryLoading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="Funds">Funds</label>
+                  </div>
+                  <div class="col-12">
+                     <span class="report-field">
+                        <p-multiSelect name="Funds" [disabled]="fundList==undefined" #Funds="ngModel" [resetFilterOnHide]=true [options]="fundList" defaultLabel="Select" maxSelectedLabels="1" [(ngModel)]="model.fundIds" (onChange)="OnFundChanged($event)" optionLabel="fundName">
+                        <ng-template let-fund pTemplate="item">
+                           {{fund.label}}
+                        </ng-template>
+                        </p-multiSelect>
+                     </span>
+                     <div class="loading-input-controls" *ngIf="fundList==undefined"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="TimePeriod">Evaluation Date</label>
+                  </div>
+                  <div class="col-12">
+                     <div class="input-group">
+                        <p-calendar name="timePeriod" showButtonBar="true" (onClearClick)="onDateClear();" [(ngModel)]="dateRange" #timePeriod selectionMode="range" [monthNavigator]="true" [yearNavigator]="true" [readonlyInput]="true" inputStyleClass="date-picker-input" dateFormat="dd/mm/yy" [showIcon]="true" yearRange={{yearRange}} (onSelect)="onDateSelect()" [maxDate]="today" [minDate]="minDate"></p-calendar>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2" *ngIf="showRangeFilter">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="HoldingsBy">Range</label>
+                  </div>
+                  <div class="col-12">
+                     <div class="btn-group" role="group" aria-label="Basic example">
+                        <input class="form-control range-in" placeholder="Lower" type="text" name="rangeStart" [(ngModel)]="model.rangeStart" inputValidator="integer" #rangeStart />
+                        <input class="form-control range-in" placeholder="Higher" type="text" name="rangeEnd" [(ngModel)]="model.rangeEnd" inputValidator="integer" #rangeEnd />
+                        <input class="form-control range-in" placeholder="Parts" type="text" name="rangeParts" [(ngModel)]="model.rangeParts" inputValidator="integer" #rangeParts />
+                     </div>
+                     <div *ngIf="rangeInvalid" class="text-danger">Lower end of range should be lesser than higher end</div>
+                     <div *ngIf="!rangeInvalid && partsRequired" class="text-danger">Please enter valid value of parts</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12 desktop-m-3">
+                     <input class="display-inline ng-untouched ng-pristine" type="checkbox" name="ReportData" value="" [(ngModel)]="isReportDataVisible">
+                     <label class="display-inline p-2" for="ReportData">Show Report Data</label>&nbsp;&nbsp;
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <filter-control  #filter [(IsEnabled)]="IsEnabled" [(ReportId)]="ReportId" (onReset)="resetForm(form)" (onApply)="search($event)" (OnSavedFilter)="LoadSavedFilter($event)" [(Filters)]="Filter"></filter-control>
+   </div>
+   </form>
+</div>
+<div *ngFor="let data of reportData">
+   <div class="charts-parent-div">
+      <div class="row" *ngIf="data.Results==null || data.Results.length==0">
+         <div class="col-sm-12">
+            <div class="chart-bg">
+               <h5>  {{data.ReportType}}</h5>
+               <div class="text-info">
+                  No record found
+               </div>
+               <br>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div *ngIf="data.Results!=null && data.Results.length>0">
+      <div class="charts-parent-div p-15">
+         <div>
+            <div>
+               <div class="chart-bg ">
+                  <div class="row chart-header">
+                     <div class="col-sm-8 p-0">{{data.ReportType}}</div>
+                     <span class="gbp-info col-sm-4 p-0" *ngIf="isReportDataVisible">
+                     <span class="gbp-info p-2"><i class="fa fa-info-circle icon"></i>All values in USD</span>
+                     </span>
+                  </div>
+                  <div *ngIf="isReportDataVisible">
+                     <p-table [columns]="data.cols" [value]="data.Results" [responsive]="true" class="custome-table">
+                     <ng-template pTemplate="header" let-columns >
+                        <tr>
+                           <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                           {{col.header}}
+                           <p-sortIcon [field]="col.field" ></p-sortIcon>
+                           </th>
+                        </tr>
+                     </ng-template>
+                     <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr>
+                           <td *ngFor="let col of columns" class="{{miscService.getAlignmentClass(rowData[col.field])}}">
+                              <span class="ui-column-title">{{col.header}}</span>
+                              <span [innerHtml]="rowData[col.field]|minusSignToBrackets|formatNumbers"></span>
+                           </td>
+                        </tr>
+                     </ng-template>
+                     <ng-template pTemplate="footer" *ngIf="data.Results?.length>0">
+                        <tr>
+                           <td *ngFor="let col of data.Columns" class="{{miscService.checkIfStringIsFloat(data.FooterRow[col])? 'table-data-right':''}}">
+                              <span [innerHtml]="data.FooterRow[col]|minusSignToBrackets|formatNumbers"></span>
+                           </td>
+                        </tr>
+                     </ng-template>
+                     <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                           <td [attr.colspan]="columns.length">
+                              No record found
+                           </td>
+                        </tr>
+                     </ng-template>
+                     </p-table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="charts-parent-div">
+         <div class="row">
+            <p-dialog [resizable]="false" [closeOnEscape]="false" [dismissableMask]="false" (onHide)="hideFullView()" #pDialog [(visible)]="displayFullView" [modal]="true" [responsive]="true" [width]="fullViewWidth" [minWidth]="350" [minHeight]="400" [minY]="70" [maximizable]="false" [baseZIndex]="10000">
+            <p-header>
+               {{fullViewModel.title}}
+            </p-header>
+            <div style="width:1100px;height:600px" (resize)="onResized($event)">
+               <app-donut-chart [fullView]="true" [unit]="'M'" [catField]="fullViewModel.catField" [valField]="fullViewModel.valField" [data]="fullViewModel.data" [title]="fullViewModel.title"></app-donut-chart>
+            </div>
+            <p-footer>
+            </p-footer>
+            </p-dialog>
+            <div class="col-sm-12 attribute">
+               <div class="row">
+                  <div class="col-sm-3 pad-right-0" *ngIf="data.Columns.indexOf('Capital Invested')>=0" >
+                     <div class="chart-bg p-0 m-top0" (click)="showFullView({title:'Capital Invested',catField:data.Columns[0],valField:'Capital Invested',data:data.Results})">
+                        <h5 class="p-2">Capital Invested</h5>
+                        <div class="chart-section">
+                           <app-donut-chart [unit]="'M'" [catField]="data.Columns[0]" [valField]="'Capital Invested'" [data]="data.Results" [title]="'Capital Invested'"></app-donut-chart>
+                           <a class="expand" (click)="showFullView({title:'Capital Invested',catField:data.Columns[0],valField:'Capital Invested',data:data.Results})" title="Full View">
+                              <fa name="arrows-alt"></fa>
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-3 pad-left-0 " *ngIf="data.Columns.indexOf('Unrealized Value')>=0" >
+                     <div class="chart-bg p-0 m-top0" (click)="showFullView({title:'Unrealized Value',catField:data.Columns[0],valField:'Unrealized Value',data:data.Results})">
+                        <h5 class="p-2">Unrealized Value</h5>
+                        <div class="chart-section">
+                           <app-donut-chart [unit]="'M'" [catField]="data.Columns[0]" [valField]="'Unrealized Value'" [data]="data.Results" [title]="'Unrealized Value'"></app-donut-chart>
+                           <a class="expand" (click)="showFullView({title:'Unrealized Value',catField:data.Columns[0],valField:'Unrealized Value',data:data.Results})" title="Full View">
+                              <fa name="arrows-alt"></fa>
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-3 pad-left-0 " *ngIf="data.Columns.indexOf('Realized Value')>=0" >
+                     <div class="chart-bg p-0 m-top0" (click)="showFullView({title:'Realized Value',catField:data.Columns[0],valField:'Realized Value',data:data.Results})">
+                        <h5 class="p-2">Realized Value</h5>
+                        <div class="chart-section">
+                           <app-donut-chart [unit]="'M'" [catField]="data.Columns[0]" [valField]="'Realized Value'" [data]="data.Results" [title]="'Realized Value'"></app-donut-chart>
+                           <a class="expand" (click)="showFullView({title:'Realized Value',catField:data.Columns[0],valField:'Realized Value',data:data.Results})" title="Full View">
+                              <fa name="arrows-alt"></fa>
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-3 pad-left-0" *ngIf="data.Columns.indexOf('Total Value')>=0" >
+                     <div class="chart-bg p-0 m-top0" (click)="showFullView({title:'Total Value',catField:data.Columns[0],valField:'Total Value',data:data.Results})">
+                        <h5 class="p-2">Total Value</h5>
+                        <div class="chart-section">
+                           <app-donut-chart [unit]="'M'" [catField]="data.Columns[0]" [valField]="'Total Value'" [data]="data.Results" [title]="'Total Value'"></app-donut-chart>
+                           <a class="expand" (click)="showFullView({title:'Total Value',catField:data.Columns[0],valField:'Total Value',data:data.Results})" title="Full View">
+                              <fa name="arrows-alt"></fa>
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-sm-12">
+               <div class="row">
+                  <div class="col-sm-6 " *ngIf="data.Columns.indexOf('TVPI')>=0">
+                     <div class="chart-bg">
+                        <h5>Total Value Paid In (TVPI)</h5>
+                        <div class="line-chart-section">
+                           <app-bar-chart [data]="data.Results" [xField]="data.Columns[0]" [yField]="'TVPI'" [valueSuffix]="'x'"></app-bar-chart>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-6 pad-left-0" *ngIf="data.Columns.indexOf('# of Investments')>=0">
+                     <div class="chart-bg">
+                        <h5>Number of Investments</h5>
+                        <div class="line-chart-section row">
+                           <div [hidden]="data.childChart" id="divCompanyCountBarChart" class="col-sm-12">
+                              <app-bar-chart [data]="data.Results" [xField]="data.Columns[0]" [yField]="'# of Investments'" (barClicked)="onRegionClicked($event,data)"></app-bar-chart>
+                           </div>
+                           <div class="col-sm-8">
+                              <app-donut-chart [unit]="''" *ngIf="data.childChart" [catField]="data.childChart.Columns[0]" [valField]="data.childChart.Columns[1]" [data]="data.childChart.Results" [title]="'# of Companies'"></app-donut-chart>
+                           </div>
+                           <div id="divChildDonutChart" class="col-sm-4" [hidden]="!data.childChart" (click)="showParentReport(data)">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+</div>

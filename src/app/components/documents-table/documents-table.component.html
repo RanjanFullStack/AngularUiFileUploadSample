@@ -1,0 +1,70 @@
+<div class="repoListTable">
+  <div id = "tableHolder" style="overflow-y: auto;">
+    <p-table [value]="documents" class="tableHt">
+      <ng-template pTemplate="header">
+        <tr class="rowHeight rowBorder">
+          <th id="Document_Name" class="PLForFirstCol"><span class="tableHeadersStyle">Document Name</span></th>
+          <th id="Type"><span class="tableHeadersStyle">Type</span></th>
+          <th id="Document_Date" class="CenterAlign"><span class="tableHeadersStyle">Document Date</span></th>
+          <th id="Uploaded_by" class="CenterAlign"><span class="tableHeadersStyle">Uploaded by</span></th>
+          <th id="Folder" class="CenterAlign"><span class="tableHeadersStyle">Folder</span></th>
+      </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-doc *ngIf = "documents.length > 0;">
+        <tr class="dataRows rowHeight rowBorder">
+          <td class="PLForFirstCol">
+          <div class="row w100">
+            <div class="col-1">
+              <a href="javascript:void(0);" (click)="OnDocumentInfoClick(doc.id)">
+              <span *ngIf = "doc.extension?.includes('.xl'); else checkIfPdf">
+                <img class="fileTypeSize" src="assets/dist/images/Microsoft-excel.svg" alt=""/>
+              </span>
+              <ng-template #checkIfPdf>
+                <span *ngIf = "doc.extension === '.pdf'; else checkIfWord">
+                  <img class="fileTypeSize" src="assets/dist/images/Adobe-acrobat.svg" alt=""/>
+                </span>
+              </ng-template>
+              <ng-template #checkIfWord>
+                <span *ngIf = "doc.extension?.includes('.doc'); else checkIfPPt">
+                  <img class="fileTypeSize" src="assets/dist/images/Microsoft-word.svg" alt=""/>
+                </span>
+              </ng-template>
+              <ng-template #checkIfPPt>
+                <span *ngIf = "doc.extension?.includes('.pp') || doc.extension?.includes('.pot'); else checkIfImage">
+                  <img class="fileTypeSize" src="assets/dist/images/powerpoint.svg" alt=""/>
+                </span>
+              </ng-template>
+              <ng-template #checkIfImage>
+                <span *ngIf = "doc.extension?.includes('.jp') || doc.extension === '.svg' || doc.extension === '.png'; else checkIfZip">
+                  <img class="fileTypeSize" src="assets/dist/images/Image.svg" alt=""/>
+                </span>
+              </ng-template>
+              <ng-template #checkIfZip>
+                <span *ngIf = "doc.extension?.includes('.zip') || doc.extension?.includes('.ar') ; else generalFileType">
+                  <img class="fileTypeSize" src="assets/dist/images/Zip.svg" alt=""/>
+                </span>
+              </ng-template>
+              <ng-template #generalFileType>
+                  <img class="fileTypeSize" src="assets/dist/images/File.svg" alt=""/>
+              </ng-template>
+              </a>
+            </div>
+            <div class="col-10 docNameTextTruncate showToolTip" (click)="onClick(doc.id)"  title={{doc.name}}>
+              <span class="rowDataStyle">{{doc.name}}</span>
+            </div>
+          </div>
+        </td>
+          <td (click)="onClick(doc.id)"><span class="rowDataStyle">{{doc.documentTypeName}}</span></td>
+          <td (click)="onClick(doc.id)" class="CenterAlign"><span class="rowDataStyle">{{doc.dateOfDocument | date:'dd MMM yyyy'}}</span></td>
+          <td (click)="onClick(doc.id)" class="CenterAlign"><span class="rowDataStyle">{{doc.uploadedBy}}</span></td>
+          <td (click)="onClick(doc.id)" class="CenterAlign">
+            <span class="folderDataStyle folderDataText" *ngIf="doc.folderName !== '' && doc.folderName !== null; else defaultFolder">{{doc.folderName}}</span>
+            <ng-template #defaultFolder>
+              <span class="folderDataStyle folderDataText">Uploaded</span>
+            </ng-template>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

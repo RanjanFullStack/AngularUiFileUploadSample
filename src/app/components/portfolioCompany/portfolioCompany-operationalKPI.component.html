@@ -1,0 +1,204 @@
+﻿<div class="card card-main model-popup">	
+	<div class="modal-header">
+		<h4 class="modal-title">Portfolio Company Operational KPI</h4>
+		<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="card-body">
+		<form name="operationalKPIForm" #operationalKPIForm="ngForm" class="p-1 m-1">
+			<div class="row align-items-start">
+				<div class="col-12">
+
+					<p-messages [(value)]="message"></p-messages>
+					<div class="row">
+						<div class="col-6 col-md-6">
+
+							<div class="form-group p-1 m-1">
+								<div class="row">
+
+									<div class="col-12">
+										<label for="year">Year</label>
+									</div>
+									<div class="col-12">
+										<typeahead-control name="year" [(ngModel)]="kpiModel.year" [optionList]="yearOptions" validateRequired [displayField]="'text'" [resultField]="'value'" #year="ngModel" [isRequired]="true" (selectItem)="validateSelectedQuarter()" [isAscendingOptions]="false"></typeahead-control>
+										<div *ngIf="year.dirty && !year.valid" class="text-danger">Year is required</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6 col-md-6">
+							<div class="form-group p-1 m-1">
+								<div class="row">
+
+									<div class="col-12">
+										<label for="quarter">Quarter</label>
+									</div>
+									<div class="col-12">
+										<typeahead-control name="quarter" [(ngModel)]="kpiModel.quarter" [optionList]="quarterOptions" validateRequired [displayField]="'text'" [resultField]="'value'" #quarter="ngModel" (selectItem)="validateSelectedQuarter()" [isRequired]="true"></typeahead-control>
+
+										<div *ngIf="quarter.dirty && !quarter.valid" class="text-danger">Quarter is required</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card kpi-pop-diff">
+						<div class="card-body">
+							<form name="operationalKPIValueForm" #operationalKPIValueForm="ngForm" class="p-1 m-1">
+								<div class="row">
+
+
+									<div class="col-sm-6 col-md-6 col-lg-6">
+										<div class="form-group p-1 m-1">
+											<div class="row">
+
+												<div class="col-12">
+													<label for="Designation">Operational KPI</label>
+												</div>
+												<div class="col-12">
+													<typeahead-control name="operationalKPI" [(ngModel)]="kpiValueModel.sectorwiseOperationalKPI" [optionList]="sectorwiseOperationalKPIListNew" [displayField]="'kpi'" #operationalKPI="ngModel" [isRequired]="true"></typeahead-control>
+													<div *ngIf="operationalKPI.invalid && (operationalKPI.dirty|| operationalKPIValueForm.submitted)" class="text-danger">
+														<p>Operational KPI is required</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-md-6 col-lg-6">
+										<div class="form-group p-1 m-1">
+											<div class="row">
+
+												<div class="col-12">
+													<label>Value</label>
+												</div>
+												<div class="col-12">
+													<div class="btn-group w-100" role="group" aria-label="KPI Value">
+														<input class="form-control border-right w-90" placeholder="Value" type="text" name="kpiValue" [(ngModel)]="kpiValueModel.kpiValue" maxlength="15" numberOnly #kpiValue="ngModel" validateRequired />
+														<input class="form-control w-10" placeholder="Info" type="text" name="kpiInfo" [(ngModel)]="kpiValueModel.kpiInfo" maxlength="50" #kpiInfo="ngModel" />
+
+													</div>
+													<div *ngIf="kpiValue.invalid && (kpiValue.dirty|| operationalKPIValueForm.submitted)" class="text-danger">
+														<p>Value is required</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-md-6 col-lg-4">
+										<div class="mt-2">
+											<div class="row">
+
+												<div class="col-12">
+													<div class="add-control-btn">
+														<a class="btn btn-warning" (click)="addOperationalKPIValue(operationalKPIValueForm)" title="Add KPI Value">Add KPI Value</a>
+														<a class="btn btn-info" (click)="clearOperationalKPIValue(operationalKPIValueForm)" title="Clear">Clear</a>
+													</div>
+
+												</div>
+											</div>
+
+										</div>
+									</div>
+
+								</div>
+							</form>
+							<div class="max-height-300 PCO-content scroll-x">
+								<table class='table' *ngIf="kpiModel.portfolioCompanyOperationalKPIValues.length>0" >
+									<thead>
+										<tr>
+											<th>KPI</th>
+											<th>Value</th>
+											<th>Remove</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let value of kpiModel.portfolioCompanyOperationalKPIValues">
+											<td>
+												<span *ngIf="!value.isEditMode && value.sectorwiseOperationalKPI">{{ value.sectorwiseOperationalKPI.kpi  }}</span>
+												<div *ngIf="value.isEditMode">
+													<div class="form-group">
+														<div class="row">
+
+															<div class="col-12 Kpi-dropdown">
+																<typeahead-control name="operationalKPIEdit" [(ngModel)]="value.clone.sectorwiseOperationalKPI" [optionList]="sectorwiseOperationalKPIListEdit" [displayField]="'kpi'" #operationalKPIEdit="ngModel" [isRequired]="true"></typeahead-control>
+
+															</div>
+															<div *ngIf="operationalKPIEdit.invalid && (operationalKPIEdit.dirty|| operationalKPIForm.submitted)" class="text-danger">
+																<p>KPI value is required</p>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</td>
+											<td>
+												<span *ngIf="!value.isEditMode">{{ value.kpiValue +' '+ value.kpiInfo }}</span>
+												<div *ngIf="value.isEditMode">
+													<div class="form-group">
+														<div class="row">
+
+															<div class="col-12">
+																<div class="btn-group" role="group" aria-label="KPI Value">
+																	<input class="form-control border-right" placeholder="Value" type="text" name="kpiValue" [(ngModel)]="value.clone.kpiValue" maxlength="15" numberOnly #kpiValueEdit validateRequired />
+																	<input class="form-control" placeholder="Info" type="text" name="kpiInfo" maxlength="50" [(ngModel)]="value.clone.kpiInfo" #kpiInfoEdit />
+
+																</div>
+																<div *ngIf="kpiValueEdit.invalid && (kpiValueEdit.dirty|| operationalKPIForm.submitted)" class="text-danger">
+																	<p>KPI value is required</p>
+																</div>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</td>
+
+											<td>
+												<div *ngIf="value.isEditMode">
+
+													<span class="d-inline-block" (click)="updateKPIValue(value)"><a class="btn btn-download" title="Upadte KPI Value"><fa name="check" class="check-color"></fa></a> </span>
+													<span class="d-inline-block" (click)="cancelEditKPIValue(value)"><a class="btn btn-remove" title="Cancel"><fa name="close"></fa></a> </span>
+												</div>
+												<div *ngIf="!value.isEditMode">
+													<span class="d-inline-block" (click)="removeKPIValue(value)"><a class="btn btn-remove" title="Remove KPI Value"><fa name="trash"></fa></a> </span>
+													<div class="d-inline-block">
+														<a class="btn btn-edit p-0" title="Edit KPI Value" (click)="editKPIValue(value)"><fa name="edit"></fa></a>
+
+													</div>
+
+												</div>
+
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+
+				</div>
+				<div class="col-sm-12">
+					<div class="form-group text-center">
+						<div class="loading-input-controls-manual" *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+
+						<button [disabled]="loading" class="btn btn-primary" (click)="save(operationalKPIForm)" title="{{saveText}}">{{saveText}}</button>
+						<input type="reset" value="{{resetText}}" title="{{resetText}}" (click)="formReset(operationalKPIForm)" class="btn btn-warning" />
+
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425" #cd>
+	<p-footer>
+		<button type="button" pButton label="Yes" (click)="cd.accept()"></button>
+		<button type="button" pButton label="No" (click)="cd.reject()"></button>
+
+	</p-footer>
+</p-confirmDialog>

@@ -1,0 +1,211 @@
+﻿<div class="row">
+  
+    <div class="col-lg-12">
+
+        <div class="add-gorup-component">
+           
+            <div class="card card-main">
+                <div class="card-header card-header-main">
+                   
+                    <div class="row">
+                        <div class="col-auto mr-auto"> {{title}} Group</div>
+                        <div class="col-auto">
+                            <a class="btn btn-back" [routerLink]="[sourceURL]" title="Back"><fa name="chevron-left"></fa> Back </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p-growl [(value)]="msgs" [life]="msgTimeSpan"></p-growl>
+                    <form name="form" (ngSubmit)="f.valid && saveGroup(f)" #f="ngForm">
+
+                        <div class="row">
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !GroupName.valid }">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="GroupName">Group Name</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control" name="GroupName" [(ngModel)]="model.groupName" #GroupName="ngModel" validateRequired inputValidator="validatePersonName" autocomplete="off" maxlength="50" />
+
+                                            <div *ngIf="GroupName.invalid && (GroupName.dirty|| f.submitted)" class="text-danger">
+
+                                                <p *ngIf="GroupName.errors.validateRequired">Please enter group name</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="Description"> Description</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <textarea type="text" class="form-control"
+                                                      name="Description" [(ngModel)]="model.description" #Description="ngModel" autocomplete="off" maxlength="500">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </div>
+                                <div class="col-sm-12">
+
+                                    <form name="ReportForm" #ReportForm="ngForm">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-4 ">
+                                                <div class="form-group">
+                                                    <div class="row">
+
+                                                        <div class="col-12">
+                                                            <label for="Users">Users</label>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <p-multiSelect name="UserData" [disabled]="userList==undefined" #UserData="ngModel" [options]="userList" defaultLabel="Select" maxSelectedLabels="1" [(ngModel)]="model.userGroup" optionLabel="name" [panelStyle]="{minWidth:'12em'}">
+                                                                <ng-template let-user pTemplate="item">
+                                                                    {{user.label}}
+                                                                </ng-template>
+                                                            </p-multiSelect>
+                                                            <div class="loading-input-controls" *ngIf="userList==undefined"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-4 ">
+                                                    <div class="form-group">
+                                                        <div class="row">
+
+                                                            <div class="col-12 desktop-m-3">
+                                                                <label class="display-inline" for="IsActive">Active</label> &nbsp;&nbsp;
+                                                                <input class="display-inline" type="checkbox" value="" name="IsActive" [(ngModel)]="model.isActive" #IsActive="ngModel">
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <div class="table-responsive">
+                                            <table class='table table-bordered table-internal' *ngIf="model.userGroup.length>0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Users</th>
+                                                        <th>Email</th>
+                                                        <th>Remove</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let user of model.userGroup">
+                                                        <td><span *ngIf="user.firstName">{{user.firstName  }}</span></td>
+                                                        <td><span *ngIf="user.emailID">{{ user.emailID}}</span></td>
+                                                        <td>
+
+                                                            <span (click)="removeUsers(user.emailID)"><a class="btn btn-remove"><fa name="trash"></fa></a> </span>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+
+                                <div class="col-sm-12">
+                                    <div>
+                                        <div class="row">
+											<div class="col-sm-12">
+												<p-treeTable [value]="featureList" [columns]="cols" [(selection)]="model.selectedFeatures" selectionMode="checkbox">
+													<ng-template pTemplate="caption">
+														<div style="text-align:left">
+															<p-treeTableHeaderCheckbox (click)="onSelectFeature($event)"></p-treeTableHeaderCheckbox>
+
+															<span style="margin-left: .25em; vertical-align: middle">Select All</span>
+
+														</div>
+													</ng-template>
+													<ng-template pTemplate="header" let-columns>
+														<tr>
+															<th *ngFor="let col of columns">
+																{{col.header}}
+															</th>
+														</tr>
+													</ng-template>
+													<ng-template pTemplate="body" let-rowNode let-rowCanAdd let-rowCanEdit let-rowCanView let-rowData="rowData" let-columns="columns">
+														<tr>
+															<td>
+																<p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+																<p-treeTableCheckbox [value]="rowNode" (click)="onSelectFeature(rowData)"></p-treeTableCheckbox>
+
+																{{rowData.features.feature}}
+															</td>
+															<td>
+																<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'Add')"></fa>
+																<input type="checkbox" value="" name="chkAdd{{rowData.features.featureId}}" [(ngModel)]="rowData.canAdd" [hidden]="isActionHidden(rowData, 'Add')" #canAdd="ngModel" [disabled]="!rowData.featureEnabled">
+															</td>
+															<td>
+																<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'Edit')"></fa>
+																<input type="checkbox" value="" name="chkEdit{{rowData.features.featureId}}" [(ngModel)]="rowData.canEdit" [hidden]="isActionHidden(rowData, 'Edit')" #canEdit="ngModel" [disabled]="!rowData.featureEnabled">
+
+															</td>
+															<td>
+																<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'View')"></fa>
+																<input type="checkbox" value="" name="chkView{{rowData.features.featureId}}" [(ngModel)]="rowData.canView" [hidden]="isActionHidden(rowData, 'View')" #canView="ngModel" [disabled]="!rowData.featureEnabled">
+															</td>
+															<td>
+																<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'Export')"></fa>
+																<input type="checkbox" value="" name="chkExport{{rowData.features.featureId}}" [(ngModel)]="rowData.canExport" [hidden]="isActionHidden(rowData, 'Export')" #canExport="ngModel" [disabled]="!rowData.featureEnabled">
+															</td>
+															<td>
+																<fa name="ban" class="icon-ban" title="Not applicable" [hidden]="!isActionHidden(rowData, 'Import')"></fa>
+																<input type="checkbox" value="" name="chkImport{{rowData.features.featureId}}" [(ngModel)]="rowData.canImport" [hidden]="isActionHidden(rowData, 'Import')" #canImport="ngModel" [disabled]="!rowData.featureEnabled">
+															</td>
+														</tr>
+													</ng-template>
+
+
+												</p-treeTable>
+
+											
+											</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group text-center">
+
+                                    <!--<p *ngFor="let error of message">
+        <ngb-alert *ngIf="successMessage" [type]="error.type" (close)='closeAlert()'>{{ error.message }}</ngb-alert>
+    </p>-->
+                                    <div class="loading-input-controls-manual" *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+
+                                    <button [disabled]="loading" class="btn btn-primary" title="{{title}}">{{title}}</button>
+                                    <input type="button" value="{{resetText}}" title="{{resetText}}" (click)="formReset(f)" [disabled]="loading" class="btn btn-warning" />
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425" #cd>
+	<p-footer>
+		<button type="button" pButton label="Yes" (click)="cd.accept()"></button>
+		<button type="button" pButton label="No" (click)="cd.reject()"></button>
+
+	</p-footer>
+</p-confirmDialog>

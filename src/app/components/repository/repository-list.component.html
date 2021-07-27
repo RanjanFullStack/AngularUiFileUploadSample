@@ -1,0 +1,205 @@
+﻿﻿<div>
+  <div *ngIf="!IsOpenDocument" class="DocRepositoryContainer">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="add-user-component">
+          <div class="card card-main">
+            <div class="card-body">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-toast position="top-center" [style]="{width: '20vw'}"></p-toast>
+    <div class="Repository">
+      <div class="leftColumn">
+        <div class="leftColRow">
+          <div class="textContanier">
+            <img class="searchIcon" src="assets/dist/images/Search.svg" alt="" />
+            <p-autoComplete [style]="{'width':'100%'}"
+              [inputStyle]="{'width':'907px','border':'1px #cac9c7 solid',height:'32px',borderRadius:'4px',paddingLeft:'10px'}"
+              [(ngModel)]="searchWord" [suggestions]="output" (completeMethod)="search($event)" placeholder="Search"
+              [autoHighlight]="'true'" [forceSelection]="false" (onKeyUp)="ResetDocuments($event)"
+              (onBlur)="OnSearchItemSelected($event)" [dropdown]="false" placeholder="Enter text to search">
+              <ng-template let-name pTemplate="item">
+                <div>
+                  <div style="height: 36px;font-size: 14px;padding-top:9px;padding-bottom:9px;padding-left:12px">
+                    {{name}}
+                  </div>
+                </div>
+              </ng-template>
+            </p-autoComplete>
+          </div>
+          <button id="advFilter"
+            [ngClass]="enableAdvancedFilters || hasAdvancedFilters ? 'nep-button nep-button-secondary activeAdvFilterButton' : 'nep-button nep-button-secondary advFilterButton'"
+            (click)="openFiltersPopover()">
+            <img *ngIf = "enableAdvancedFilters || hasAdvancedFilters; else inActiveAdvFilterIcon" class="advFilterMR" src="assets/dist/images/activeAdvFilter.svg" alt="" />
+            <ng-template #inActiveAdvFilterIcon>
+              <img  class="advFilterMR" src="assets/dist/images/advancedFilters.svg" alt="" />
+            </ng-template>
+            Advanced filters
+          </button>
+          <popover predecessorId = "advFilter" [show]="showDocFilters" marginLeft="-260px" marginTop="35px" (onClosePopover)="onClosePopover()">
+            <advance-filters 
+            [ResetAdvFilters]="ResetAdvFilters"
+            (GetDocumentsByFilter) = "GetDocumentsByFilter($event)"
+            (closeFiltersPopover) = "closeFiltersPopover($event)"
+            [fileFormats]="filteredFileFormats"
+            [docTypes]="filteredDocTypes"
+            [subDocTypes]="filteredSubDocTypes"
+            [fromDate]="filteredfromDate"
+            [toDate]="filteredtoDate"
+            [selectedFirms]="filteredFirms"
+            [selectedFunds]="filteredFunds"
+            [selectedPortfolioComapanies]="filteredPortfolioComapanies"
+            [selectedDeals]="filteredDeals"
+            (clearAllFilters) = "clearAllFilters()"
+            (resetEnableAdvancedFilters) = "resetEnableAdvancedFilters()"
+            [appliedFilters] = "advancedFilters"
+             ></advance-filters>
+          </popover>
+        </div>
+        <div *ngIf="loading; then Loader; else RepoList"></div>
+
+        <ng-template #Loader>
+          <div>
+            <img class="landingPageLoader" src="assets/dist/images/loading-small.gif" alt="" />
+          </div>
+        </ng-template>
+        <ng-template #RepoList>
+          <div>
+            <div class="leftColRow">
+              <span class="docListTitle" *ngIf="searchPhrase !== '' || hasAdvancedFilters">
+                Filtered Documents
+              </span>
+              <span class="docListTitle" *ngIf="searchPhrase === '' && hasAdvancedFilters === false">
+                List of Documents
+              </span>
+              <div class="docsCountContainer">
+                <span class="docsCount">
+                  ({{documents.length}})
+                </span>
+              </div>
+
+              <span class="lastUpdatedOn" *ngIf="showLastUpdatedElement()">
+                Last upadated on {{documents[0].createdOn | date:'dd-MMM-yyyy'}}
+              </span>
+
+              <ng-template #showFilters [ngIf]=showFilterElement()>
+                <button class="showFilters">
+                  Show Filters
+                </button>
+              </ng-template>
+
+              <ng-template #showReset [ngIf]=showNoResultWhenSearchedElement()>
+                <button class="showReset btn btn-light" (click)="ResetSearch()">
+                  Reset
+                </button>
+              </ng-template>
+
+              <div id="choosetAction" class="selectAction">
+                Choose Action
+              </div>
+
+            </div>
+            <documents-table (DocumentInfoEvent)="onDocumentInfoEvent($event)" [documents]="documents"
+              (openDocument)="openDocument($event)"> </documents-table>
+          </div>
+          <ng-template [ngIf]=showNoDocsElement()>
+            <div>
+              <div class="noDoc">
+                <img class="noDocImg" src="assets/dist/images/noDoc.svg" alt="" />
+              </div>
+
+              <div class="noDocText1">
+                No documents received yet!
+              </div>
+              <div class="noDocText2">
+                Upload, add details, search, view and/or download
+                <div class="noDocText3">
+                  relevant documents.
+                </div>
+              </div>
+              <div class="noDocText2_1">
+                <span>Start uploading documents by clicking on </span>
+                <span class="uploadFileText">Upload File </span>
+                <div class="noDocText4">
+                  <span>button on the top right corner.</span>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template [ngIf]=showNoResultWhenSearchedElement1()>
+            <div class="noDocsContainer border">
+              <div class="noDocWhenSearched">
+                <img class="noDocImg" src="assets/dist/images/EmptyState.svg" alt="" />
+              </div>
+              <div class="noDocTextWhenSearched1">
+                No Results Found
+              </div>
+              <div class="noDocTextWhenSearched2">
+                We could not find any results matching your search criteria
+              </div>
+            </div>
+          </ng-template>
+
+        </ng-template>
+
+      </div>
+      <div class="rightColumn">
+        <div>
+          <button style="width:162px" class="nep-button nep-button-primary" (click)="openUpload()">
+            <img class="uploadFileIcon" src="assets/dist/images/uploadFileIcon.svg" alt="" />
+            Upload File
+          </button>
+        </div>
+        <div class="mt20"></div>
+        <div class="foldersContainer">
+          <div class="folders" style="border-bottom: 1px solid #f0f0f1;">
+            <div class="sharedFolder activeFolder">
+              <img class="uploadFileIcon" src="assets/dist/images/Folder.svg" alt="" />
+              <span>Shared Folder</span>
+            </div>
+            <div class="otherFolders">
+              <img class="uploadFileIcon innerFoldersIcons" src="assets/dist/images/Folder.svg" alt="" />
+              <span>Uploaded Files</span>
+            </div>
+            <div class="otherFolders lastFolder" style="padding-left: 12px;">
+              <img class="uploadFileIcon innerFoldersIcons" src="assets/dist/images/Folder.svg" alt="" />
+              <span>Final Files</span>
+            </div>
+          </div>
+          <div class="folders">
+            <div class="otherFolders lastFolder">
+              <img class="uploadFileIcon" src="assets/dist/images/delete.svg" alt="" />
+              <span>Recycle Bin</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt30"></div>
+        <div class="popularTagsContainer">
+          <div class="popularTags popularTagsDiv">Popular Tags</div>
+          <div class="notagsImg">
+            <img class="uploadFileIcon noTagsImgSize" src="assets/dist/images/notags.svg" alt="" />
+          </div>
+          <div class="notags">
+            No details to show!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p-dialog class="document" [closable]="false" [resizable]="false" [closeOnEscape]="false" [dismissableMask]="false"
+      #pDialog [(visible)]="displayUploadDocument" [modal]="true" [responsive]="true" [style]="{width: '80vw'}"
+      [minWidth]="1200" [minY]="70" [maximizable]="false">
+      <div style="padding: 1em 1.5em;">
+        <add-repository (onCancel)="onCancel($event)" (onSave)="onSave($event)"></add-repository>
+      </div>
+    </p-dialog>
+
+  </div>
+  <div *ngIf="IsOpenDocument">
+    <open-document [id]="documentId" (closeDocument)="closeDocument()" (deleteDocument)="onDelete($event)"></open-document>
+  </div>
+</div>

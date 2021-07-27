@@ -1,0 +1,361 @@
+﻿/*For table responsive*/
+@media only screen and (max-width: 640px) {
+    .ui-table-responsive .ui-table-tbody > tr > td .ui-column-title, .ui-datatable-reflow .ui-datatable-data td .ui-column-title {
+        padding: .4em;
+        max-width: 50%;
+        display: inline-block;
+        margin: -.4em 1em -.4em -.4em;
+        font-weight: bold;
+        word-break: unset;
+        min-width: 50% !important;
+    }
+}
+
+/*end table reponsive*/
+
+@media only screen and (max-width : 561px) {
+    /* Styles */
+    tr.ui-widget-content .table-data-right {
+        text-align: left !important;
+    }
+
+    .desktop-m-3 {
+        margin-top: 0rem !important;
+    }
+
+    .card-body .form-control {
+        border: 1px solid #f3f5f7;
+    }
+
+    .ui-state-default {
+        border: 1px solid #f3f5f7;
+    }
+    .ui-datatable tbody > tr.ui-widget-content.ui-datatable-odd {
+        background-color: transparent;
+    }
+}
+        /* Smartphones (portrait and landscape) ----------- */
+        @media only screen and (min-device-width : 320px) and (max-device-width : 767px) {
+
+            body {
+                font-size: 0.9rem;
+            }
+            footer, footer.footer {
+                /*position: static*/
+            }
+            .forgot-password {
+                position: absolute;
+                top: 42px;
+                width: 130px;
+                left: 12px;
+            }
+            .breadcrumb {
+                display: flex;
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+                padding: 0.5rem 0rem 0.5rem 0;
+                margin-bottom: 0rem;
+                list-style: none;
+                background-color: transparent;
+                border-radius: 0rem;
+                font-size: 0.5rem;
+                margin-top: 0px;
+            }
+
+            .login-card .card-body {
+                padding: 15px;
+            }
+
+            #login-form-id {
+                margin-top: 3rem;
+            }
+
+            .hide-on-mobile {
+                display: none !important;
+            }
+
+            .ui-datatable tbody td:last-child {
+                text-align: left;
+            }
+
+            .ui-datatable tbody td:last-child span.ui-cell-data.ng-star-inserted {
+                    min-width: 10%;
+                    display: inline-block;
+             }
+
+            .navbar-nav {
+                padding-left: 1rem;
+            }
+
+            .form-control {
+                font-size: 0.8rem;
+            }
+
+                .form-control:focus {
+                    box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+                }
+
+            .detail-fund-component .detail-page-text, .detail-firm-component .detail-page-text, .detail-portfolio-component .detail-page-text, .detail-deal-component .detail-page-text, .detail-pipeline-component .detail-page-text {
+                text-align: left;
+                color: #00a4d8
+            }
+
+            .add-fund-component .form-group label, .add-user-component .form-group label, .add-firm-component label, .add-gorup-component label, .add-user-component label {
+                display: block;
+                margin-bottom: 0.1rem;
+                text-align: left;
+            }
+
+            .add-control-btn .btn {
+                padding: 0.2rem 0.2rem !important;
+            }
+
+            .table th {
+                white-space: nowrap;
+            }
+
+            .table th, .table td {
+                padding: 0.2rem;
+            }
+
+            .btn-info, .btn-primary {
+                padding: 0.1rem 0.3rem;
+            }
+
+            table td .add-control-btn .btn-edit {
+                background: #fff;
+                color: #00aeef;
+                border: 0;
+                border-radius: 0;
+                font-size: 0.8rem;
+                margin: 0 0.3rem;
+            }
+
+            table td .add-control-btn .btn-detail {
+                background: #ffffff;
+                color: #117a8b;
+                border: 0;
+                border-radius: 0;
+                font-size: 0.8rem;
+                margin: 0 0.3rem;
+            }
+
+            .btn-export {
+                color: #fff;
+                background-color: #307741;
+                border-color: #307741 !important;
+                margin: 0.2rem 0.3rem;
+                padding: 0.0rem;
+                font-size: 1rem;
+                border-radius: 0;
+            }
+            .chart-donut{min-height:200px; margin:0; padding:0}
+            .text-md-center{text-align:center}
+            .fund-detail-component .fund-detail .fund-name{font-size:1.4rem}
+
+        }
+        /* Smartphones (landscape) ----------- */
+        @media only screen and (max-width : 990px) {
+            /* Styles */
+            .dropdown-menu {
+                border: 0;
+                background-color: #09d;
+            }
+            .card-counter {
+               
+                margin: 0px 0 10px 0 !important;
+                
+            }
+            .dropdown-item {
+                display: block;
+                width: 100%;
+                padding: 0.25rem 1.5rem;
+                clear: both;
+                font-weight: 400;
+                color: #fff;
+                text-align: inherit;
+                white-space: nowrap;
+                /* background-color: #0099dd; */
+                border: 0;
+                font-size: 0.9rem;
+            }
+
+            .navbar {
+                padding: 0;
+            }
+
+            h5 {
+                border-bottom: 1px solid #eee;
+                padding: 4px 0px;
+                margin: 0.5rem 0 1rem 0;
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+
+            .card .card {
+                margin-top: 0px;
+                border: 0;
+                padding: 0 0.3rem;
+            }
+
+            .navbar-dark .navbar-toggler {
+                color: rgba(255, 255, 255, 0.5);
+                border-color: transparent;
+            }
+
+            button:focus {
+                outline: 0 !important;
+            }
+
+            .navbar-toggler {
+                padding: 0.25rem 0.75rem;
+                font-size: 1.25rem;
+                line-height: 1;
+                background-color: transparent;
+                border: 0;
+                border-radius: 0.25rem;
+            }
+
+            ngb-tabset .tab-content {
+                padding: 0;
+                border: 1px solid #eee;
+                border-top: 0;
+                margin: 0;
+            }
+
+            .nav-tabs .nav-link {
+                border: 1px solid transparent;
+                border-top-left-radius: 0.25rem;
+                border-top-right-radius: 0.25rem;
+                padding: 0.7rem 0.5rem;
+                font-size: 0.7rem;
+            }
+
+            .form-group {
+                margin: 0rem 0rem 0.5rem 0rem;
+            }
+
+            location-control .form-group {
+                margin: 0rem 0rem 1rem 0rem;
+            }
+
+            .tab-content > .active {
+                display: block;
+                padding: 0.5rem;
+            }
+
+            .card-body form {
+                padding: 0 0.3rem;
+            }
+        }
+        /* iPads (portrait and landscape) ----------- */
+        @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+            /* Styles */
+            .navbar-nav {
+                padding-left: 1rem;
+            }
+        }
+        /* iPads (landscape) ----------- */
+        @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+            /* Styles */
+        }
+        /* iPads (portrait) ----------- */
+        @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+            /* Styles */
+        }
+        /**********
+iPad 3
+**********/
+        @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio : 2) {
+            /* Styles */
+        }
+
+        @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 2) {
+            /* Styles */
+        }
+        /* Desktops and laptops ----------- */
+        @media only screen and (min-width : 1224px) {
+            /* Styles */
+        }
+        /* Large screens ----------- */
+        @media only screen and (min-width : 1824px) {
+            /* Styles */
+        }
+        /* iPhone 4 ----------- */
+        @media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio : 2) {
+            /* Styles */
+        }
+
+        @media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 2) {
+            /* Styles */
+        }
+        /* iPhone 5 ----------- */
+        @media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2) {
+            /* Styles */
+        }
+
+        @media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2) {
+            /* Styles */
+        }
+        /* iPhone 6 ----------- */
+        @media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2) {
+            /* Styles */
+        }
+
+        @media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2) {
+            /* Styles */
+        }
+        /* iPhone 6+ ----------- */
+        @media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2) {
+            /* Styles */
+        }
+
+        @media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2) {
+            /* Styles */
+        }
+        /* Samsung Galaxy S3 ----------- */
+        @media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2) {
+            /* Styles */
+        }
+
+        @media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2) {
+            /* Styles */
+        }
+        /* Samsung Galaxy S4 ----------- */
+        @media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3) {
+            /* Styles */
+        }
+
+        @media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 3) {
+            /* Styles */
+        }
+        /* Samsung Galaxy S5 ----------- */
+        @media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3) {
+            /* Styles */
+        }
+
+        @media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 3) {
+            /* Styles */
+        }
+
+
+        @media only screen and (min-width : 991px) {
+            .navbar-expand-lg .navbar-nav .dropdown-menu {
+                position: absolute;
+                top: 31px;
+            }
+            .dropdown:hover > .dropdown-menu {
+                display: block;
+            }
+
+            
+        }
+
+
+        @media only screen and (min-width : 1320px) {
+            .container {
+                max-width: 1300px !important;
+            }
+        }
+
+

@@ -1,0 +1,189 @@
+﻿<div class="row">
+
+    <div class="col-lg-12">
+
+        <div class="add-user-component">
+            <div class="card card-main">
+                <div class="card-header card-header-main">
+                    <div class="row">
+                        <div class="col-auto mr-auto"> {{title}} Pipeline</div>
+                        <div class="col-auto">
+                            <a class="btn btn-back" [routerLink]="[sourceURL]" title="Back">
+                                <fa name="chevron-left"></fa> Back
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body">
+
+                    <form name="form" (ngSubmit)="f.valid && addPipeline(f)" #f="ngForm">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !firm.valid }">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="firm">Firm</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <typeahead-control name="firm" [loadingOptions]="firmLoading"
+                                                [(ngModel)]="model.firmDetails" [optionList]="masterModel.firmList"
+                                                validateRequired [displayField]="'firmName'" #firm="ngModel"
+                                                [isRequired]="true" (selectItem)="getFundListByFirmID()">
+                                            </typeahead-control>
+
+
+                                            <div *ngIf="(f.submitted || firm.dirty) && !firm.valid" class="text-danger">
+                                                Firm is required</div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="FirstName">Fund</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <typeahead-control name="fund" [loadingOptions]="fundsLoading"
+                                                [(ngModel)]="model.fundDetails" [optionList]="masterModel.fundList"
+                                                [isRequired]="true" [displayField]="'fundName'" #fund="ngModel"
+                                                validateRequired></typeahead-control>
+
+                                            <div *ngIf="(f.submitted || fund.dirty) && !fund.valid" class="text-danger">
+                                                Fund is required</div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-4">
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !accountType.valid }">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="accountType">Account Type</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <typeahead-control name="accountType" [loadingOptions]="accountTypeLoading"
+                                                [(ngModel)]="model.accountTypeDetails"
+                                                [optionList]="masterModel.accountTypeList"
+                                                [displayField]="'accountType'" #accountType="ngModel"
+                                                [isRequired]="undefined"></typeahead-control>
+
+                                            <div *ngIf="(f.submitted || accountType.dirty) && !accountType.valid"
+                                                class="text-danger">Account type is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="strategy">Strategy</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <typeahead-control name="strategy" [loadingOptions]="strategyLoading"
+                                                [(ngModel)]="model.strategyDetails"
+                                                [optionList]="masterModel.strategyList" validateRequired
+                                                [displayField]="'strategy'" #strategy="ngModel" [isRequired]="true">
+                                            </typeahead-control>
+
+                                            <div *ngIf="(f.submitted || strategy.dirty) && !strategy.valid"
+                                                class="text-danger">Strategy is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="Status">Stage</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <typeahead-control name="status" [loadingOptions]="statusLoading"
+                                                [(ngModel)]="model.pipelineStatus" [optionList]="masterModel.statusList"
+                                                validateRequired [displayField]="'status'" #status="ngModel"
+                                                [isRequired]="true"></typeahead-control>
+
+                                            <div *ngIf="(f.submitted || status.dirty) && !status.valid"
+                                                class="text-danger">Status is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="closingDate">Closing Date</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="input-group mb-3">
+                                                <p-calendar [(ngModel)]="model.closingDate" name="closingDate"
+                                                    #closingDate [monthNavigator]="true" [yearNavigator]="true"
+                                                    dateFormat="dd/mm/yy" readonlyInput="true" [showIcon]="true"
+                                                    yearRange={{yearRange}} [maxDate]="today" [required]="true">
+                                                </p-calendar>
+                                                <div *ngIf="(f.submitted || closingDate.dirty) && !closingDate.valid"
+                                                    class="text-danger">Closing Date is required</div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="Description"> Description</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <textarea type="text" class="form-control" rows="4" name="description"
+                                                [(ngModel)]="model.description" #description="ngModel"
+                                                autocomplete="off" maxlength="500"></textarea>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group text-center">
+
+                                    <p-growl [(value)]="msgs" [life]="msgTimeSpan"></p-growl>
+                                    <div class="loading-input-controls-manual" *ngIf="loading"><i
+                                            class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+
+                                    <button [disabled]="loading" class="btn btn-primary"
+                                        title="{{title}}">{{title}}</button>
+                                    <input type="button" value="{{resetText}}" title="{{resetText}}"
+                                        (click)="formReset(f)" class="btn btn-warning" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

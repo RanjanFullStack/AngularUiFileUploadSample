@@ -1,0 +1,230 @@
+#rightContainerBody{
+    border: 15px solid #f0f0f1;
+    height: 95%;
+    width: 100%;
+}
+
+#leftContainer{
+height: 38vw;
+}
+
+.headerContainer{
+    width: 108%;
+    height: 35px;
+    background: #FAFAFB 0% 0% no-repeat padding-box;
+    opacity: 1;
+    padding: 8px;
+}
+
+.titleStyle{
+    font-weight: 700;
+    color: #000000;
+}
+
+.fontStyle14{
+    font-size: 0.82031vw !important;
+    font-family: 'Helvetica Neue LT W05_55 Roman';
+}
+
+.fontStyle12{
+    font-size: 0.627123vw;
+    font-family: 'Helvetica Neue LT W05_55 Roman';
+}
+
+.lastModifiedStyle{
+    color: #ababab;
+    float: right;
+}
+
+.bodyContainer{
+    height: 86%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.w100{
+    width: 100%;
+}
+
+.normalStateColor{
+    color: #ababab;
+}
+
+.docNameLabel{
+    margin-top: 20px;
+    margin-bottom: 6px;
+    margin-left: 2.4vw;
+}
+
+.firmNameLabel{
+  margin-bottom: 6px;
+  margin-left: 2.4vw;
+}
+
+.mL{
+    margin-left: 0.4vw;
+}
+
+.folderIcon{
+    margin-right: 0.5vw;
+    margin-top: -0.2vw;
+}
+
+.textColor{
+    color: #55565a;
+}
+
+::-webkit-scrollbar {
+    width: 8px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #afafaf !important;
+}
+
+.docDate {
+	border: none;
+	background-color: #fff;
+	background-image: none;
+	border-radius: 0
+}
+
+.docDate:focus {
+	box-shadow: unset
+}
+
+.line{
+    border-bottom: 1px solid #cac9c7;
+    width: 88.5%;
+    margin-left: 1.8vw;
+    margin-top: 1.5vw;
+    margin-bottom: 0.5vw;
+}
+
+.docIcon{
+    margin-top: 1.3vw;
+}
+
+.openDocInputText{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    border-bottom: 1px solid #cac9c7;
+    color: #55565a;
+    cursor: text;
+    padding: 0vw 0vw 0.5vw 0.4vw !important;
+}
+
+#rightContainerHeader{
+    width: 100%;
+    height: 35px;
+    background-color: #ffffff;
+}
+
+.rBorder{
+    border:1px solid #dedfd0;
+}
+
+.searchBox{
+    border: none;
+    width: 100%;
+    color: #b3b3b3;
+    padding-left: 0 !important;
+    padding-top: 0.5vw !important;
+}
+
+.searchIcon{
+    padding-top: 0.5vw !important;
+}
+
+#rightContainerHeader .col-4{
+    padding-right: 0 !important;
+}
+
+.rHeaderDelIcons{
+    padding-top: 0.1vw;
+    padding-left: 0.1vw;
+}
+
+.version{
+    color: #b3b3b3;
+    padding-left: 1.7vw;
+    padding-top: 0.3vw;
+}
+
+.preview{
+    color: #b3b3b3;
+    margin-top: 40%;
+    margin-left: 39%;
+}
+
+.folderType{
+    border-bottom: 1px solid #b7b7b7;
+    padding: 0 0 0.8vw 0px;
+}
+.activateInputField{
+    opacity: 100% !important;
+}
+
+/* .activeStateColor{
+    color:#021155 !important;
+} */
+
+.footerStyle{
+    height: 3.4vw;
+    background-color: #FAFAFB;
+    width: 100%;
+    display: flex;
+    padding-right: 1.171873vw;
+    padding-top: 0.700999vw;
+    padding-bottom: 0.700999vw;
+}
+
+.footerCol1{
+    width: 100%;
+}
+
+.footerCol2{
+    width: 14%;
+}
+
+.cancelCol{
+    float: right;
+    margin-right: 0.700999vw;
+}
+
+.mL2vw{
+    margin-left: 2vw;
+}
+
+.modalBodyTextStyle{
+    color: #000000;
+}
+
+.showHandIcon {
+  cursor: pointer !important;
+  margin-top: 2px;
+}
+
+.showHandIcon:hover {
+  cursor: pointer !important;
+}
+
+.applyRedColor{
+    color: #C62828 !important;
+  }
+
+.applyRedBorderBottom{
+    border-bottom: 1px solid #C62828 !important;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    color: #55565a;
+    cursor: text;
+    padding: 0vw 0vw 0.5vw 0.4vw !important;
+}
+.right-align{
+    text-align: right; width: 100%;padding-right:30px
+}

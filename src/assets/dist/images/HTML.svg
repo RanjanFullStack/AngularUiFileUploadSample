@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-HTML-FileType">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="HTML-FileType" clip-path="url(#clip-HTML-FileType)">
+    <rect width="24" height="24" fill="#fff"/>
+    <g id="HTML-FileType-2" data-name="HTML-FileType">
+      <rect id="Path" width="24" height="24" fill="none"/>
+      <g id="Group" transform="translate(4 2)">
+        <path id="Combined-Shape" d="M11.078,0,16,5.1v.914h0V19a1,1,0,0,1-1,1H1a1,1,0,0,1-1-1V1A1,1,0,0,1,1,0ZM10,2H2V18H14V6.011H10Z" fill="#3b9dff" fill-rule="evenodd"/>
+        <g id="public-black-18dp" transform="translate(4.5 7.5)">
+          <path id="Path_2030" d="M0,0H7V7H0Z" fill="none" fill-rule="evenodd"/>
+          <path id="Path_2031" d="M3.5.583A2.917,2.917,0,1,0,6.416,3.5,2.917,2.917,0,0,0,3.5.583Zm-.292,5.23A2.33,2.33,0,0,1,1.166,3.5a2.368,2.368,0,0,1,.061-.522l1.4,1.4V4.67a.585.585,0,0,0,.583.583ZM5.22,5.072a.579.579,0,0,0-.554-.405H4.375V3.791A.293.293,0,0,0,4.083,3.5H2.333V2.916h.583a.293.293,0,0,0,.292-.292V2.041h.583a.585.585,0,0,0,.583-.583v-.12A2.328,2.328,0,0,1,5.22,5.071Z" fill="#3b9dff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

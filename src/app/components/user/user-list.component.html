@@ -1,0 +1,95 @@
+﻿<div class="row">
+    <div class="col-lg-12">
+        <div class="add-user-component">
+            <div class="card card-main">
+                <div class="card-header card-header-main">
+                    <div class="row">
+                        <div class="col-auto mr-auto">Users List</div>
+                        <div class="col-auto" [hideIfUnauthorized]='{featureId:feature.User,action:"add"}'><a [routerLink]="['/register']" class="btn btn-primary" title="Add User"><fa name="plus-square"></fa> <span class="hide-on-mobile">User</span></a></div>
+                    </div>
+                    <!--*ngIf="checkFeaturePermission(feature.User)"-->
+                </div>
+                <div class="card-body"> 
+                    <p-growl [(value)]="msgs" [life]="msgTimeSpan"></p-growl>
+                        <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+                            <div class="row">
+                                <div class="col-8 col-lg-5 mr-auto search"> <span class="fa fa-search"></span><input #gb type="text" pInputText placeholder="Search" class="form-control search-box" [(ngModel)]="globalFilter"></div>
+                                <div class="col-auto col-sm-auto col-lg-auto" [hideIfUnauthorized]='{featureId:feature.User,action:"export"}'> <a class="btn btn-export" title="Export Uers (Excel file)" (click)="exportUserList()"> <i class="fa fa-file-excel-o"></i></a></div>
+                            </div>
+
+                        </div>
+                    <p-dataTable [reorderableColumns]="true" #tblUser emptyMessage="{{blockedTable? 'Please Wait...':'No record found'}}" [totalRecords]="totalRecords" [value]="users" [lazy]="true" [rows]="10" [paginator]="true" (onLazyLoad)="loadUsersLazy($event)" [responsive]="true" [rowsPerPageOptions]="pagerLength" [globalFilter]="gb" sortMode="multiple">
+                        <p-column field="firstName-lastName" header="Name" [sortable]="true">
+							<ng-template pTemplate="body" let-user="rowData">
+								<a class="click-view" href="javascript:void(0);" [routerLink]="['/user-details', user.encryptedUserID]" title="View Details" [hideIfUnauthorized]='{featureId:feature.User,action:"view"}'>{{user.firstName+" " +user.lastName}}</a>
+								
+							</ng-template>
+                        </p-column>
+
+                        
+                        <p-column field="emailID" header="Email" [sortable]="true"></p-column>
+                        <p-column field="groupDetails" header="Groups">
+                            <ng-template pTemplate="body" let-group="rowData">  
+                                <ng-container *ngIf="group.groupDetails !=null">
+                                    <span *ngFor="let userGroup of group.groupDetails; index as i;first as isFirst; last as isLast">
+                                        <span *ngIf="isFirst;">
+                                            {{userGroup.groupName}}<span *ngIf="!isLast;">,</span>
+                                        </span>
+                                        <span *ngIf="!isFirst && !isLast">
+                                            {{userGroup.groupName}},
+                                        </span>
+                                        <span *ngIf="isLast && !isFirst">
+                                            {{userGroup.groupName}}
+                                        </span>
+                                    </span>
+                                </ng-container>
+
+                            </ng-template>
+
+                        </p-column>
+						<p-column field="Country.Country" header="Country" [sortable]="true">
+							<ng-template pTemplate="body" let-user="rowData">
+								{{user.country.country}}
+							</ng-template>
+						</p-column>
+                        <p-column field="phoneNumber" header="Phone Number" [sortable]="true" ></p-column>
+                        <p-column field="isActive" header="Status" [sortable]="true">
+                            <ng-template pTemplate="body" let-user="rowData">
+                                <ng-container *ngIf="user.isActive === true">
+                                    Active
+                                </ng-container>
+                                <ng-container *ngIf="user.isActive === false">
+                                    Inactive
+                                </ng-container>
+                            </ng-template>
+                        </p-column>
+                        <p-column styleClass="col-button" header="Action">
+                            <ng-template pTemplate="body" let-user="rowData">
+                                <div class="add-control-btn text-center">
+                                    <a class="btn btn-edit" href="javascript:void(0);" title="Edit" [routerLink]="['/register', user.encryptedUserID]" [hideIfUnauthorized]='{featureId:feature.User,action:"edit"}'><fa name="edit"></fa></a>
+                                    <a class="btn btn-detail" href="javascript:void(0);" title="Password Reset" (click)='openModal(user.firstName+" " +user.lastName,user.encryptedUserID)' [hideIfUnauthorized]='{featureId:feature.User,action:"edit"}'><fa name='refresh'></fa></a>
+                                </div>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+
+
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<p-confirmDialog header="Reset Password" icon="pi pi-exclamation-triangle" width="425" #cd>
+	<p-footer>
+		<img *ngIf="loading" src="assets/dist/images/loading-small.gif" />
+		<button type="button" [disabled]="loading" pButton label="Yes" (click)="cd.accept()"></button>
+		<button type="button" pButton label="No" (click)="cd.reject()"></button>
+
+	</p-footer>
+</p-confirmDialog>
+

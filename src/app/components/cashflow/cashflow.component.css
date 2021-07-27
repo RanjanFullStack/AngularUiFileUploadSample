@@ -1,0 +1,9 @@
+﻿.bulkMessage {
+    font-weight: bold;
+    color: green
+}
+
+.errorMessage {
+    font-weight: bold;
+    color: red
+}

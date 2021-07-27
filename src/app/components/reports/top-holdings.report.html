@@ -1,0 +1,215 @@
+﻿<div style="width: 93vw;height:100vh">
+<horizontal-navbar [itemList]="holdingsByList" [(ngModel)]="model.selectedReportTypes"
+(selectItem)="changeReportType($event)"></horizontal-navbar>
+<div class="report-edit-dropdown" [hidden]="!masterModel.filterSection">
+   <a class="btn float-right  filter-btn" title="Close" (click)="showHideFilter()">
+   <i class="fa fa-times" style="color:#c62828; font-size:14px"></i>
+   </a>
+   <form name="form" (ngSubmit)="form.valid && search(form)" #form="ngForm" id="report-form">
+   <div class="p-0">
+      <div class="row">
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="Strategy">Strategy</label>
+                  </div>
+                  <div class="col-12">
+                     <span class="report-field">
+                        <p-multiSelect name="Strategy"  [resetFilterOnHide]=true [disabled]="strategyList==undefined"
+                        #Strategy="ngModel" [options]="strategyList" defaultLabel="Select"
+                        maxSelectedLabels="1" [(ngModel)]="model.strategyIds" optionLabel="strategy"
+                        (onChange)="onStrategyChanged($event)">
+                        <ng-template let-strategy pTemplate="item">
+                           {{strategy.label}}
+                        </ng-template>
+                        </p-multiSelect>
+                     </span>
+                     <div class="loading-input-controls" *ngIf="strategyList==undefined"><i
+                        class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="Region">Region</label>
+                  </div>
+                  <div class="col-12">
+                     <span class="report-field">
+                        <p-multiSelect name="Region"  [resetFilterOnHide]=true [disabled]="regionList==undefined" #Region="ngModel"
+                        [options]="regionList" defaultLabel="Select" maxSelectedLabels="1"
+                        [(ngModel)]="model.regionIds" optionLabel="region"
+                        (onChange)="onRegionChange($event)">
+                        <ng-template let-region pTemplate="item">
+                           {{region.label}}
+                        </ng-template>
+                        </p-multiSelect>
+                     </span>
+                     <div class="loading-input-controls" *ngIf="regionList==undefined"><i
+                        class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="Country">Country</label>
+                  </div>
+                  <div class="col-12">
+                     <span class="report-field">
+                        <p-multiSelect name="Country" [resetFilterOnHide]=true [disabled]="countryLoading" #Country="ngModel"
+                        [options]="countryList" defaultLabel="Select" maxSelectedLabels="1"
+                        [(ngModel)]="model.countryIds" optionLabel="country"
+                        (onChange)="onCountryChange($event)">
+                        <ng-template let-country pTemplate="item">
+                           {{country.label}}
+                        </ng-template>
+                        </p-multiSelect>
+                     </span>
+                     <div class="loading-input-controls" *ngIf="countryLoading"><i
+                        class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="Funds">Funds</label>
+                  </div>
+                  <div class="col-12">
+                     <span class="report-field">
+                        <p-multiSelect name="Funds" [resetFilterOnHide]=true [disabled]="fundList==undefined" #Funds="ngModel"
+                        [options]="fundList" defaultLabel="Select" maxSelectedLabels="1" (onChange)="OnFundChanged($event)"
+                        [(ngModel)]="model.fundIds" optionLabel="fundName">
+                        <ng-template let-fund pTemplate="item">
+                           {{fund.label}}
+                        </ng-template>
+                        </p-multiSelect>
+                     </span>
+                     <div class="loading-input-controls" *ngIf="fundList==undefined"><i
+                        class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="Strategy">Status</label>
+                  </div>
+                  <div class="col-12">
+                     <span class="report-field">
+                        <p-multiSelect name="FundHoldingStatus" [resetFilterOnHide]=true
+                        [disabled]="fundHoldingStatusList==undefined" #Strategy="ngModel"
+                        [options]="fundHoldingStatusList" defaultLabel="Select" maxSelectedLabels="1"
+                        [(ngModel)]="model.fundHoldingStatusIds" optionLabel="status" (onChange)="OnStatusChanged($event)">
+                        <ng-template let-status pTemplate="item">
+                           {{status.label}}
+                        </ng-template>
+                        </p-multiSelect>
+                     </span>
+                     <div class="loading-input-controls" *ngIf="fundHoldingStatusList==undefined"><i
+                        class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-6 col-md-2 ">
+            <div class="form-group m-0">
+               <div class="row">
+                  <div class="col-12">
+                     <label for="TimePeriod">Evaluation Date</label>
+                  </div>
+                  <div class="col-12">
+                     <div class="input-group">
+                        <p-calendar name="timePeriod" showButtonBar="true" (onClearClick)="onDateClear()"
+                        [(ngModel)]="dateRange" #timePeriod selectionMode="range"
+                        [monthNavigator]="true" [yearNavigator]="true" [readonlyInput]="true"
+                        inputStyleClass="date-picker-input" dateFormat="dd/mm/yy" [showIcon]="true"
+                        yearRange={{yearRange}} (onSelect)="onDateSelect()" [maxDate]="today"
+                        [minDate]="minDate"></p-calendar>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+        
+      </div>
+      <filter-control #filter [(IsEnabled)]="IsEnabled" [(ReportId)]="ReportId" (onReset)="resetForm(form)" (onApply)="search($event)" (OnSavedFilter)="LoadSavedFilter($event)" [(Filters)]="Filter"></filter-control>
+   </div>
+   </form>
+</div>
+<div class="" *ngFor="let data of reportData">
+   <div class="charts-parent-div">
+      <div class="row">
+         <div class="col-auto mr-auto"> </div>
+      </div>
+      <div class="row">
+         <div class="col-sm-12">
+            <div class="chart-bg">
+               <div class="row chart-header">
+                  <div class="col-sm-8 p-0">{{data.ReportType}}</div>
+                  <span class="gbp-info col-sm-4 p-0">
+                  <span class="gbp-info p-2"><i class="fa fa-info-circle icon"></i>All values in USD</span>
+                  <p-selectButton [options]="types" [(ngModel)]="model.isAscending" name="sortBy"
+                  (onChange)="search(form)" ></p-selectButton>
+                  </span>
+               </div>
+               <div class="text-info" *ngIf="data?.Results?.length==0">
+                  No record found
+               </div>
+               <div style="overflow-x: scroll;">
+               <p-table  [columns]="data.cols" *ngIf="data.Results!=null && data.Results.length>0"
+               [value]="data.Results"  [responsive]="true" class="p-0 m-0">
+               <ng-template pTemplate="header" let-columns>
+                  <tr>
+                     <th width="200px" style="background-color: #f2f2f2;overflow: hidden;"  *ngFor="let col of columns">
+                        {{col.header}}
+                     </th>
+                  </tr>
+               </ng-template>
+               <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                     <td *ngFor="let col of columns"
+                     class="{{miscService.checkIfStringIsFloat(rowData[col.field])? 'table-data-right':''}}"
+                     [class.higlighted-cell]="col.header=='Gain/(Loss)' || col.header=='TVPI' || col.header=='% Contribution'">
+                     <span class="ui-column-title">{{col.header}}</span>
+                     <span [innerHtml]="rowData[col.field]|minusSignToBrackets|formatNumbers"></span>
+                     </td>
+                  </tr>
+               </ng-template>
+               <ng-template pTemplate="footer" *ngIf="data.Results?.length>0">
+                  <tr>
+                     <td *ngFor="let col of data.Columns"
+                        class="{{miscService.checkIfStringIsFloat(data.FooterRow[col])? 'table-data-right':''}}">
+                        <span [innerHtml]="data.FooterRow[col]|minusSignToBrackets|formatNumbers"></span>
+                     </td>
+                  </tr>
+               </ng-template>
+               <ng-template pTemplate="emptymessage" let-columns>
+                  <tr>
+                     <td [attr.colspan]="columns.length">
+                        No record found
+                     </td>
+                  </tr>
+               </ng-template>
+               </p-table>
+            </div>
+               <div class="col-info p-2">
+                  <span><i class="fa fa-square calculated-value" aria-hidden="true"></i><i>Calculated
+                  Values</i></span>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>

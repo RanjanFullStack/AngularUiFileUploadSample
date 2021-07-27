@@ -1,0 +1,154 @@
+﻿<div class="row">
+    <div class="col-lg-12">
+        <div class="add-user-component">
+            <div class="card card-main">
+                <div class="card-header card-header-main">
+                    <div class="row">
+                        <div class="col-auto mr-auto"> {{title}} User</div>
+                        <div class="col-auto">
+                            <a class="btn btn-back" [routerLink]="[sourceURL]" title="Back"><fa name="chevron-left"></fa> Back </a>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="card-body">
+                    <form name="form" (ngSubmit)="f.valid && saveUser(f)" #f="ngForm">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !FirstName.valid }">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="FirstName">First Name</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control" name="FirstName" [(ngModel)]="model.firstName" #FirstName="ngModel" validateRequired inputValidator="validatePersonName" autocomplete="off" maxlength="50" />
+                                            <div *ngIf="FirstName.invalid && (FirstName.dirty|| f.submitted)" class="text-danger">
+                                                <p *ngIf="FirstName.errors.validateRequired">Please enter first name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !LastName.valid }">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="LastName">Last Name</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control"
+                                                   name="LastName" [(ngModel)]="model.lastName" #LastName="ngModel" validateRequired inputValidator="validatePersonName" autocomplete="off" maxlength="50" />
+                                            <div *ngIf="!LastName.valid && (LastName.dirty||f.submitted)" class="text-danger">
+                                                <p *ngIf="(LastName.dirty) || LastName.errors.validateRequired">Please enter last name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4">
+                                <div class="form-group">
+									<div class="row">
+										<div class="col-12">
+											<label for="EmailId">Email</label>
+										</div>
+										<div class="col-12" *ngIf="id == undefined">
+											<input type="text" class="form-control" name="EmailId" [(ngModel)]="model.emailID" #EmailId="ngModel" validateRequired validateEmail autocomplete="off" maxlength="100" [readonly]="id != undefined" />
+											<div *ngIf="EmailId.invalid && (EmailId.dirty ||f.submitted)" class="text-danger">
+												<p *ngIf="EmailId.errors.validateEmail || EmailId.errors.validateRequired">Please provide a valid email address</p>
+											</div>
+										</div>
+										<div class="col-12" *ngIf="id != undefined">
+											<span class="detail-sec">{{model.emailID}}</span>
+										</div>
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !PhoneNumber.valid }">
+									<div class="row">
+										<div class="col-12">
+											<label for="PhoneNumber">Phone No.</label>
+										</div>
+										<div class="col-12">
+											<input type="text" class="form-control" name="PhoneNumber" pattern=".{5,15}" [(ngModel)]="model.phoneNumber" #PhoneNumber="ngModel" inputValidator="integer" maxlength="15" autocomplete="off" />
+											<div *ngIf="PhoneNumber.invalid && (PhoneNumber.dirty ||f.submitted)" class="text-danger">
+
+												<div *ngIf="PhoneNumber.errors?.pattern" class="text-danger">
+													Phone number should be of 5 to 15 digits.
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="Password">Country</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <typeahead-control name="fund" [loadingOptions]="countryList==undefined" [(ngModel)]="model.country" [optionList]="countryList" [isRequired]="true" [displayField]="'country'" #Country="ngModel"></typeahead-control>
+                                            <div *ngIf="Country.invalid && (Country.dirty ||f.submitted)" class="text-danger">
+                                                <div *ngIf="f.submitted && !Country.valid" class="text-danger">Country is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="Password">Group</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <p-multiSelect name="GroupData" [disabled]="groupList==undefined" #GroupData="ngModel" [options]="groupList" defaultLabel="Select" maxSelectedLabels="1" [(ngModel)]="model.groupDetails" optionLabel="groupName" [panelStyle]="{minWidth:'12em'}">
+                                                <ng-template let-group pTemplate="item">
+                                                    {{group.label}}
+                                                </ng-template>
+                                            </p-multiSelect>
+                                            <div class="loading-input-controls" *ngIf="groupList==undefined"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-4 ">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <label for="IsActive">Active</label>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="checkbox" value="" name="IsActive" [(ngModel)]="model.isActive" #IsActive="ngModel">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group text-center">
+
+                                    <p-growl [(value)]="msgs" [life]="msgTimeSpan"></p-growl>
+
+                                    <div class="loading-input-controls-manual" *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+                                    <button [disabled]="loading" class="btn btn-primary" title="{{title}}">
+
+                                        {{title}}
+                                    </button>
+                                    <input type="button" value="{{resetText}}" title="{{resetText}}" (click)="formReset(f)" class="btn btn-warning" />
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

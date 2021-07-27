@@ -1,0 +1,250 @@
+<style>
+  .fix1 {
+    padding-right: 20px;
+    margin-top: 10px;
+  }
+
+  .title {
+    text-align: left;
+    font: normal normal normal 24px/24px Helvetica Neue;
+    letter-spacing: 0.29px;
+    color: #000000;
+    padding-left: 40px;
+    padding-bottom: 20px;
+    opacity: 1;
+    background: #FAFAFB 0% 0% no-repeat padding-box;
+    height: 68px;
+    padding-top: 16px;
+    margin-top: -20px;
+    margin-left: -28px;
+    margin-right: -30px;
+  }
+
+  .subtitle {
+    text-align: left;
+    font: normal normal medium 14px/18px Helvetica Neue;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+  }
+
+  .label_title {
+    color: #55565a;
+    text-align: left;
+    letter-spacing: 0px;
+    color: #55565A;
+    padding-left: 8px;
+    opacity: 1;
+    font-size: 12px;
+  }
+
+  .content {
+
+    text-align: left;
+    font: normal normal normal 14px/17px Helvetica Neue;
+    letter-spacing: 0px;
+
+    opacity: 1;
+  }
+
+  .footer {
+    text-align: right;
+    opacity: 1;
+    background: #FAFAFB 0% 0% no-repeat padding-box;
+    height: 56px;
+    margin-bottom: -20px;
+    margin-left: -28px;
+    margin-right: -30px;
+    padding-bottom: 48px;
+    padding-top: 20px;
+    padding-right: 20px;
+  }
+
+  .nep-input {
+    color: #000000;
+  }
+</style>
+<div style="border:4px">
+  <div class="title">
+    <span style="height: 28px;">Upload Document</span>
+
+    <div toastContainer style="display: flex; justify-content: center;">
+    </div>
+  </div>
+  <!-- <div class="nep-alert-content" toastContainer></div> -->
+
+  <form ngForm name="form" class="form" autocomplete="off">
+    <div class="row">
+      <div class="col-8">
+        <div class="row" style="padding:20px">
+          <div class="col-6">
+            <h6 class="subtitle">Document Details</h6>
+            <div style="padding-left: 12px;">
+              <div class="row">
+                <div class="fix1 col-12">
+                  <p id="docName" for="documentname" class="nep-form-label label_title">Document Name</p>
+                  <input type="text" class="nep-input nep-input-bottom-border content fontStyle14" id="documentname"
+                    name="documentName" [(ngModel)]="newDocument.Name" (blur)="documentNameOnBlur()" style="padding-left:8px;"  placeholder="Enter the document title">
+                  <p for="documentnameValidationError" class="nep-form-label label_title applyRedColor">{{validationError}}</p>
+                </div>
+              </div>
+              <div style="height: 4px;"></div>
+              <div class="row">
+                <div id="docTypeDiv" class="fix1 col-12">
+                  <p for="documenttype" class="nep-form-label label_title">Document Type</p>
+                  <typeahead-control name="documenttype"  [optionList]="documentTypes" [displayField]="'name'"
+                    (selectItem)="onDocumentTypeChanged()" [resultField]="'id'" [(ngModel)]="newDocument.DocumentType"
+                    placeholder="Select document type">
+                  </typeahead-control>
+                </div>
+              </div>
+              <div style="height: 16px;"></div>
+              <div class="row">
+                <div class="fix1 col-12">
+                  <p for="documentsubtype" class="nep-form-label label_title">Document Sub-Type</p>
+                  <typeahead-control [optionList]="documentSubTypes" [displayField]="'name'" [resultField]="'id'"
+                    name="documentsubtype" [(ngModel)]="newDocument.DocumentSubType" placeholder="Select document type">
+                  </typeahead-control>
+                </div>
+              </div>
+              <div style="height: 16px;"></div>
+              <div class="row">
+                <div class="fix1 col-12">
+                  <p for="dateofdocument" class="nep-form-label label_title">Date of Document</p>
+                    <p-calendar [(ngModel)]="newDocument.DateOfDocument" name="documentDate"
+                    [monthNavigator]="true"  readonlyInput="true" [showIcon]="true"
+                    [yearNavigator]="true" yearRange="2000:2020"  [maxDate]="maxDateValue"  placeholder="Provide As of date for the file">
+                  </p-calendar>
+                </div>
+              </div>
+            </div>
+            <div>
+
+            </div>
+
+          </div>
+          <div class="col-6">
+            <h6 class="subtitle">Investment Details</h6>
+                <div style="padding-left: 12px;">
+            <div class="row">
+              <div class="fix1 col-12">
+                <p for="firmname" class="nep-form-label label_title">Firm Name</p>
+
+                <typeahead-control name="firm" id="firmname" [optionList]="firms" [displayField]="'firmName'"
+                  [resultField]="'firmID'" [(ngModel)]="newDocument.FirmId" placeholder="Search or select firm">
+                </typeahead-control>
+              </div>
+            </div>
+            <div style="height: 16px;"></div>
+            <div class="row">
+              <div class="fix1 col-12">
+                <p for="fundname" class="nep-form-label label_title">Fund Name</p>
+                <typeahead-control name="fund" id="fundname" [optionList]="funds" [displayField]="'fundName'"
+                  [resultField]="'fundID'" [(ngModel)]="newDocument.FundId" placeholder="Search or select fund">
+                </typeahead-control>
+              </div>
+            </div>
+            <div style="height: 16px;"></div>
+            <div class="row">
+              <div class="fix1 col-12">
+                <p for="portfoliocompany" class="nep-form-label label_title">Portfolio Company Name</p>
+                <typeahead-control name="portfoliocompany" id="portfoliocompany" [optionList]="porfoliocompanies"
+                  [displayField]="'companyName'" [resultField]="'portfolioCompanyID'"
+                  [(ngModel)]="newDocument.PortfolioCompanyId" placeholder="Search or select portfolio company">
+                </typeahead-control>
+              </div>
+            </div>
+            <div style="height: 16px;"></div>
+            <div class="row">
+              <div class="fix1 col-12">
+                <p for="dealid" class="nep-form-label label_title">Deal ID</p>
+                <typeahead-control name="dealid" id="dealid" [optionList]="deals" [displayField]="'dealCustomID'"
+                  [resultField]="'dealID'" [(ngModel)]="newDocument.DealId" placeholder="Search deal ID">
+                </typeahead-control>
+              </div>
+            </div>
+                </div>
+          </div>
+
+        </div>
+        <br />
+        <br />
+        <div class="row tagDiv">
+          <div class="col-12 fix1">
+            <p class="nep-form-label">Add tags for document to search</p>
+            <input type="text" name = "newDocument.Tags" [(ngModel)]="newDocument.Tags" class="form-control" id="tags">
+          </div>
+        </div>
+      </div>
+      <div class="col-4" style="padding:20px; margin-top: 2px; border-left:1px solid #f2f2f2; padding-left: 30px;">
+        <div>
+          <div class="container" appDnd (fileDropped)="onFileDropped($event)">
+            <input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event.target.files)"
+              style="cursor: pointer;" />
+            <img class="uploadFile" src="assets/dist/images/uploadFiles.png" alt="" />
+            <p></p>
+            <p>Drop your files here<br>or</p>
+            <button for="fileDropRef" class="nep-button nep-button-primary">Upload</button>
+          </div>
+          <span id="uploadedCount"></span>
+          <div class="files-list overflowProgressGroup">
+            <div class="single-file" *ngFor="let file of files; let i = index">
+              <div class="file-icon" style="width: 30px;margin-top: -3px;">
+                <img src="assets/dist/images/File.svg" alt="" />
+              </div>
+              <div class="info" style="cursor: default;">
+                <h1 title={{file?.name}} class="name nepOption">
+                  {{ file?.name }}
+                </h1>
+                <p class="size">
+                  {{ formatBytes(file?.size) }}
+                </p>
+                <app-progress id="fileUploadProgressBar" [progress]="file?.progress"></app-progress>
+              </div>
+
+              <div (click)="openModal(templateOnDelete)">
+                <img class="showHandIcon" src="assets/dist/images/Delete.svg" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        <button class="nep-button nep-button-secondary" (click)="openModal(template)">Cancel</button>
+        <button id="uploadSave" disabled="true" class="nep-button nep-button-primary" (click)="Save()">Save</button>
+
+      </div>
+    </div>
+  </form>
+
+  <ng-template #template>
+    <div class="nep-card-body nep-modal-body">
+      <div class="nep-modal-icon">
+        <img src="assets/dist/images/warning.svg" alt="" style="width: 16px;height: 16px;margin-right: 8px;"/>
+        Are you sure you want to cancel without saving?
+      </div>
+    </div>
+    <div class="nep-card-footer nep-card-right nep-modal-footer">
+      <button class="nep-button nep-button-primary float-right"
+        (click)="YesOnCancel($event)">Yes</button>
+      <button class="nep-button nep-button-secondary float-right btn-space"
+        (click)="NoOnCancel($event)">No</button>
+    </div>
+  </ng-template>
+
+  <ng-template #templateOnDelete>
+    <div class="nep-card-body nep-modal-body">
+      <div class="nep-modal-icon">
+        <img src="assets/dist/images/warning.svg" alt="" style="width: 16px;height: 16px;margin-right: 4px;"/>
+        Are you sure you want to discard the uploaded document?
+      </div>
+    </div>
+    <div class="nep-card-footer nep-card-right nep-modal-footer">
+      <button class="nep-button nep-button-primary float-right"
+        (click)="YesOnCancelWhenDeleted($event)">Yes</button>
+      <button class="nep-button nep-button-secondary float-right btn-space"
+        (click)="NoOnCancel($event)">No</button>
+    </div>
+  </ng-template>

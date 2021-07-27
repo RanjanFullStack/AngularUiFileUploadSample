@@ -1,0 +1,16 @@
+﻿.bulkMessage {
+    font-weight: bold;
+    color: green
+}
+.errorMessage {
+    font-weight: bold;
+    color: red
+}
+.infoMessage {
+    font-weight: bold;
+    color: deepskyblue
+}
+
+
+
+ 

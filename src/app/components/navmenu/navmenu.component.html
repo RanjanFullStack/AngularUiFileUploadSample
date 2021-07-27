@@ -1,0 +1,205 @@
+<div style="min-height: 100vh;  ">
+    <div class="nep-sidebar" [ngClass]="Additional"><a href="#/"><span *ngIf="IsExpanded"><img alt="brand-logo"
+                    src="assets/dist/images/BEAT Foliosure white.svg" theme="light" class="nep-logo"
+                    type="default"></span>
+            <span *ngIf="!IsExpanded"><img alt="brand-logo"
+                    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzOCIgaGVpZ2h0PSIzOCIgdmlld0JveD0iMCAwIDM4IDM4Ij4KICA8ZyBpZD0iR3JvdXBfMjAiIGRhdGEtbmFtZT0iR3JvdXAgMjAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTEpIj4KICAgIDxyZWN0IGlkPSJSZWN0YW5nbGVfNiIgZGF0YS1uYW1lPSJSZWN0YW5nbGUgNiIgd2lkdGg9IjM4IiBoZWlnaHQ9IjM4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDEpIiBmaWxsPSJub25lIi8+CiAgICA8ZyBpZD0iR3JvdXBfMjMxNi0zIiBkYXRhLW5hbWU9Ikdyb3VwIDIzMTYtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTEuNCA3LjI1NCkiPgogICAgICA8cGF0aCBpZD0iUG9seWdvbl8xLTMiIGRhdGEtbmFtZT0iUG9seWdvbiAxLTMiIGQ9Ik0yNy4wODcsMTQuMDQ2YTIuOSwyLjksMCwwLDEsMS4wMjksNC4xMTcsMi41NzMsMi41NzMsMCwwLDEtMS4wMjksMS4wMjlsLTguMDc1LDQuNjcxYTMuMDU1LDMuMDU1LDAsMCwxLTQuMTEyLTEuMDMsMi41MzIsMi41MzIsMCwwLDEtLjQtMS41VjExLjkwOEEzLjAwNywzLjAwNywwLDAsMSwxNy41MDgsOC45YTMuMjg0LDMuMjg0LDAsMCwxLDEuNS40WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE0LjQyMSAtOC45KSIgZmlsbD0iI2ZmZiIvPgogICAgICA8cGF0aCBpZD0iUG9seWdvbl8yLTMiIGRhdGEtbmFtZT0iUG9seWdvbiAyLTMiIGQ9Ik0yOC4xLDI1LjU1OGEyLjk2NywyLjk2NywwLDAsMSwxLjAyOSw0LjExN0EzLjIsMy4yLDAsMCwxLDI4LjEsMzAuN0wxOSwzNi4xNjNhMy4wNTUsMy4wNTUsMCwwLDEtNC4xMTctMS4wMjksMi42NzUsMi42NzUsMCwwLDEtLjQ3NS0xLjU4M1YyMi43MDhhMy4wMDcsMy4wMDcsMCwwLDEsMy0zLjAwOCwzLjA1NSwzLjA1NSwwLDAsMSwxLjU4My40NzVaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTQuNCAtMTEuMTUpIiBmaWxsPSIjOWMyN2IwIiBvcGFjaXR5PSIwLjciLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPgo="
+                    theme="light" class="nep-logo" type="default"></span>
+        </a>
+        <div class="nep-menu nep-menu-inline nep-menu-dark"
+            style="background-color: transparent; color: rgb(255, 255, 255); background-position: initial initial; background-repeat: initial initial;">
+            <div class="nep-menu-wrapper">
+                <ul class="nep-menu-list nep-menu-inline nep-menu-root">
+                    <li class="nep-menu-item nep-menu-no-children" title="Dashboard" [routerLinkActive]="['link-active']">
+                        <a class="nep-menu-title" [routerLink]="['/home']"><span
+                                class='glyphicon glyphicon-home'></span>
+                            <img alt="" src="assets/dist/images/Dashboard.svg">
+                            <span style="padding-left: 8px;" *ngIf="IsExpanded">Dashboard</span></a></li>
+                    <li title="Reports" class="nep-menu-item nep-menu-has-children" [hideIfUnauthorized]='{featureId:feature.Report}' [ngClass]="ReportExpanded">
+                        <a [routerLink]="" (click)="OnExpandReports()" class="nep-menu-title" 
+                            ><img alt="" src="assets/dist/images/Reports.svg">
+                            <span style="padding-left: 8px;"   *ngIf="IsExpanded">Reports</span></a>
+
+                        <section *ngIf="this.ShowReportPopUpMenu.length>0">
+                            <div class="nep-dropdown nep-dropdown-right-top nep-dropdown-show"
+                                style="margin-right: 12px;margin-Left:60px;margin-bottom: 12px;position: fixed;" >
+                                <div [ngClass]="ShowReportPopUpMenu"
+                                    class="nep-list nep-hidable nep-hidable-fade nep-hidable-fade-animation-360 nep-dropdown-menu"
+                                    fixed="min" type="default"
+                                    style="display: block;margin-top:-32px;margin-left:-2px;background: linear-gradient(180deg, #021155, #39195e 90%);">
+                                    <div class="nep-dropdown nep-dropdown-right-top" style="width: 100%;" [hideIfUnauthorized]='{featureId:feature.Holdings}'>
+                                        <a [routerLink]="['/reports/Holdings']" (click)="changeReportCategory(reportCategory.Holdings)"
+                                            class="nep-dropdown-item nep-dropdown-menu-item nep-dropdown-no-width"><span>Top
+                                                Holdings</span></a>
+
+                                    </div>
+                                    <div class="nep-dropdown nep-dropdown-right-top" [hideIfUnauthorized]='{featureId:feature.ValuationCharts}' style="width: 100%;">
+                                        <a [routerLink]="['/reports/ValuationCharts']" (click)="changeReportCategory(reportCategory.ValuationCharts)"
+                                            class="nep-dropdown-item nep-dropdown-menu-item nep-dropdown-no-width"><span>
+                                                Valuation Analysis</span></a>
+                                    </div>
+                                    <div class="nep-dropdown nep-dropdown-right-top" style="width: 100%;" [hideIfUnauthorized]='{featureId:feature.Attribution}'>
+                                        <a [routerLink]="['/reports/Attribution']" (click)="changeReportCategory(reportCategory.Attribution)"
+                                            class="nep-dropdown-item nep-dropdown-menu-item nep-dropdown-no-width"><span>
+                                                Attribution Reports</span></a>
+                                    </div>
+                                    <div class="nep-dropdown nep-dropdown-right-top" style="width: 100%;" [hideIfUnauthorized]='{featureId:feature.CompanyFinancials}'>
+                                        <a [routerLink]="['/reports/CompanyFinancials']" (click)="changeReportCategory(reportCategory.CompanyFinancials)"
+                                            class="nep-dropdown-item nep-dropdown-menu-item nep-dropdown-no-width"><span>
+                                                Financial/Operational KPIs</span></a>
+                                    </div>
+                                    <div class="nep-dropdown nep-dropdown-right-top" style="width: 100%;">
+                                        <a [routerLink]="['/dataextraction']"
+                                            class="nep-dropdown-item nep-dropdown-menu-item nep-dropdown-no-width"><span>
+                                                Data Extraction</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <ul class="nep-menu-list nep-menu-inline">
+                            <li class="nep-menu-item nep-menu-no-children"><a [routerLink]="['/reports/Holdings']" (click)="changeReportCategory(reportCategory.Holdings)"
+                                    class="nep-menu-title" style="padding-left:64px;"><span *ngIf="IsExpanded">Top
+                                        Holdings</span></a>
+                            </li>
+                            <li class="nep-menu-item nep-menu-no-children"><a class="nep-menu-title" (click)="changeReportCategory(reportCategory.ValuationCharts)"
+                                    [routerLink]="['/reports/ValuationCharts']" style="padding-left: 64px;"><span
+                                        *ngIf="IsExpanded">Valuation Analysis</span></a>
+                            </li>
+                            <li class="nep-menu-item nep-menu-no-children"><a class="nep-menu-title" (click)="changeReportCategory(reportCategory.Attribution)"
+                                    [routerLink]="['/reports/Attribution']" style="padding-left: 64px;"><span
+                                        *ngIf="IsExpanded">Attribution
+                                        Reports</span></a>
+                            </li>
+                            <li class="nep-menu-item nep-menu-no-children"><a class="nep-menu-title" (click)="changeReportCategory(reportCategory.CompanyFinancials)"
+                                    [routerLink]="['/reports/CompanyFinancials']" style="padding-left: 64px;"><span
+                                        *ngIf="IsExpanded">Financial/Operational
+                                        KPIs</span></a>
+                            </li>
+                            <li class="nep-menu-item nep-menu-no-children"><a class="nep-menu-title"
+                                    [routerLink]="['/dataextraction']" style="padding-left: 64px;"><span
+                                        *ngIf="IsExpanded">Data
+                                        Extraction</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li  title="Firms" class="nep-menu-item nep-menu-no 
+                      -children" [hideIfUnauthorized]='{featureId:feature.Firm}'><a [routerLink]="['/firm']" class="nep-menu-title"
+                            ><img alt="" src="assets/dist/images/Firms.svg">
+                            <span style="padding-left: 8px;" *ngIf="IsExpanded">Firms</span></a>
+                    </li>
+                    <li title="Funds" class="nep-menu-item nep-menu-no-children" [hideIfUnauthorized]='{featureId:feature.Fund}'>
+                        <a [routerLink]="['/fund-list']" class="nep-menu-title"><img alt=""
+                                src="assets/dist/images/Funds.svg">
+                            <span style="padding-left: 8px;" *ngIf="IsExpanded">Funds</span></a>
+                    </li>
+                    <li class="nep-menu-item nep-menu-no-children" title="Portfolio Company" [hideIfUnauthorized]='{featureId:feature.PortfolioCompany}'>
+                        <a [routerLink]="['/portfolio-company']" class="nep-menu-title"> <img alt=""
+                                src="assets/dist/images/Porfolio Company.svg">
+                            <span style="padding-left: 8px;" *ngIf="IsExpanded">Portfolio Company</span></a>
+                    </li>
+                    <li class="nep-menu-item nep-menu-no-children" title="Deals" [hideIfUnauthorized]='{featureId:feature.Deal}'>
+                        <a [routerLink]="['/deal-list']" class="nep-menu-title"><img alt=""
+                                src="assets/dist/images/Deals.svg"> <span style="padding-left: 8px;"
+                                *ngIf="IsExpanded">Deal</span></a>
+                    </li>
+                    <li class="nep-menu-item nep-menu-no-children" title="Financials" [hideIfUnauthorized]='{featureId:feature.Financials}'>
+                        <a [routerLink]="['/financials']" class="nep-menu-title"><img alt=""
+                                src="assets/dist/images/Financials.svg"> <span style="padding-left: 8px;"
+                                *ngIf="IsExpanded">Financials</span></a>
+                    </li>
+                    <li class="nep-menu-item nep-menu-no-children" title="Pipeline" [hideIfUnauthorized]='{featureId:feature.Pipeline}'>
+                        <a [routerLink]="['/pipeline-list']" class="nep-menu-title"><img alt=""
+                                src="assets/dist/images/Pipelines.svg">
+                            <span style="padding-left: 8px;" *ngIf="IsExpanded">Pipeline</span></a>
+                    </li>
+                    <li class="nep-menu-item nep-menu-no-children" title="Fund Cashflow" [hideIfUnauthorized]='{featureId:feature.Cashflow}'>
+                        <a [routerLink]="['/cashflow-list']" class="nep-menu-title"><img alt=""
+                                src="assets/dist/images/Funds Cashflow.svg"> <span
+                                style="padding-left: 8px;" *ngIf="IsExpanded">Fund Cashflow</span></a>
+                    </li>
+     
+                    <li class="nep-menu-item nep-menu-no-children" title="Repository" [hideIfUnauthorized]='{featureId:feature.Repository}'>
+                        <a [routerLink]="['/repository']" class="nep-menu-title"><img alt=""
+                                src="assets/dist/images/Repository.svg"> <span style="padding-left: 8px;"
+                                *ngIf="IsExpanded">Repository</span></a>
+                    </li>
+                    <li class="nep-menu-item nep-menu-has-children" title="Admin" [ngClass]="AdminExpanded" [hideIfUnauthorized]='{featureId:feature.Admin}'>
+                        <a [routerLink]="" class="nep-menu-title" (click)="OnExpandAdmin()"><img alt=""
+                                src="assets/dist/images/Admin.svg"> <span style="padding-left: 8px;"
+                                *ngIf="IsExpanded">Admin</span></a>
+                        <section *ngIf="this.ShowAdminPopupMenu.length>0">
+                            <div class="nep-dropdown nep-dropdown-right-top nep-dropdown-show"
+                                style="margin-right: 12px;margin-Left:60px;margin-bottom: 12px;position: fixed;">
+                                <div [ngClass]="ShowAdminPopupMenu" 
+                                    class="nep-list nep-hidable nep-hidable-fade nep-hidable-fade-animation-360 nep-dropdown-menu"
+                                    fixed="min" type="default"
+                                    style="display: block;margin-top:-32px;margin-left:-2px;background: linear-gradient(180deg, #021155, #39195e 90%);">
+                                    <div class="nep-dropdown nep-dropdown-right-top" style="width: 100%;" [hideIfUnauthorized]='{featureId:feature.Group}'>
+                                        <a [routerLink]="['/groups']"
+                                            class="nep-dropdown-item nep-dropdown-menu-item nep-dropdown-no-width"><span>Group</span></a>
+
+                                    </div>
+                                    <div class="nep-dropdown nep-dropdown-right-top" style="width: 100%;" [hideIfUnauthorized]='{featureId:feature.User}'>
+                                        <a [routerLink]="['/user']"
+                                            class="nep-dropdown-item nep-dropdown-menu-item nep-dropdown-no-width"><span>
+                                                Users</span></a>
+                                    </div>
+                                    <div class="nep-dropdown nep-dropdown-right-top" style="width: 100%;" [hideIfUnauthorized]='{featureId:feature.Query}'>
+                                        <a [routerLink]="['/dynamic-queries']"
+                                            class="nep-dropdown-item nep-dropdown-menu-item nep-dropdown-no-width"><span>
+                                                Dynamic Query</span></a>
+                                    </div>
+                                    <div class="nep-dropdown nep-dropdown-right-top" style="width: 100%;" [hideIfUnauthorized]='{featureId:feature.BulkUpload}'>
+                                        <a [routerLink]="['/bulk-upload']"
+                                            class="nep-dropdown-item nep-dropdown-menu-item nep-dropdown-no-width"><span>
+                                                Bulk Upload</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <ul class="nep-menu-list nep-menu-inline">
+                            <li class="nep-menu-item nep-menu-no-children"><a [routerLink]="['/groups']" [hideIfUnauthorized]='{featureId:feature.Group}'
+                                    class="nep-menu-title" style="padding-left: 64px;"><span
+                                        *ngIf="IsExpanded">Group</span></a>
+                            </li>
+                            <li class="nep-menu-item nep-menu-no-children"><a class="nep-menu-title" [hideIfUnauthorized]='{featureId:feature.User}'
+                                    [routerLink]="['/user']" style="padding-left: 64px;"><span
+                                        *ngIf="IsExpanded">Users</span></a>
+                            </li>
+                            <li class="nep-menu-item nep-menu-no-children" [hideIfUnauthorized]='{featureId:feature.Query}'><a class="nep-menu-title"
+                                    [routerLink]="['/dynamic-queries']" style="padding-left: 64px;"><span
+                                        *ngIf="IsExpanded">Dynamic
+                                        Query</span>
+                                </a>
+                            </li>
+                            <li class="nep-menu-item nep-menu-no-children"><a class="nep-menu-title" [hideIfUnauthorized]='{featureId:feature.BulkUpload}'
+                                    [routerLink]="['/bulk-upload']" style="padding-left: 64px;"><span
+                                        *ngIf="IsExpanded">Bulk
+                                        Upload</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+        <div class="nep-sidebar-toggle_bottom">
+            <div class="nep-sidebar-toggle_bottom_icon">
+                <div class="nep-sidebar-expandarrow" *ngIf="!IsPinned"><img (click)='ToggleHover("Over")'
+                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTJweCIgaGVpZ2h0PSIxMnB4IiB2aWV3Qm94PSIwIDAgMTIgMTIiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDYwICg4ODEwMykgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+Q2hldnJvbiByaWdodCBDb3B5IDI8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iQXJ0Ym9hcmQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zMTguMDAwMDAwLCAtMjE2LjAwMDAwMCkiPgogICAgICAgICAgICA8ZyBpZD0iQ2hldnJvbi1yaWdodC1Db3B5LTIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyNC4wMDAwMDAsIDIyMi4wMDAwMDApIHNjYWxlKC0xLCAxKSB0cmFuc2xhdGUoLTMyNC4wMDAwMDAsIC0yMjIuMDAwMDAwKSB0cmFuc2xhdGUoMzEyLjAwMDAwMCwgMjEwLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlBhdGgiIHBvaW50cz0iMCAwIDI0IDAgMjQgMjQgMCAyNCI+PC9wb2x5Z29uPgogICAgICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlBhdGgiIGZpbGw9IiNGRkZGRkYiIGZpbGwtcnVsZT0ibm9uemVybyIgcG9pbnRzPSIxMy40MSA3LjQxIDEyIDYgNiAxMiAxMiAxOCAxMy40MSAxNi41OSA4LjgzIDEyIj48L3BvbHlnb24+CiAgICAgICAgICAgICAgICA8cG9seWdvbiBpZD0iUGF0aC1Db3B5IiBmaWxsPSIjRkZGRkZGIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHBvaW50cz0iMTguMDEgNy40MSAxNi42IDYgMTAuNiAxMiAxNi42IDE4IDE4LjAxIDE2LjU5IDEzLjQzIDEyIj48L3BvbHlnb24+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
+                        alt="expand"></div>
+                <label class="nep-sidebar-expand-pin" for="nep-sidebar-checkboxtoggle_bottom">
+                    <img (click)="PinnedClicked('Pin')" *ngIf="!IsPinned"
+                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTJweCIgaGVpZ2h0PSIxMnB4IiB2aWV3Qm94PSIwIDAgMTIgMTIiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDYwICg4ODEwMykgLSBodHRwczovL3NrZXRjaC5jb20gLS0+CiAgICA8dGl0bGU+Q2hldnJvbiByaWdodCBDb3B5IDI8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyBpZD0iQXJ0Ym9hcmQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0zMTguMDAwMDAwLCAtMjE2LjAwMDAwMCkiPgogICAgICAgICAgICA8ZyBpZD0iQ2hldnJvbi1yaWdodC1Db3B5LTIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyNC4wMDAwMDAsIDIyMi4wMDAwMDApIHNjYWxlKC0xLCAxKSB0cmFuc2xhdGUoLTMyNC4wMDAwMDAsIC0yMjIuMDAwMDAwKSB0cmFuc2xhdGUoMzEyLjAwMDAwMCwgMjEwLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlBhdGgiIHBvaW50cz0iMCAwIDI0IDAgMjQgMjQgMCAyNCI+PC9wb2x5Z29uPgogICAgICAgICAgICAgICAgPHBvbHlnb24gaWQ9IlBhdGgiIGZpbGw9IiNGRkZGRkYiIGZpbGwtcnVsZT0ibm9uemVybyIgcG9pbnRzPSIxMy40MSA3LjQxIDEyIDYgNiAxMiAxMiAxOCAxMy40MSAxNi41OSA4LjgzIDEyIj48L3BvbHlnb24+CiAgICAgICAgICAgICAgICA8cG9seWdvbiBpZD0iUGF0aC1Db3B5IiBmaWxsPSIjRkZGRkZGIiBmaWxsLXJ1bGU9Im5vbnplcm8iIHBvaW50cz0iMTguMDEgNy40MSAxNi42IDYgMTAuNiAxMiAxNi42IDE4IDE4LjAxIDE2LjU5IDEzLjQzIDEyIj48L3BvbHlnb24+CiAgICAgICAgICAgIDwvZz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPg=="
+                        alt="unpin">
+                    <img (click)="PinnedClicked('UnPin')" (click)='ToggleHover("Out")'
+                        src="assets/dist/images/Chevron left.svg" alt="pin" style="color:#fff"
+                        *ngIf="IsPinned">
+                </label>
+            </div>
+        </div>
+
+
+    </div>
+</div>

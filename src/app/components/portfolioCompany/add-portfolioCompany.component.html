@@ -1,0 +1,364 @@
+﻿<div class="row">
+	<div class="col-lg-12">
+		<div class="add-user-component">
+			<div class="card card-main">
+				<div class="card-header card-header-main">
+					<div class="row">
+						<div class="col-auto mr-auto"> {{title}} Portfolio Company</div>
+						<div class="col-auto">
+							<a class="btn btn-back" [routerLink]="[sourceURL]" title="Back">
+								<fa name="chevron-left"></fa> Back </a>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<p-growl [(value)]="msgs" [life]="msgTimeSpan"></p-growl>
+					<form name="form" (ngSubmit)="f.valid && savePortfolioCompany(f)" #f="ngForm">
+						<div class="row">
+							<div class="col-sm-6 col-md-3">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !CompanyName.valid }">
+									<div class="row">
+										<div class="col-12">
+											<label for="CompanyName">Company Name</label>
+										</div>
+										<div class="col-12">
+											<input type="text" class="form-control" name="CompanyName" [(ngModel)]="model.companyName" #CompanyName="ngModel" validateRequired validateBusinessName autocomplete="off" maxlength="100" />
+											<div *ngIf="CompanyName.invalid && (CompanyName.dirty|| f.submitted)" class="text-danger">
+												<p *ngIf="!CompanyName.errors.validateRequired && CompanyName.errors.validateBusinessName"> Please enter valid company name</p>
+												<p *ngIf="CompanyName.errors.validateRequired">Company name is required </p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !Website.valid }">
+									<div class="row">
+										<div class="col-12">
+											<label for="Website">Website</label>
+										</div>
+										<div class="col-12">
+											<input type="text" class="form-control" name="Website" [(ngModel)]="model.website" #Website="ngModel" validateURL autocomplete="off" maxlength="100" />
+											<!--<div *ngIf="f.submitted" class="text-danger">Email is required</div>-->
+											<div *ngIf="Website.invalid && (Website.dirty ||f.submitted)" class="text-danger">
+												<p *ngIf="Website.errors.validateURL">Please provide a valid website url </p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-12">
+											<label for="status">Status</label>
+										</div>
+										<div class="col-12">
+											<typeahead-control name="status" [(ngModel)]="model.status" [optionList]="statusOptions" [displayField]="'text'" [resultField]="'value'" #status="ngModel" validateRequired [isRequired]="true"></typeahead-control>
+											<div *ngIf="status.invalid && (status.dirty ||f.submitted)" class="text-danger">
+												<div *ngIf="f.submitted && !status.valid" class="text-danger">Status is required</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-12">
+											<label for="StockExchangeTicker">Stock Exchange & Ticker</label>
+										</div>
+										<div class="col-12">
+											<input type="text" class="form-control" name="StockExchangeTicker" [(ngModel)]="model.stockExchange_Ticker" #StockExchangeTicker="ngModel" autocomplete="off" maxlength="100" /> </div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-12">
+											<label for="sector">Sector</label>
+										</div>
+										<div class="col-12">
+											<div class="loading" *ngIf="masterModel==undefined"> <img src="assets/dist/images/loading.gif" class="loading-img" /> </div>
+											<div *ngIf="masterModel!=undefined">
+												<typeahead-control name="sector" [(ngModel)]="model.sectorDetail" [optionList]="masterModel.sectorList" [displayField]="'sector'" #sector="ngModel" validateRequired [isRequired]="true" (selectItem)="onSectorChange()"></typeahead-control>
+												<!--<div *ngIf="f.submitted && !sector.valid" class="text-danger">Sector is required</div>-->
+												<div *ngIf="sector.invalid && (sector.dirty ||f.submitted)" class="text-danger">
+													<div *ngIf="f.submitted && !sector.valid" class="text-danger">Sector is required</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-12">
+											<label for="sector">Sub-Sector</label>
+										</div>
+										<div class="col-12">
+											<div>
+												<typeahead-control name="subsector" [(ngModel)]="model.subSectorDetail" [optionList]="subSectorList" [displayField]="'subSector'" #subsector="ngModel" [isRequired]="undefined"></typeahead-control>
+												<div class="loading-input-controls" *ngIf="subSectorLoading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-3">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-12">
+											<label for="currency">Reporting Currency </label>
+										</div>
+										<div class="col-12">
+											<div>
+												<typeahead-control name="reportingCurrency" [(ngModel)]="model.reportingCurrencyDetail" [optionList]="masterModel?.reportingCurrencyList" [displayField]="'currency'" #reportingCurrency="ngModel" [isRequired]="true"></typeahead-control>
+												<div *ngIf="(f.submitted || reportingCurrency.dirty) && !reportingCurrency.valid" class="text-danger">Reporting Currency is required</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-4" *ngIf="false">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-12">
+											<div class="desktop-m-3"></div>
+											<label class="d-inline-block" for="IsActive">Active</label>&nbsp;&nbsp;
+											<input class="d-inline-block" type="checkbox" value="" name="IsActive" [(ngModel)]="model.isActive" #IsActive="ngModel"> </div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-12">
+								<div class="form-group" [ngClass]="{ 'has-error': f.submitted && !BusinessDescription.valid }">
+									<div class="row">
+										<div class="col-12">
+											<label for="BusinessDescription">Business Description</label>
+										</div>
+										<div class="col-12">
+											<textarea type="text" class="form-control" rows="4" name="BusinessDescription" [(ngModel)]="model.businessDescription" #BusinessDescription="ngModel" autocomplete="off" maxlength="500"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<ngb-tabset>
+							<ngb-tab title="Geographic Locations">
+								<ng-template ngbTabContent>
+									<div class="card">
+										<div class="card-body">
+											<div class="row align-items-start">
+												<div class="col-12">
+													<form name="geographyForm" #geographyForm="ngForm">
+														<div class="" [ngClass]="{ 'has-error': f.submitted }">
+															<div *ngIf="locationModel==undefined"> <img src="assets/dist/images/loading.gif" class="loading-img" /> </div>
+															<div *ngIf="locationModel!=undefined">
+																<location-control name="locations" [(ngModel)]="geographicLocation" [locationMaster]="locationModel" [countryRequired]="true" #Locations="ngModel"> </location-control>
+															</div>
+															<div class="row">
+																<div class="col-sm-6 col-md-6 col-lg-4">
+																	<div class="form-group">
+																		<div class="row">
+																			<div class="col-12">
+																				<label class="d-inline-block" for="IsHeadquarter">Is Headquarter</label> &nbsp; &nbsp;
+																				<input label class="d-inline-block" type="checkbox" value="" name="IsHeadquarter" [(ngModel)]="geographicLocation.isHeadquarter" #IsHeadquarter="ngModel"> </div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-sm-6 col-md-6   col-lg-6">
+																	<div class="form-group">
+																		<div class="row">
+																			<div class="col-12">
+																				<div class="add-control-btn"> <a class="nep-button nep-button-primary" (click)="addGeographicLocation(geographyForm)" title="Add Location">Add
+                                                                                        Location</a> <a class="nep-button nep-button-secondary" (click)="clearGeographicLocation(geographyForm)" title="Clear">Clear</a> </div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</form>
+													<div class="table-responsive">
+														<table class='table' *ngIf="model.geographicLocations.length>0">
+															<thead>
+																<tr>
+																	<th>Region</th>
+																	<th>Country</th>
+																	<th>State</th>
+																	<th>City</th>
+																	<th>Is Headquarter</th>
+																	<th>Remove</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr *ngFor="let location of model.geographicLocations">
+																	<td><span *ngIf="location.region">{{ location.region.region  }}</span> </td>
+																	<td><span *ngIf="location.country">{{ location.country.country  }}</span> </td>
+																	<td><span *ngIf="location.state">{{ location.state.state }}</span> </td>
+																	<td><span *ngIf="location.city">{{ location.city.city }}</span> </td>
+																	<td><span>{{location.isHeadquarter?"Yes":"No"}}
+                                                                        </span></td>
+																	<td> <span (click)="removeLocation(location.uniquelocationID)"><a
+                                                                                class="btn btn-remove"
+                                                                                title="Remove Location">
+                                                                                <fa name="trash"></fa>
+                                                                            </a> </span>
+																		<input type="hidden" value="{{location.uniquelocationID}}" /> </td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</ng-template>
+							</ngb-tab>
+							<ngb-tab title="Investment Professionals">
+								<ng-template ngbTabContent>
+									<div class="card">
+										<div class="card-body">
+											<form name="employeeForm" #employeeForm="ngForm">
+												<div class="row">
+													<div class="col-sm-6 col-md-6   col-lg-4">
+														<div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+															<div class="row">
+																<div class="col-12">
+																	<label for="EmployeeName">Employee Name</label>
+																</div>
+																<div class="col-12">
+																	<input type="text" class="form-control" name="EmployeeName" [(ngModel)]="pcEmployee.employeeName" #EmployeeName="ngModel" inputValidator="validatePersonName" autocomplete="off" maxlength="100" validateRequired />
+																	<div *ngIf="EmployeeName.invalid && (EmployeeName.dirty|| employeeForm.submitted)" class="text-danger">
+																		<p *ngIf="EmployeeName.errors.validateRequired"> Employee name is required</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6 col-md-6 col-lg-4">
+														<div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+															<div class="row">
+																<div class="col-12">
+																	<label for="Designation">Designation</label>
+																</div>
+																<div class="col-12">
+																	<typeahead-control name="Designation" [(ngModel)]="pcEmployee.designation" [optionList]="designationList" [displayField]="'designation'" #Designation="ngModel" [isRequired]="undefined"> </typeahead-control>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6 col-md-6   col-lg-4">
+														<div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+															<div class="row">
+																<div class="col-12">
+																	<label for="EmployeeEmail">Employee Email</label>
+																</div>
+																<div class="col-12">
+																	<input type="text" class="form-control" name="EmployeeEmail" [(ngModel)]="pcEmployee.emailId" #EmployeeEmail="ngModel" validateEmail autocomplete="off" maxlength="100" validateRequired />
+																	<div *ngIf="EmployeeEmail.invalid && (EmployeeEmail.dirty ||employeeForm.submitted)" class="text-danger">
+																		<p *ngIf="!EmployeeEmail.errors.validateRequired && EmployeeEmail.errors.validateEmail"> Please enter valid email address</p>
+																		<p *ngIf="EmployeeEmail.errors.validateRequired"> Employee email is required</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6 col-md-6   col-lg-4">
+														<div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+															<div class="row">
+																<div class="col-12">
+																	<label for="Education">Education</label>
+																</div>
+																<div class="col-12">
+																	<input type="text" class="form-control" name="Education" [(ngModel)]="pcEmployee.education" #Education="ngModel" inputValidator="noSpecialChars" autocomplete="off" maxlength="100" /> </div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6 col-md-6   col-lg-4">
+														<div class="form-group" [ngClass]="{ 'has-error': f.submitted }">
+															<div class="row">
+																<div class="col-12">
+																	<label for="PastExperience">Past Experience</label>
+																</div>
+																<div class="col-12">
+																	<input type="text" class="form-control" name="PastExperience" [(ngModel)]="pcEmployee.pastExperience" #PastExperience="ngModel" inputValidator="noSpecialChars" autocomplete="off" maxlength="500" /> </div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-6 col-md-6   col-lg-4">
+														<div class="form-group">
+															<div class="row">
+																<div class="col-12">
+																	<div class="add-control-btn"> <a class="nep-button nep-button-primary" (click)="addEmployees(employeeForm)" title="{{employeeEditMode?'Update':'Add'}} Professional">{{employeeEditMode?'Update':'Add'}}
+                                                                            Professional</a> <a class="nep-button nep-button-secondary" (click)="clearEmployees(employeeForm)" title="Clear">Clear</a>
+																		<!--<div *ngIf="employeeErrorMsg" class="alert alert-danger">{{employeeErrorMsg}}</div>--></div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</form>
+											<table class='table' *ngIf="model.pcEmployees?.length>0">
+												<thead>
+													<tr>
+														<th>Employee Name</th>
+														<th>Designation</th>
+														<th>Employee Email</th>
+														<th>Education</th>
+														<th>Past Experience</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr *ngFor="let employee of model.pcEmployees">
+														<td><span *ngIf="employee.employeeName">{{ employee.employeeName  }}</span> </td>
+														<td><span *ngIf="employee.designation">{{ employee.designation.designation }}</span> </td>
+														<td><span *ngIf="employee.emailId">{{ employee.emailId }}</span> </td>
+														<td><span *ngIf="employee.education"> {{ employee.education }}
+                                                            </span></td>
+														<td><span *ngIf="employee.pastExperience">
+                                                                {{ employee.pastExperience }} </span></td>
+														<td>
+															<div class="add-control-btn">
+																<a class="btn btn-edit" title="Edit" (click)="editPCEmployee(employee)">
+																	<fa name="edit"></fa>
+																</a>
+															</div> <span *ngIf="false" (click)="removeEmployee(employee.emailId)"><a
+                                                                    class="btn btn-remove">
+                                                                    <fa name="trash"></fa>
+                                                                </a> </span> </td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</ng-template>
+							</ngb-tab>
+						</ngb-tabset>
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group text-center">
+									<div class="loading-input-controls-manual" *ngIf="loading"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></div>
+									<button [disabled]="loading" class="btn btn-primary" title="{{title}}">{{title}}</button>
+									<input type="button" value="{{resetText}}" title="{{resetText}}" (click)="formReset(f)" class="btn btn-warning" /> </div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425" #cd>
+	<p-footer>
+		<button type="button" pButton label="Yes" (click)="cd.accept()"></button>
+		<button type="button" pButton label="No" (click)="cd.reject()"></button>
+	</p-footer>
+</p-confirmDialog>

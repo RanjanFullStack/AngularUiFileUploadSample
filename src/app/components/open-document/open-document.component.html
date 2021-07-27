@@ -1,0 +1,398 @@
+<div id="mainContainer" class="row">
+  <p-toast position="top-center" [style]="{width:'28vw',left:'41%',top:'114px'}"></p-toast>
+  <div id="leftContainer" class="col-5">
+    <div class="row headerContainer">
+      <div class="col-5" style="margin-top:-1px;">
+        <span class="titleStyle fontStyle14">
+          Document Details
+        </span>
+      </div>
+      <div class="col-7" style="padding-right: 20px;">
+        <span class="lastModifiedStyle fontStyle12">
+          Last modified on {{selectedDocument?.modifiedOn | date:'dd-MMM-yyyy'}}
+        </span>
+      </div>
+    </div>
+
+    <div class="row bodyContainer">
+      <div class="row w100">
+        <div class="col-11">
+          <label class="docNameLabel fontStyle12 normalStateColor"
+            [ngClass]="hasDocNameUpdated ? (docNameValidation !== '' ? 'applyRedColor' : 'activeStateColor docNameLabel fontStyle12') : 'normalStateColor docNameLabel fontStyle12'">
+            Document Name
+          </label>
+          <div class="textColor mL2vw">
+            <div class="fontStyle14 mL" *ngIf="!editMode; else DocName">
+              {{selectedDocument?.name}}
+            </div>
+            <ng-template #DocName>
+              <input #name="ngModel" (input)="hasDocUpdated($event,'name')" type="text" pInputText required
+                [(ngModel)]="selectedDocument.name" (blur)="vaidateDocExists()" style="width: 110.6%;"
+                [ngClass]="hasDocNameUpdated ? (docNameValidation !== '' ? 'applyRedBorderBottom fontStyle14 activateInputField' : 'openDocInputText fontStyle14 activateInputField') : 'openDocInputText fontStyle14'" />
+              <div *ngIf="docNameValidation != ''" class="applyRedColor fontStyle12" style="margin-left: 0.5vw;">
+                {{docNameValidation}}
+              </div>
+              <div *ngIf="documentError.ShowDocumentNameError" class="nep-error">Please enter document name</div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="col-1">
+          <span *ngIf="selectedDocument?.extension?.includes('.xl'); else checkIfPdf">
+            <img class="docIcon" src="assets/dist/images/Microsoft-excel.svg" alt="" />
+          </span>
+          <ng-template #checkIfPdf>
+            <span *ngIf="selectedDocument?.extension === '.pdf'; else checkIfWord">
+              <img class="docIcon" src="assets/dist/images/Adobe-acrobat.svg" alt="" />
+            </span>
+          </ng-template>
+          <ng-template #checkIfWord>
+            <span *ngIf="selectedDocument?.extension?.includes('.doc'); else checkIfPPt">
+              <img class="docIcon" src="assets/dist/images/Microsoft-word.svg" alt="" />
+            </span>
+          </ng-template>
+          <ng-template #checkIfPPt>
+            <span
+              *ngIf="selectedDocument?.extension?.includes('.pp') || selectedDocument?.extension?.includes('.pot'); else checkIfImage">
+              <img class="docIcon" src="assets/dist/images/powerpoint.svg" alt="" />
+            </span>
+          </ng-template>
+          <ng-template #checkIfImage>
+            <span
+              *ngIf="selectedDocument?.extension?.includes('.jp') || selectedDocument?.extension === '.svg' || selectedDocument?.extension === '.png'; else checkIfZip">
+              <img class="docIcon" src="assets/dist/images/Image.svg" alt="" />
+            </span>
+          </ng-template>
+          <ng-template #checkIfZip>
+            <span
+              *ngIf="selectedDocument?.extension?.includes('.zip') || selectedDocument?.extension?.includes('.ar') ; else generalFileType">
+              <img class="docIcon" src="assets/dist/images/Zip.svg" alt="" />
+            </span>
+          </ng-template>
+          <ng-template #generalFileType>
+            <img class="docIcon" src="assets/dist/images/File.svg" alt="" />
+          </ng-template>
+        </div>
+      </div>
+      <div class="row w100">
+        <div class="col-6">
+          <div>
+            <label class="docNameLabel fontStyle12 normalStateColor">
+              Type
+            </label>
+            <div class="textColor mL2vw">
+              <div class="fontStyle14 mL" *ngIf="!editMode; else DocType">
+                {{selectedDocument?.documentTypeName}}
+              </div>
+              <ng-template #DocType>
+                <typeahead-control #types="ngModel" [optionList]="documentTypes" [displayField]="'name'"
+                  [resultField]="'id'" name="DocumentType" placeholder={{selectedDocument.documentTypeName}}
+                  [(ngModel)]="selectedDocumentType" (selectItem)="onDocumentTypeChanged()">
+                </typeahead-control>
+                <div *ngIf="documentError.ShowDocTypeError" class="nep-error">Please choose type</div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <label class="docNameLabel fontStyle12 normalStateColor">
+            Sub Type
+          </label>
+          <div class="textColor mL2vw">
+            <div class="fontStyle14 mL" *ngIf="!editMode; else DocSubType">
+              {{selectedDocument?.documentSubTypeName}}
+            </div>
+            <ng-template #DocSubType>
+              <typeahead-control #subtypes="ngModel" name="SubDocumentType" [optionList]="documentSubTypes"
+                [displayField]="'name'" [resultField]="'id'" [(ngModel)]="selectedSubDocumentType"
+                placeholder={{selectedDocument.documentSubTypeName}} (selectItem)="onDocumentSubTypeChanged()">
+              </typeahead-control>
+              <div *ngIf="documentError.ShowSubTypeError" class="nep-error">Please choose sub-type</div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="row w100">
+        <div class="col-12">
+          <label class="docNameLabel fontStyle12 normalStateColor">
+            Assigned to
+          </label>
+          <div class="textColor fontStyle14" style="margin-left: 2.4vw;">
+            -
+          </div>
+        </div>
+      </div>
+      <div class="row w100">
+        <div class="col-6">
+          <label class="docNameLabel fontStyle12 normalStateColor">
+            Document Date
+          </label>
+          <div class="textColor mL2vw fontStyle14 w100">
+            <span class="mL"
+              *ngIf="!editMode; else enable">{{selectedDocument?.dateOfDocument | date:'dd-MMM-yyyy'}}</span>
+            <ng-template #enable>
+              <p-calendar #docDate="ngModel" [(ngModel)]="selectedDocument.dateOfDocument" dateFormat="dd-M-yy"
+                placeholder="dd-mm-yyyy" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                (ngModelChange)="hasDocUpdated(selectedDocument.dateOfDocument,'dateOfDocument')"
+                [inputStyle]="{'padding': '0.5vw'}"></p-calendar>
+              <div *ngIf="documentError.showDocumentDateError" class="nep-error">Please select date</div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="col-6">
+          <label class="docNameLabel fontStyle12 normalStateColor">
+            Current Folder
+          </label>
+          <div class="fontStyle14 mL">
+            <div [ngClass]="editMode ? 'folderType mL2vw' : 'mL2vw'" *ngIf="!editMode; else AvailableFolders">
+              <img class="folderIcon" src="assets/dist/images/Folder.svg" alt="" />
+              <span class="textColor fontStyle14">{{selectedDocument?.folderName}}</span>
+            </div>
+            <ng-template #AvailableFolders>
+              <div style="padding-left:30px;">
+                <p-autoComplete name="folders" [style]="{'width':'40px !important'}"
+                  [(ngModel)]="selectedDocument.folderName" [suggestions]="folders"
+                  placeholder="Search or select folders" (onBlur)="OnFolderKeyUp()" (onSelect)="OnFoldersSelected()"
+                  (completeMethod)="onFoldersChanged($event)" [dropdown]="true">
+                  <ng-template let-name pTemplate="item">
+                    <img class="folderIcon" src="assets/dist/images/Folder.svg" alt="" />
+                    <span>{{name}}</span>
+                  </ng-template>
+                </p-autoComplete>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+      <div class="line" *ngIf="!editMode"></div>
+
+      <div class="row w100">
+        <div class="col-12">
+          <div *ngIf="!editMode || !documentError.ShowOtherError" style="margin-top: 15px;margin-left: 31px; visibility: hidden;" class="nep-error left-align"></div>
+          <div *ngIf="editMode && documentError.ShowOtherError" style="margin-top: 15px;margin-left: 31px;" class="nep-error left-align">Enter any 1 of the below fields</div>
+          <label class="firmNameLabel fontStyle12 normalStateColor"
+            [ngClass]="hasFirmNameUpdated ? 'activeStateColor docNameLabel fontStyle12' : 'normalStateColor docNameLabel fontStyle12'">
+            Firm Name
+          </label>
+          <div class="textColor mL2vw">
+            <div class="fontStyle14 mL" *ngIf="!editMode; else firmType">
+              {{selectedDocument?.firmName}}
+            </div>
+            <ng-template #firmType>
+              <typeahead-control name="firm" id="firmname" [optionList]="firms" [displayField]="'firmName'"
+                (selectItem)="hasDocUpdated(selectedDocument.firmId,'firmName')" [resultField]="'firmID'"
+                [(ngModel)]="selectedDocument.firmId" (input)="hasDocUpdated(selectedDocument.firmId,'firmName')"
+                placeholder="Search or select firm">
+              </typeahead-control>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="row w100">
+        <div class="col-12">
+          <label class="docNameLabel fontStyle12 normalStateColor"
+            [ngClass]="hasFundNameUpdated ? 'activeStateColor docNameLabel fontStyle12' : 'normalStateColor docNameLabel fontStyle12'">
+            Fund Name
+          </label>
+          <div class="textColor mL2vw">
+            <div class="fontStyle14 mL" *ngIf="!editMode; else fundName">
+              {{selectedDocument?.fundName}}
+            </div>
+            <ng-template #fundName>
+              <typeahead-control name="fund" id="fundname" [optionList]="funds" [displayField]="'fundName'"
+                (selectItem)="hasDocUpdated(selectedDocument.fundId,'fundName')" [resultField]="'fundID'"
+                [(ngModel)]="selectedDocument.fundId" (input)="hasDocUpdated(selectedDocument.fundId,'fundName')"
+                placeholder="Search or select fund">
+              </typeahead-control>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="row w100">
+        <div class="col-12">
+          <label class="docNameLabel fontStyle12 normalStateColor"
+            [ngClass]="hasPortfolioCompanyNameUpdated ? 'activeStateColor docNameLabel fontStyle12' : 'normalStateColor docNameLabel fontStyle12'">
+            Portfolio Company Name
+          </label>
+          <div class="textColor mL2vw">
+            <div class="fontStyle14 mL" *ngIf="!editMode; else portfolioCompanyName">
+              {{selectedDocument?.portfolioCompanyName}}
+            </div>
+            <ng-template #portfolioCompanyName>
+              <typeahead-control name="portfoliocompany" id="portfoliocompany" [optionList]="porfoliocompanies"
+                [displayField]="'companyName'" [resultField]="'portfolioCompanyID'"
+                (selectItem)="hasDocUpdated(selectedDocument.portfolioCompanyId,'portfolioCompanyName')"
+                [(ngModel)]="selectedDocument.portfolioCompanyId" (input)="hasDocUpdated(selectedDocument.portfolioCompanyId,'portfolioCompanyName')"
+                placeholder="Search or select portfolio company">
+              </typeahead-control>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="row w100">
+        <div class="col-12">
+          <label class="docNameLabel fontStyle12 normalStateColor"
+            [ngClass]="hasDealNameUpdated ? 'activeStateColor docNameLabel fontStyle12' : 'normalStateColor docNameLabel fontStyle12'">
+            Deal ID
+          </label>
+          <div class="textColor mL2vw fontStyle14">
+            <div class="fontStyle14 mL" *ngIf="!editMode; else dealId">
+              {{selectedDocument?.dealName}}
+            </div>
+            <ng-template #dealId>
+              <typeahead-control name="dealid" id="dealid" [optionList]="deals" [displayField]="'dealCustomID'"
+                (selectItem)="hasDocUpdated(selectedDocument.dealId,'dealName')" [resultField]="'dealID'"
+                [(ngModel)]="selectedDocument.dealId" (input)="hasDocUpdated(selectedDocument.dealId,'dealName')" placeholder="Search deal ID">
+              </typeahead-control>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+      <div class="row w100">
+        <div class="col-12">
+          <label class="docNameLabel fontStyle12 normalStateColor">
+            Comments
+          </label>
+          <div class="textColor fontStyle14" style="margin-left: 2.4vw;">
+            -
+          </div>
+        </div>
+      </div>
+      <div class="row w100" style="margin-bottom: 3.5%;">
+        <div class="col-12">
+          <label class="docNameLabel fontStyle12 normalStateColor">
+            Tags
+          </label>
+          <div class="fontStyle14 mL" style="margin-left: 2.4vw;" *ngIf="!editMode; else TagEditMode">
+            {{selectedDocument?.tags}}
+          </div>
+          <ng-template #TagEditMode>
+            <input #name="ngModel" (blur)="EnableSaveOnBlur()" type="text" pInputText class="openDocInputText fontStyle14 textColor mL2vw" [(ngModel)]="selectedDocument.tags" style="width: 92.6%;"/>
+          </ng-template>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row footerContainer">
+      <div class="col-12 footerStyle">
+        <div class="footerCol1">
+          <button class="nep-button nep-button-secondary cancelCol" (click)="closeDoc()"
+            *ngIf="!editMode; else cancelButton">Close</button>
+          <ng-template #cancelButton>
+            <button class="nep-button nep-button-secondary cancelCol" (click)="showCancelModal()">
+              Cancel
+            </button>
+          </ng-template>
+        </div>
+        <div class="footerCol2">
+          <button id="editDoc" class="nep-button nep-button-primary" *ngIf="!editMode; else saveButton"
+            (click)="onEditDocument()">Edit
+          </button>
+          <ng-template #saveButton>
+            <button id="editDoc" class="nep-button nep-button-primary" (click)="onConfirmSave()"
+              [disabled]="!isDocUpdated">Save
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="rightContainer" class="col-7">
+    <div id="rightContainerHeader" class="row w100 rBorder">
+      <div class="col-5" style="border-right: 1px solid #dedfd0 !important;">
+        <span style="display: flex;">
+          <input type="text" class="searchBox fontStyle14" placeholder="Search within file contents" />
+          <img class="searchIcon" src="assets/dist/images/Search.svg" alt="" />
+        </span>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-4 w100" style="display: flex;">
+        <div style="width: 50%;">
+        </div>
+
+        <div style="width: 15%;padding-top: 0.3vw;">
+          <img class="showHandIcon" src="assets/dist/images/Cloud-download.svg" alt="" (click)="DownloadFile()"
+            style="margin-top: -1px;" />
+        </div>
+
+        <div style="width: 15%;">
+          <img class="rHeaderDelIcons showHandIcon" src="assets/dist/images/Delete.svg" alt=""
+            (click)="showCancelDeleteModal()" />
+        </div>
+
+        <div style="width: 10%;padding-top: 0.3vw;">
+          <img src="assets/dist/images/Share.svg" alt="" />
+        </div>
+
+        <div style="width: 15%;padding-top: 0.3vw;">
+          <img src="assets/dist/images/More_Vertical.svg" alt="" />
+        </div>
+      </div>
+    </div>
+    <div id="rightContainerBody" class="row w100">
+      <div class="fontStyle14 preview">
+        Preview mode not available.
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="cancelEditing">
+    <confirm-modal [primaryButtonName]="primaryButtonName" [secondaryButtonName]="secondaryButtonName"
+      [modalTitle]="modalTitle" (primaryButtonEvent)="onCancelEditing()" (secondaryButtonEvent)="closeCancelModal()">
+      <div class="modalBodyTextStyle">
+        <div>
+          {{modalBody1}}
+        </div>
+        <div>
+          {{modalBody2}}
+        </div>
+      </div>
+    </confirm-modal>
+  </div>
+
+  <div *ngIf="cancelDeleteDoc">
+    <confirm-modal [primaryButtonName]="primaryButtonName" [secondaryButtonName]="secondaryButtonName"
+      [modalTitle]="deleteModalTitle" (primaryButtonEvent)="onYesDeleteModal()"
+      (secondaryButtonEvent)="onNoDeleteModal()">
+      <div class="modalBodyTextStyle">
+        <div>
+          {{deleteModalBody1}}
+        </div>
+      </div>
+    </confirm-modal>
+  </div>
+
+  <div *ngIf="confirmSave">
+    <confirm-modal [primaryButtonName]="savePrimaryButtonName" [secondaryButtonName]="saveSecondaryButtonName"
+      [modalTitle]="saveModalTitle" (primaryButtonEvent)="onUpdateDocument()" (secondaryButtonEvent)="onCancelSave()">
+      <div class="modalBodyTextStyle">
+        <div>
+          {{saveModalBody1}}
+        </div>
+        <div>
+          {{saveModalBody2}}
+        </div>
+      </div>
+    </confirm-modal>
+  </div>
+  <div *ngIf="confirmChangeFolder">
+    <confirm-modal modalTitle="Change Folder" primaryButtonName="Yes" secondaryButtonName="No"
+      (primaryButtonEvent)="onChangeFolderApproved($event)" (secondaryButtonEvent)="OnChangeFolderCancelled($event)">
+      <div class="modalBodyTextStyle">
+        <div *ngIf="!ShowValidation || selectedDocument.folderName === 'Uploaded'">
+          You are changing the document location from {{PreviousFolder}} to {{selectedDocument.folderName}} Files. Are
+          you
+          sure you want to continue?
+        </div>
+        <div *ngIf="ShowValidation && selectedDocument.folderName === 'Final'">
+          To continue, please enter Document Name, Type, Sub Type, Document Date and any one from Firm Name, Fund Name,
+          Portfolio Company Name OR Deal ID.
+          <p>Are you sure you want to continue?</p>
+        </div>
+      </div>
+    </confirm-modal>
+  </div>
+
+</div>

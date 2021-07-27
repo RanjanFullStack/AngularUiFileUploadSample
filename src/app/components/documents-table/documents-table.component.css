@@ -1,0 +1,149 @@
+.repoListTable {
+  margin-top: 12px;
+}
+
+@media screen and (max-width: 1024px) {
+  .repoListTable {
+    width: 778px;
+  }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1499px) {
+  .repoListTable {
+    width: 869px;
+  }
+}
+
+@media screen and (min-width: 1500px) {
+  .repoListTable {
+    width: 1094px;
+  }
+}
+
+.repoListTable table tbody > tr > td {
+  border: none !important;
+}
+
+table th {
+  border-top: 1px solid #dedfe0;
+  border-bottom: 1px solid #dedfe0;
+}
+
+table th:first-child {
+  border-left: 1px solid #dedfe0;
+}
+
+table th:last-child {
+  border-right: 1px solid #dedfe0;
+}
+
+.rowHeight {
+  height: 48px;
+}
+
+.tableHeadersStyle {
+  font-size: 12px;
+  font-family: "Helvetica Neue LT W05_55 Roman";
+  font-weight: 700;
+  color: #55565a;
+}
+
+.fileTypeSize {
+  width: 24px;
+  height: 24px;
+}
+
+.rowDataStyle {
+  font-size: 12px;
+  color: #55565a;
+  opacity: 1;
+}
+
+.rowBorder {
+  border: 1px solid #dedfe0 !important;
+}
+
+.folderDataStyle {
+  width: 86px;
+  height: 32px;
+  background-color: #ffe2e2;
+  border-radius: 16px;
+  opacity: 1;
+  font-size: 14px;
+  font-family: "Helvetica Neue LT W05_55 Roman";
+  color: #55565a;
+}
+
+.folderDataText {
+  font-size: 12px;
+  font-family: "Helvetica Neue LT W05_55 Roman";
+  color: #55565a;
+  padding: 8px 12px;
+}
+
+
+.rowHeight td {
+  border: none !important;
+}
+
+.rowHeight th {
+  background-color: #fafafb !important;
+  border: none !important;
+  color: #55565a;
+  text-align: left;
+}
+
+.ui-datatable-tablewrapper > table, .ui-table-wrapper > table {
+  table-layout: fixed !important;
+}
+
+td {
+  overflow: hidden !important;
+  width:40% !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+#Document_Name{
+  width: 21.9vw;
+}
+
+#Type{
+  width: 12vw;
+}
+
+#Uploaded_by{
+  width: 12vw;
+}
+
+.rowHeight:hover {
+	background: var(--unnamed-color-f7f8fc) 0% 0% no-repeat padding-box;
+  background: #F7F8FC 0% 0% no-repeat padding-box;
+  opacity: 1;
+}
+
+.tableHt{
+  max-height: 33vw;
+}
+
+.CenterAlign{
+  text-align: center !important;
+}
+
+.PLForFirstCol{
+  padding-left: 1.2% !important;
+}
+
+.docNameTextTruncate{
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  margin-top: 1%;
+  margin-left: 8px;
+}
+
+.showToolTip:hover{
+  visibility: visible;
+  transition: opacity 0.5s ease;
+  opacity: 1;
+}

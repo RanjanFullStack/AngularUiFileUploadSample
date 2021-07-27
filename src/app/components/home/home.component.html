@@ -1,0 +1,274 @@
+<div class="dashboard-head">
+    <div class="row">
+
+        <div class="col-sm-2 col-md-2 col-lg-2 p-2">
+            <div class="card-counter primary">
+                <i class="fa fa-handshake-o" aria-hidden="true"></i>
+                <span class="count-numbers">{{totalInvestedCapital|number : '1.2-2'}}</span>
+                <span class="count-name">Total Invested Capital</span>
+                <span class="count-defination">(in USD millions)</span>
+            </div>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 p-2">
+            <div class="card-counter info1">
+                <i class="fa fa-usd"></i>
+                <span class="count-numbers">{{totalValue|number : '1.2-2'}}</span>
+                <span class="count-name">Total Value</span>
+                <span class="count-defination">(in USD millions)</span>
+            </div>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 p-2">
+            <div class="card-counter realized">
+                <i class="fa fa-industry"></i>
+                <span class="count-numbers">{{totalRealizedValue|number : '1.2-2'}}</span>
+                <span class="count-name">Total Realized Value</span>
+                <span class="count-defination">(in USD millions)</span>
+            </div>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 p-2">
+            <div class="card-counter commitment">
+                <i class="fa fa-money"></i>
+                <span class="count-numbers">{{totalUnrealizedValue|number : '1.2-2'}}</span>
+                <span class="count-name">Total Commitment</span>
+                <span class="count-defination">(in USD millions)</span>
+            </div>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 p-2">
+            <div class="card-counter success">
+                <i class="fa fa-suitcase" aria-hidden="true"></i>
+                <span class="count-numbers">{{totalFunds|number : '1.0-0'}}</span>
+                <span class="count-name">Total Funds</span>
+            </div>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2 p-2">
+            <div class="card-counter danger">
+                <i class="fa fa-industry" aria-hidden="true"></i>
+                <span class="count-numbers">{{totalPortfolioCompanies|number : '1.0-0'}}</span>
+                <span class="count-name">Total Portfolio Companies</span>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <!--div class="col-sm-2 col-md-2 col-lg-2 p-2">
+    <div class="card-counter commitment">
+        <i class="fa fa-money"></i>
+        <span class="count-numbers">{{(totalInvestedCapital*1.35)|number : '1.2-2'}}</span>
+        <span class="count-name">Total Unrealized Value</span>
+        <span class="count-defination">(in USD millions)</span>
+    </div>
+    </div>-->
+    </div>
+
+    <div class="row" *ngIf="dataLoaded">
+        <!--sectorWiseAttributionData && sectorWiseAttributionData.length>0-->
+        <div class="col-md-12 p-2" *ngIf="true">
+            <div class="chart-bg">
+                <h5>
+                    Geography Wise Attribution <span
+                        *ngIf="sectorWiseAttributionData && sectorWiseAttribution_AsOfDate!=undefined">(as of
+                        {{sectorWiseAttribution_AsOfDate|date : "dd MMM, y"}})</span>
+
+                </h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="line-chart-section world-map">
+
+                            <app-map-chart (mapClicked)="onMapRegionChanged($event)"></app-map-chart>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-md-center">
+                            Attribution of {{selectedRegion}}
+                        </h6>
+                        <div class="line-chart-section ">
+                            <app-lineBar-chart [data]="sectorWiseAttributionData" [xField]="'Sector'"
+                                [yBarFields]="['Realized Value','Total Value']" [unit]="'$ in Mn'"
+                                [yLineFields]="['Capital Invested']"></app-lineBar-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 p-2">
+            <div class="chart-bg" *ngIf="reportData!=undefined">
+                <h5>
+                    Sector Wise Investments <span *ngIf="sectorData && sectorWiseInvestements_AsOfDate!=undefined">(as
+                        of {{sectorWiseInvestements_AsOfDate|date : "dd MMM, y"}})</span>
+
+                </h5>
+
+                <div class="row">
+                    <div class="col-sm-3 " *ngIf="sectorData">
+                        <app-donut-chart [unit]="'M'" [catField]="'Sector'" [valField]="'Total Value'"
+                            [data]="sectorData" [title]="'Total Value'"></app-donut-chart>
+                    </div>
+                    <div class="col-sm-9 " *ngIf="sectorData">
+                        <app-lineBar-chart class="home-line-chart" [data]="sectorData" [xField]="'Sector'"
+                            [yBarFields]="['Total Value']" [yLineFields]="['# of Investments']" [height]="350"
+                            [unit]="'$ in Mn'"></app-lineBar-chart>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-12 p-2">
+            <div class="chart-bg" *ngIf="reportData!=undefined">
+                <h5>
+                    Region Wise Investments <span *ngIf="regionData && regionWiseInvestements_AsOfDate!=undefined">(as
+                        of {{regionWiseInvestements_AsOfDate|date : "dd MMM, y"}})</span>
+
+                </h5>
+
+                <div class="row">
+                    <div class="col-sm-3" *ngIf="regionData">
+                        <app-donut-chart [unit]="'M'" [catField]="'Region'" [valField]="'Total Value'"
+                            [data]="regionData" [title]="'Total Value'"></app-donut-chart>
+                    </div>
+                    <div class="col-sm-9 " *ngIf="regionData">
+
+                        <app-lineBar-chart [data]="regionData" [xField]="'Region'" [yBarFields]="['Total Value']"
+                            [yLineFields]="['# of Investments']" [height]="300" [unit]="'$ in Mn'"></app-lineBar-chart>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-12 p-2">
+            <div class="chart-bg">
+                <h5>
+                    Top 10 Portfolio Companies by Total Value <span
+                        *ngIf="topCompanyData && top10PC_AsOfDate!=undefined">(as of
+                        {{top10PC_AsOfDate|date : "dd MMM, y"}})</span>
+
+                </h5>
+
+                <div class="line-chart-section">
+                    <app-bar-chart class="portfolio-companies-line-chart" [data]="topCompanyData"
+                        [xField]="'Company Name'" [yField]="'Total Value'" [valueSuffix]="'M'" [unit]="'$ in Mn'">
+                    </app-bar-chart>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 p-2 pb-4">
+            <div class="chart-bg">
+                <h5>
+                    Value by Strategy <span
+                        *ngIf="strategyTotalValueData && strategyTotalValueData_AsOfDate!=undefined">(as of
+                        {{strategyTotalValueData_AsOfDate|date : "dd MMM, y"}})</span>
+
+                </h5>
+
+                <div class="row">
+                    <div class="col-sm-6 ">
+
+                        <h6 class="text-md-center">
+                            Total Value
+                        </h6>
+                        <div class="line-chart-section chart-donut mh-100">
+                            <app-Pie3D-chart [unit]="'$ in Mn'" [catField]="'Strategy'" [valField]="'TotalValue'"
+                                [data]="strategyTotalValueData"></app-Pie3D-chart>
+                            <!--<app-donut-chart [unit]="'M'" [catField]="'Strategy'" [valField]="'TotalValue'" [data]="strategyTotalValueData" [title]="'Total Value'"></app-donut-chart>-->
+
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6 ">
+
+                        <h6 class="text-md-center">
+                            Total Unrealized Value
+                        </h6>
+                        <div class="line-chart-section chart-donut mh-100">
+                            <app-Pie3D-chart [unit]="'$ in Mn'" [catField]="'Strategy'"
+                                [valField]="'TotalUnrealizedValue'" [data]="strategyUnrealizedValueData">
+                            </app-Pie3D-chart>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <div class="col-md-6 " *ngIf="false">
+            <div class="chart-bg">
+                <h5>
+                    Yearly Growth in Number of Companies <span
+                        *ngIf="chart3Data && strategyTotalValueData_AsOfDate!=undefined">(as of
+                        {{strategyTotalValueData_AsOfDate|date : "dd MMM, y"}})</span>
+
+                </h5>
+
+                <div class="line-chart-section">
+                    <app-lineBar-chart [data]="chart3Data" [xField]="'Year'" [yBarFields]="['Companies']"
+                        [yLineFields]="['% Growth']" [height]="345"></app-lineBar-chart>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="col-md-6">
+        <div class="chart-bg">
+            <h5>Yearly Growth In Number Of Companies</h5>
+            <div class="donut-chart-section">
+                <app-pie-chart  [data]="selectedSlice" ></app-pie-chart>
+            </div>
+        </div>
+    </div>-->
+
+
+        <div class="col-md-6" *ngIf="false">
+            <div class="chart-bg">
+                <h5>
+                    Capital Invested in Each Sector
+
+                </h5>
+
+                <div class="chart-section">
+                    <app-donut-chart [unit]="'M'" [catField]="'Sector'" [valField]="'Capital Invested'"
+                        [data]="chart1Data" [title]="'Capital Invested'"></app-donut-chart>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6" *ngIf="false">
+            <div class="chart-bg">
+                <h5>
+                    3D Donut
+
+                </h5>
+
+                <div class="chart-section">
+                    <!--<app-3Ddonut-chart [unit]="'M'" [catField]="'Sector'" [valField]="'Capital Invested'" [data]="chart3DData" [title]="'Capital Invested'"></app-3Ddonut-chart>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" *ngIf="false">
+            <div class="chart-bg">
+                <h5>
+                    Total Value in Each Sector
+
+                </h5>
+
+                <div class="chart-section">
+
+                    <app-donut-chart [unit]="'M'" [catField]="'Sector'" [valField]="'Total Value'" [data]="chart2Data"
+                        [title]="'Total Value'"></app-donut-chart>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
